@@ -45,5 +45,17 @@ namespace NoPressure.BLL.Sevices.Impl
 
             return _mapper.Map<UserDTO>(userEntity);
         }
+
+        public async Task<UserInfo> GetUserById(int id)
+        {
+            var foundUser = await _uow.UserRepository.GetAllInfoById(id);
+
+            if (foundUser is null) 
+            {
+                throw new Exception();
+            }
+
+            return _mapper.Map<UserInfo>(foundUser);
+        }
     }
 }

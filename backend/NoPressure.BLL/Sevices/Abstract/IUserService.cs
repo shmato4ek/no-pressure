@@ -11,5 +11,6 @@ namespace NoPressure.BLL.Sevices.Abstract
     public interface IUserService
     {
         Task<UserDTO> CreateUser(NewUser newUser);
+        Task<UserInfo> GetUserById(int id);
     }
 }

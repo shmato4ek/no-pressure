@@ -18,9 +18,14 @@ namespace NoPressure.API.Extentions
         public static void RegisterCustomServices(this IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IActivityRepository, ActivityRepository>();
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IActivityService, ActivityService>();
+
             services.AddScoped<JwtFactory>();
         }
 
@@ -32,6 +37,7 @@ namespace NoPressure.API.Extentions
             });
 
             IMapper mapper = config.CreateMapper();
+
             services.AddSingleton(mapper);
         }
 

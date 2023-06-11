@@ -10,6 +10,7 @@ namespace NoPressure.DAL.Unit.Abstract
     public interface IUnitOfWork : IDisposable
     {
         IUserRepository UserRepository { get; }
+        IActivityRepository ActivityRepository { get; }
 
         Task SaveAsync();
         void Save();

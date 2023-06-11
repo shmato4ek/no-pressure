@@ -28,6 +28,11 @@ namespace NoPressure.DAL.Repositories.Impl
             return _context.Set<TEntity>().ToList();
         }
 
+        public async Task<TEntity> FindAsync(TIdentity id)
+        {
+            return await _context.Set<TEntity>().FindAsync(id);
+        }
+
         public void Remove(TEntity item)
         {
             _context.Set<TEntity>().Remove(item);

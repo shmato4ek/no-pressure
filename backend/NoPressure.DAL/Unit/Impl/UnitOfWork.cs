@@ -15,10 +15,12 @@ namespace NoPressure.DAL.Unit.Impl
         private bool _isDisposed = false;
 
         public IUserRepository UserRepository { get; }
+        public IActivityRepository ActivityRepository { get; }
 
-        public UnitOfWork(NoPressureDbContext context, IUserRepository userRepo)
+        public UnitOfWork(NoPressureDbContext context, IUserRepository userRepo, IActivityRepository activityRepo)
         {
             UserRepository = userRepo;
+            ActivityRepository = activityRepo;
             _context = context;
         }
 

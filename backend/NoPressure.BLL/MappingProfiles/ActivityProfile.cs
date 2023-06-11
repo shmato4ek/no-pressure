@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NoPressure.Common.DTO;
+using NoPressure.Common.Models.Activity;
 using NoPressure.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace NoPressure.BLL.MappingProfiles
     {
         public ActivityProfile() 
         {
+            CreateMap<NewActivity, Activity>();
             CreateMap<Activity, ActivityDTO>();
             CreateMap<ActivityDTO, Activity>();
         }

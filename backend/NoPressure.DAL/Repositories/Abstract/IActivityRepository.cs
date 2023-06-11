@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace NoPressure.DAL.Repositories.Abstract
 {
-    public interface IUserRepository : IRepository<User, int>
+    public interface IActivityRepository : IRepository<Activity, int>
     {
-        Task<User> FindUserByEmail(string email);
-        Task<User> GetAllInfoById(int id);
+
     }
 }

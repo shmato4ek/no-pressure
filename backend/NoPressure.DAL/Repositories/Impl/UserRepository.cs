@@ -20,7 +20,22 @@ namespace NoPressure.DAL.Repositories.Impl
             
             if (foundUser is null)
             {
-                return null;
+                throw new Exception();
+            }
+
+            return foundUser;
+        }
+
+        public async Task<User> GetAllInfoById(int id)
+        {
+            var foundUser = await _context
+                .Users
+                .Include(user => user.Activities)
+                .FirstOrDefaultAsync(user => user.Id == id);
+
+            if (foundUser is null)
+            {
+                throw new Exception();
             }
 
             return foundUser;

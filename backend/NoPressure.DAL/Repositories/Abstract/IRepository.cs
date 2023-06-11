@@ -13,5 +13,6 @@ namespace NoPressure.DAL.Repositories.Abstract
         void Remove(TEntity item);
         IEnumerable<TEntity> FindAll();
         TEntity Find(TIdentity id);
+        Task<TEntity> FindAsync(TIdentity id);
     }
 }
