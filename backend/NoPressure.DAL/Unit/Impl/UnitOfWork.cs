@@ -1,4 +1,5 @@
 ﻿using NoPressure.DAL.Context;
+using NoPressure.DAL.Repositories.Abstract;
 using NoPressure.DAL.Unit.Abstract;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,13 @@ namespace NoPressure.DAL.Unit.Impl
     public class UnitOfWork : IUnitOfWork
     {
         protected NoPressureDbContext _context;
+
+        public IUserRepository UserRepository { get; }
+
         private bool _isDisposed = false;
-        public UnitOfWork(NoPressureDbContext context)
+        public UnitOfWork(NoPressureDbContext context, IUserRepository userRepo)
         {
+            UserRepository = userRepo;
             _context = context;
         }
         public virtual void Dispose(bool disposing) 
@@ -32,9 +37,9 @@ namespace NoPressure.DAL.Unit.Impl
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        public void Save()
+        public async Task Save()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

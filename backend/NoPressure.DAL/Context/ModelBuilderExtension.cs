@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NoPressure.DAL.Entities.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace NoPressure.DAL.Context
     {
         public static void Configure(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new ActivityConfiguration());
         }
     }
 }

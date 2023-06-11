@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NoPressure.DAL.Repositories.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace NoPressure.DAL.Unit.Abstract
 {
     public interface IUnitOfWork : IDisposable
     {
-        void Save();
+        IUserRepository UserRepository { get; }
+
+        Task Save();
     }
 }

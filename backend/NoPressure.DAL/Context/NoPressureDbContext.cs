@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NoPressure.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace NoPressure.DAL.Context
 {
     public class NoPressureDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
+        public DbSet<Activity> Activities { get; set; }
         public NoPressureDbContext()
         {
 

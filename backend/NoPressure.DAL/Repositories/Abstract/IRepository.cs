@@ -12,6 +12,6 @@ namespace NoPressure.DAL.Repositories.Abstract
         void Update(TEntity item);
         void Remove(TEntity item);
         IEnumerable<TEntity> FindAll();
-
+        TEntity Find(TIdentity id);
     }
 }
