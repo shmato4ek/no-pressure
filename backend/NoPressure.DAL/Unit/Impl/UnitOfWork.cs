@@ -12,15 +12,16 @@ namespace NoPressure.DAL.Unit.Impl
     public class UnitOfWork : IUnitOfWork
     {
         protected NoPressureDbContext _context;
+        private bool _isDisposed = false;
 
         public IUserRepository UserRepository { get; }
 
-        private bool _isDisposed = false;
         public UnitOfWork(NoPressureDbContext context, IUserRepository userRepo)
         {
             UserRepository = userRepo;
             _context = context;
         }
+
         public virtual void Dispose(bool disposing) 
         {
             if(!_isDisposed)
@@ -29,17 +30,26 @@ namespace NoPressure.DAL.Unit.Impl
                 {
                     _context.Dispose();
                 }
+
                 _isDisposed = true;
             }
+
         }
+        
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        public async Task Save()
+
+        public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
         }
     }
 }

@@ -17,24 +17,32 @@ namespace NoPressure.BLL.Sevices.Impl
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
+
         public UserService(IUnitOfWork ouw, IMapper mapper)
         {
             _uow = ouw;
             _mapper = mapper;
         }
+
         public async Task<UserDTO> CreateUser(NewUser newUser)
         {
             var isUserExist = await _uow.UserRepository.FindUserByEmail(newUser.Email);
+            
             if (isUserExist != null)
             {
                 throw new Exception();
             }
-            var userEntity = _mapper.Map<User>(newUser);
+
             var salt = SecurityHelper.GetRandomBytes();
+
+            var userEntity = _mapper.Map<User>(newUser);
             userEntity.Salt = Convert.ToBase64String(salt);
             userEntity.Password = SecurityHelper.HashPassword(newUser.Password, salt);
+            
             _uow.UserRepository.Create(userEntity);
-            await _uow.Save();
+
+            await _uow.SaveAsync();
+
             return _mapper.Map<UserDTO>(userEntity);
         }
     }

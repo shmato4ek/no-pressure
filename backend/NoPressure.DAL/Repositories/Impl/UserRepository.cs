@@ -14,15 +14,15 @@ namespace NoPressure.DAL.Repositories.Impl
     {
         public UserRepository(NoPressureDbContext context) : base(context) { }
 
-
-
         public async Task<User> FindUserByEmail(string email)
         {
             var foundUser = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
+            
             if (foundUser is null)
             {
                 return null;
             }
+
             return foundUser;
         }
     }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NoPressure.BLL.JWT;
 using NoPressure.BLL.Sevices.Abstract;
@@ -8,12 +7,6 @@ using NoPressure.Common.DTO;
 using NoPressure.Common.Models.User;
 using NoPressure.Common.Security;
 using NoPressure.DAL.Repositories.Abstract;
-using NoPressure.DAL.Unit.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoPressure.BLL.Sevices.Impl
 {
@@ -23,6 +16,7 @@ namespace NoPressure.BLL.Sevices.Impl
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
+
         public AuthService(JwtFactory jwtFactory, IMapper mapper, IConfiguration configuration, IUserRepository userRepository) 
         {
             _jwtFactory = jwtFactory;
@@ -34,10 +28,12 @@ namespace NoPressure.BLL.Sevices.Impl
         public async Task<AuthUser> Authorize(LoginUser loginUser)
         {
             var userEntity = await _userRepository.FindUserByEmail(loginUser.Email);
+
             if (userEntity is null)
             {
                 throw new Exception();
             }
+
             if (!SecurityHelper.IsValidPassword(userEntity.Password, loginUser.Password, userEntity.Salt))
             {
                 throw new Exception();
@@ -45,12 +41,12 @@ namespace NoPressure.BLL.Sevices.Impl
 
             var token = await GenerateAccessToken(userEntity.Id, userEntity.Name, userEntity.Email);
             var user = _mapper.Map<UserDTO>(userEntity);
+
             return new AuthUser
             {
                 Token = token,
                 User = user,
             };
-
         }
 
         public async Task<AccessToken> GenerateAccessToken(int id, string userName, string email)

@@ -11,6 +11,7 @@ namespace NoPressure.DAL.Unit.Abstract
     {
         IUserRepository UserRepository { get; }
 
-        Task Save();
+        Task SaveAsync();
+        void Save();
     }
 }

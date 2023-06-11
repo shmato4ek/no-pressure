@@ -15,17 +15,20 @@ namespace NoPressure.BLL.JWT
     {
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
+
         public JwtFactory(IOptions<JwtIssuerOptions> jwtOptions)
         {
             _jwtOptions = jwtOptions.Value;
-            ThrowIfInvalidOptions(_jwtOptions);
 
+            ValidateOptions(_jwtOptions);
+            
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         }
 
         public async Task<string> GenerateAccessToken(int id, string userName, string email)
         {
             var identity = GenerateClaimsIdentity(id, userName);
+            
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, id.ToString()),
@@ -33,8 +36,10 @@ namespace NoPressure.BLL.JWT
                 new Claim(JwtRegisteredClaimNames.Name, userName),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
+
                 identity.FindFirst("id")
             };
+
             var jwt = new JwtSecurityToken(
                 _jwtOptions.Issuer,
                 _jwtOptions.Audience,
@@ -42,6 +47,7 @@ namespace NoPressure.BLL.JWT
                 _jwtOptions.NotBefore,
                 _jwtOptions.Expiration,
                 _jwtOptions.SigningCredentials);
+
             return _jwtSecurityTokenHandler.WriteToken(jwt);
         }
 
@@ -51,6 +57,7 @@ namespace NoPressure.BLL.JWT
             var jsonToken = handler.ReadToken(token);
             var tokenS = jsonToken as JwtSecurityToken;
             var userId = tokenS.Claims.First(claim => claim.Type == "id")?.Value;
+            
             return int.Parse(userId);
         }
 
@@ -69,7 +76,7 @@ namespace NoPressure.BLL.JWT
             });
         }
 
-        private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
+        private static void ValidateOptions(JwtIssuerOptions options)
         {
             if (options == null)
             {
@@ -91,6 +98,5 @@ namespace NoPressure.BLL.JWT
                 throw new ArgumentNullException(nameof(JwtIssuerOptions.JtiGenerator));
             }
         }
-
     }
 }
