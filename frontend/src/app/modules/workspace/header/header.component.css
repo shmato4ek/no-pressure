@@ -1,0 +1,42 @@
+.header-logo{
+  height: 2.5rem;
+}
+
+.header-container{
+  height: 6rem;
+  background-color: white;
+  justify-content: center;
+}
+
+.header-underlined{
+  width: 95%;
+  height: 6rem;
+  border-bottom: 2px solid #FFA500;
+  position: relative;
+}
+
+.header-content{
+  position: absolute;
+  display: flex;
+  top: 1.75rem;
+  width: 100%;
+}
+
+.login-button{
+  height: 3rem;
+  width: 6.5rem;
+  font-size: 1.25rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 59px;
+  position: absolute;
+  right: 0%;
+}
+
+.login-button:hover {
+  border-radius: 59px;
+  background-color: #FFA500;
+  color: black;
+  transition: 0.2s;
+}
