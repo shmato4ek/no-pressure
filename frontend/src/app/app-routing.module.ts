@@ -8,6 +8,13 @@ const routes: Routes = [
       import('./modules/workspace/workspace.module').then(
         (m) => m.WorkSpaceModule
       )
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./modules/auth/auth.module').then(
+        (m) => m.AuthModule
+      )
   }
 ];
 

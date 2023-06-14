@@ -1,0 +1,79 @@
+<div class="register-container">
+    <div class="register-form-container">
+        <P class="info-text-black">Registration</P>
+        <form
+            class="register-form"
+            [formGroup]="registerForm"
+            action=""
+            (submit)="registerUser()"
+        >
+            <mat-form-field
+                class="form-field"
+                appearance="fill"
+                hideRequiredMarker="true"
+            >
+                <mat-label>Username</mat-label>
+                <input
+                    matInput
+                    formControlName="username"
+                    id="username"
+                >
+            </mat-form-field>
+
+            <mat-form-field
+                appearance="fill"
+                class="form-field"
+                hideRequiredMarker="true"
+            >
+                <mat-label>Email</mat-label>
+                <input
+                    matInput
+                    formControlName="email"
+                    id="email"
+                >
+            </mat-form-field>
+
+            <mat-form-field
+                appearance="fill"
+                class="form-field"
+                hideRequiredMarker="true"
+            >
+                <mat-label>Password</mat-label>
+                <input
+                    matInput
+                    formControlName="password"
+                    id="password"
+                >
+            </mat-form-field>
+
+            <mat-form-field
+                appearance="fill"
+                class="form-field"
+                hideRequiredMarker="true"
+            >
+                <mat-label>Confirm password</mat-label>
+                <input
+                    matInput
+                    formControlName="confirmPassword"
+                    id="confirmPassword"
+                >
+            </mat-form-field>
+            <div class="register-button">
+                <button
+                class="submit-button"
+                mat-button
+                type="submit">
+                    Sign up
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="register-info">
+        <div class="register-text">
+            <p class="register-text-header">A few simple steps and you will have your own online organizer!</p>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</div>
