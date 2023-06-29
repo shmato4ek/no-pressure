@@ -1,5 +1,5 @@
 export interface UserRegister{
     email: string;
-    username: string;
+    name: string;
     password: string;
 }

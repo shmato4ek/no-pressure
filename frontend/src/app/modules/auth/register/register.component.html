@@ -1,4 +1,11 @@
 <div class="register-container">
+    <button
+        class="back-button"
+        mat-icon-button
+        (click)="redirectToHome()"
+    >
+        <mat-icon class="back-button-icon">arrow_back</mat-icon>
+    </button>
     <div class="register-form-container">
         <P class="info-text-black">Registration</P>
         <form
@@ -8,6 +15,7 @@
             (submit)="registerUser()"
         >
             <mat-form-field
+                color="primary"
                 class="form-field"
                 appearance="fill"
                 hideRequiredMarker="true"
@@ -23,6 +31,7 @@
             <mat-form-field
                 appearance="fill"
                 class="form-field"
+                color="accent"
                 hideRequiredMarker="true"
             >
                 <mat-label>Email</mat-label>
@@ -58,15 +67,20 @@
                     id="confirmPassword"
                 >
             </mat-form-field>
-            <div class="register-button">
                 <button
-                class="submit-button"
-                mat-button
-                type="submit">
+                    class="register-button"
+                    type="submit"
+                >
                     Sign up
                 </button>
-            </div>
         </form>
+        <div class="swith-to-signin">
+            <p>Already have an account?</p>
+            <button
+                class="signin-button"
+                (click)="switchToLogin()"    
+            ><b>Sign in</b></button>
+        </div>
     </div>
     <div class="register-info">
         <div class="register-text">

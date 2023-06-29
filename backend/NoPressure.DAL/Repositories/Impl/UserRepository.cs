@@ -17,11 +17,6 @@ namespace NoPressure.DAL.Repositories.Impl
         public async Task<User> FindUserByEmail(string email)
         {
             var foundUser = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
-            
-            if (foundUser is null)
-            {
-                throw new Exception();
-            }
 
             return foundUser;
         }

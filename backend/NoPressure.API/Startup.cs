@@ -31,10 +31,12 @@ namespace NoPressure.API
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 options.RoutePrefix = string.Empty;
             });
+            
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

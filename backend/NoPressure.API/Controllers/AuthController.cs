@@ -33,6 +33,12 @@ namespace NoPressure.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(LoginUser user)
+        {
+            return Ok(await _authService.Authorize(user));
+        }
+
         [HttpGet("me")]
         public async Task<ActionResult> GetUserByToken()
         {

@@ -4,6 +4,7 @@ import { WorkSpaceModule } from './modules/workspace/workspace.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
@@ -13,6 +14,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     WorkSpaceModule,
     AuthModule,

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UserDTO } from 'src/app/models/user/user-dto';
 import { UserRegister } from 'src/app/models/user/user-register';
+import { RegistrationService } from 'src/app/services/registration.service';
 
 @Component({
   selector: 'app-register',
@@ -10,15 +12,21 @@ import { UserRegister } from 'src/app/models/user/user-register';
 })
 export class RegisterComponent implements OnInit{
   public registerForm: FormGroup = {} as FormGroup;
+  public currentUser: UserDTO = {} as UserDTO;
+  redirectUrl: string | undefined;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private registrationService: RegistrationService,
   ) {}
 
   ngOnInit() {
       this.validateForm();
+      this.route.queryParams.subscribe((params) => {
+        this.redirectUrl = params['redirect_url'];
+      });
   }
 
   private validateForm() {
@@ -58,10 +66,23 @@ export class RegisterComponent implements OnInit{
   public registerUser() {
     let userRegistered: UserRegister = {
       email: this.registerForm.controls['email'].value,
-      username: this.registerForm.controls['username'].value,
+      name: this.registerForm.controls['username'].value,
       password:this.registerForm.controls['password'].value
     }
 
-    console.log(userRegistered);
+    this.registrationService.register(userRegistered).subscribe({
+      next: (responce) => {
+        this.currentUser = responce;
+        console.log(responce);
+      },
+    })
+  }
+
+  public redirectToHome() {
+    this.router.navigate(['']);
+  }
+
+  public switchToLogin() {
+    this.router.navigate(['login']);
   }
 }
