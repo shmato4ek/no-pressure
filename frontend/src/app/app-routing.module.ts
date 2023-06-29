@@ -6,16 +6,22 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => 
-      import('./modules/workspace/workspace.module').then(
-        (m) => m.WorkSpaceModule
+      import('./modules/home/home.module').then(
+        (m) => m.HomeModule
       ),
-      //canActivate: [TokenExistsGuard],
   },
   {
     path: 'auth',
     loadChildren: () =>
       import('./modules/auth/auth.module').then(
         (m) => m.AuthModule
+      )
+  },
+  {
+    path: 'personal',
+    loadChildren: () =>
+      import('./modules/workspace/workspace.module').then(
+        (m) => m.WorkspaceModule
       )
   }
 ];

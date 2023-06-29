@@ -1,0 +1,43 @@
+.header-logo{
+  height: 2.5rem;
+}
+
+.header-container{
+  height: 6rem;
+  background-color: white;
+  justify-content: center;
+  position: relative;
+}
+
+.header-underlined{
+  width: 95%;
+  height: 6rem;
+  border-bottom: 2px solid #FFA500;
+  position: relative;
+}
+
+.header-content{
+  position: absolute;
+  display: flex;
+  top: 1.75rem;
+  width: 100%;
+}
+
+.user-logo{
+  height: 2.25rem;
+  position: relative;
+  margin-right: 0.5rem;
+}
+
+.username{
+  font-size: 1.25rem;
+  margin-block-start: 0.25rem;
+  font-weight: bold;
+}
+
+.user-info{
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0.5rem;
+}

@@ -33,6 +33,19 @@ export class RegistrationService extends ResourceService<UserRegister> {
         );
     }
 
+    public getUser() {
+      return this.getUserFromToken().pipe(
+        map((resp) => {
+          this.user = resp.body as UserDTO;
+          return this.user;
+        })
+      );
+    }
+
+    private getUserFromToken() {
+      return this.getFullRequest<UserDTO>('me');
+    }
+
     private handleAuthResponse(
         observable: Observable<HttpResponse<AuthUser>>
       ) {
@@ -48,5 +61,5 @@ export class RegistrationService extends ResourceService<UserRegister> {
         if (tokens && tokens.accessToken) {
             localStorage.setItem('accessToken', JSON.stringify(tokens.accessToken));
         }
-    }  
+    }
 }

@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
-import { BaseComponent } from './base/base.component';
-import { HeaderComponent } from './header/header.component';
-import { BaseRoutingModule } from './workspace-routing.module';
 import { MaterialModule } from '../material/material.module';
-import { HomeComponent } from './home/home.component';
+import { WorkspaceRoutingModule } from './workspace-routing.module';
+
+import { WorkspaceBaseComponent } from './workspace-base/w-base.component';
+import { WorkspaceHeaderComponent } from './workspace-header/w-header.component';
+import { UserNavbarComponent } from './user-navbar/u-navbar.component';
 
 @NgModule({
     declarations: [
-        BaseComponent,
-        HeaderComponent,
-        HomeComponent
+        WorkspaceBaseComponent,
+        WorkspaceHeaderComponent,
+        UserNavbarComponent
     ],
     imports: [
-        BaseRoutingModule,
+        WorkspaceRoutingModule,
         MaterialModule
     ],
     providers: []
 })
 
-export class WorkSpaceModule {}
+export class WorkspaceModule {}

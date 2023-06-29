@@ -42,10 +42,10 @@ namespace NoPressure.API.Controllers
         [HttpGet("me")]
         public async Task<ActionResult> GetUserByToken()
         {
-            //var token = Request.Headers["x-auth-token"].ToString();
-            //var userId = _jwtFactory.GetValueFromToken(token);
+            var token = Request.Headers["x-auth-token"].ToString();
+            var userId = _jwtFactory.GetValueFromToken(token);
 
-            var user = await _userService.GetUserById(2);
+            var user = await _userService.GetUserById(userId);
             return Ok(user);
         }
     }

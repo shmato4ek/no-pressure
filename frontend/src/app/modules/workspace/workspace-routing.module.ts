@@ -1,19 +1,13 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { BaseComponent } from "./base/base.component";
-import { HeaderComponent } from "./header/header.component";
-import { HomeComponent } from "./home/home.component";
+import { WorkspaceBaseComponent } from "./workspace-base/w-base.component";
 
 const routes: Routes = [
     {
         path: '',
-        component: BaseComponent,
+        component: WorkspaceBaseComponent,
         children: [
-            {
-                path: "",
-                component: HomeComponent
-            }
         ]
     }
 ]
@@ -22,4 +16,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class BaseRoutingModule {}
+export class WorkspaceRoutingModule {}
