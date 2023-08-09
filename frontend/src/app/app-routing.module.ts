@@ -22,7 +22,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/workspace/workspace.module').then(
         (m) => m.WorkspaceModule
-      )
+      ),
+    canActivate: [TokenExistsGuard],
   }
 ];
 

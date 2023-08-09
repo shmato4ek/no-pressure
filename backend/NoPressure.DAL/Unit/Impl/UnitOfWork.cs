@@ -16,11 +16,16 @@ namespace NoPressure.DAL.Unit.Impl
 
         public IUserRepository UserRepository { get; }
         public IActivityRepository ActivityRepository { get; }
+        public IScheduleRepository ScheduleRepository { get; }
 
-        public UnitOfWork(NoPressureDbContext context, IUserRepository userRepo, IActivityRepository activityRepo)
+        public UnitOfWork(NoPressureDbContext context, 
+                            IUserRepository userRepo,
+                            IActivityRepository activityRepo,
+                            IScheduleRepository scheduleRepo)
         {
             UserRepository = userRepo;
             ActivityRepository = activityRepo;
+            ScheduleRepository = scheduleRepo;
             _context = context;
         }
 

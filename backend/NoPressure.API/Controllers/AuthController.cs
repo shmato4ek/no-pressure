@@ -2,6 +2,7 @@
 using NoPressure.BLL.JWT;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.Models.User;
+using NoPressure.API.Extentions;
 
 namespace NoPressure.API.Controllers
 {
@@ -42,11 +43,10 @@ namespace NoPressure.API.Controllers
         [HttpGet("me")]
         public async Task<ActionResult> GetUserByToken()
         {
-            var token = Request.Headers["x-auth-token"].ToString();
+            var request = Request.Headers["auth-token"].ToString();
+            var token = request[10..(request.Length-2)];
             var userId = _jwtFactory.GetValueFromToken(token);
-
-            var user = await _userService.GetUserById(userId);
-            return Ok(user);
+            return Ok(await _userService.GetUserById(userId));
         }
     }
 }

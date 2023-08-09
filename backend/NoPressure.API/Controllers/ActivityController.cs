@@ -22,5 +22,11 @@ namespace NoPressure.API.Controllers
             await _activityService.CreateActivity(newActivity);
             return NoContent();
         }
+
+        [HttpGet("user")]
+        public async Task<ActionResult> GetAllUserActivities(int userId)
+        {
+            return Ok(await _activityService.GetAllUserActivity(userId));
+        }
     }
 }

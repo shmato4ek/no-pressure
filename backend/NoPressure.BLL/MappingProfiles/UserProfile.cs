@@ -17,6 +17,7 @@ namespace NoPressure.BLL.MappingProfiles
             CreateMap<NewUser, User>();
             CreateMap<User, UserDTO>();
             CreateMap<User, UserInfo>();
+            CreateMap<User, UserWithSchedule>();
         }
     }
 }

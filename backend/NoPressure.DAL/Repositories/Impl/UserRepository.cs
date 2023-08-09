@@ -2,11 +2,6 @@
 using NoPressure.DAL.Context;
 using NoPressure.DAL.Entities;
 using NoPressure.DAL.Repositories.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoPressure.DAL.Repositories.Impl
 {
@@ -26,6 +21,7 @@ namespace NoPressure.DAL.Repositories.Impl
             var foundUser = await _context
                 .Users
                 .Include(user => user.Activities)
+                .Include(user => user.Schedules)
                 .FirstOrDefaultAsync(user => user.Id == id);
 
             if (foundUser is null)

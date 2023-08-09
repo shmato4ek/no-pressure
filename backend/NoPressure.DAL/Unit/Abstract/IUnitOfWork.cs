@@ -11,6 +11,7 @@ namespace NoPressure.DAL.Unit.Abstract
     {
         IUserRepository UserRepository { get; }
         IActivityRepository ActivityRepository { get; }
+        IScheduleRepository ScheduleRepository { get; }
 
         Task SaveAsync();
         void Save();

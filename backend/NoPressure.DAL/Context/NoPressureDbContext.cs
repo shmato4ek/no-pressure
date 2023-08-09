@@ -12,6 +12,8 @@ namespace NoPressure.DAL.Context
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<ScheduleHour> ScheduleHours { get; set; }
 
         public NoPressureDbContext()
         {

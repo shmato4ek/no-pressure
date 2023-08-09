@@ -29,8 +29,7 @@ export class LoginService extends ResourceService<UserLogin> {
 
     public areTokensExist(): boolean {
         return (
-          !!localStorage.getItem('accessToken') &&
-          !!localStorage.getItem('refreshToken')
+          !!localStorage.getItem('accessToken')
         );
     }
     
@@ -52,9 +51,9 @@ export class LoginService extends ResourceService<UserLogin> {
         );
       }
 
-      public setTokens(tokens: Token) {
-        if (tokens && tokens.accessToken) {
-          localStorage.setItem('accessToken', JSON.stringify(tokens.accessToken));
+      public setTokens(token: Token) {
+        if (token) {
+          localStorage.setItem('accessToken', JSON.stringify(token));
         }
       }
 }

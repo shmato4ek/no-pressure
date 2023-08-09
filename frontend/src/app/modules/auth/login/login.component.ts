@@ -61,7 +61,9 @@ export class LoginComponent {
     this.loginService.login(userLogined).subscribe({
       next: (responce) => {
         this.currentUser = responce;
-        console.log(responce);
+        if (this.loginService.areTokensExist()) {
+          this.router.navigate(['/personal/schedule'])
+        }
       },
     })
   }

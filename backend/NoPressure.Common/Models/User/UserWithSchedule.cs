@@ -1,12 +1,12 @@
-﻿using NoPressure.Common.DTO;
+using NoPressure.Common.DTO;
 
 namespace NoPressure.Common.Models.User
 {
-    public class UserInfo
+    public class UserWithSchedule
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
         public List<ActivityDTO> Activities { get; set; }
+        public ScheduleDTO Schedule { get; set; }
     }
 }

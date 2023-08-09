@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NoPressure.DAL.Entities
+﻿namespace NoPressure.DAL.Entities
 {
     public class User
     {
@@ -14,5 +8,6 @@ namespace NoPressure.DAL.Entities
         public string Password { get; set; }
         public string Salt { get; set; }
         public List<Activity> Activities { get; set; }
+        public List<Schedule> Schedules { get; set; }
     }
 }
