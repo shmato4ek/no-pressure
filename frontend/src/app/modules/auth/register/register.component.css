@@ -14,7 +14,7 @@
 .register-form-container{
     border: 3px solid #FFA500;
     border-radius: 10px;
-    width: 35rem;
+    width: 30rem;
     height: 33rem;
     display: flex;
     flex-direction: column;
@@ -42,9 +42,10 @@
 }
 
 .register-text-header{
-    font-size: 3.5rem;
+    font-size: 3rem;
     margin-block-start: 0;
     margin-block-end: 1.5rem;
+    font-weight: 500;
 }
 
 .register-button{
@@ -99,4 +100,20 @@
     cursor: pointer;
     display: inline-block;
     color: #FFA500;
+}
+
+.register-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.registration-logo-container{
+    width: 10rem;
+    margin-left: 31rem;
+    margin-top: 13rem;
+    border-bottom: 3px solid #FFA500;
+}
+
+.registration-logo{
+    width: 10rem;
 }
