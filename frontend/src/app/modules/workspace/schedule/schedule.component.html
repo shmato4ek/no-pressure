@@ -1,1 +1,46 @@
-<p>Success!!!</p>
+<div class="schedule-page-container">
+    <div class="schedule-container">
+        <p class="date-text">Monday, 3 July 2023</p>
+        <div class="schedule">
+            <p class="hour-text">6:00</p>
+            <p class="hour-text">7:00</p>
+            <p class="hour-text">8:00</p>
+            <p class="hour-text">9:00</p>
+            <p class="hour-text">10:00</p>
+            <p class="hour-text">11:00</p>
+            <p class="hour-text">12:00</p>
+            <p class="hour-text">13:00</p>
+            <p class="hour-text">14:00</p>
+            <p class="hour-text">15:00</p>
+        </div>
+    </div>
+    <div class="tasks-container">
+        <p class="header-text">My tasks</p>
+        <div class="tasks-list">
+            <span *ngFor="let activity of activities" class="activity">
+                <button
+                    type="button"
+                    class="activity-button"
+                >
+                    {{activity.name}}
+                </button>
+                <button
+                    mat-icon-button
+                >
+                    <mat-icon>create</mat-icon>
+                </button>
+                <button
+                    mat-icon-button
+                >
+                    <mat-icon>add</mat-icon>
+                </button>
+            </span>
+            <button
+                class="add-activity-button"
+            >
+                <mat-icon class="add-activity-icon">add_circle</mat-icon>
+                Add new activity
+            </button>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './services/interceptor';
+import { WorkspaceModule } from './modules/workspace/workspace.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TokenInterceptor } from './services/interceptor';
     AppRoutingModule,
     HomeModule,
     AuthModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    WorkspaceModule,
   ],
   providers: [
     {

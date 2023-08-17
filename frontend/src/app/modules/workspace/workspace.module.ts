@@ -6,8 +6,7 @@ import { WorkspaceBaseComponent } from './workspace-base/w-base.component';
 import { WorkspaceHeaderComponent } from './workspace-header/w-header.component';
 import { UserNavbarComponent } from './user-navbar/u-navbar.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from 'src/app/services/interceptor';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -18,7 +17,8 @@ import { TokenInterceptor } from 'src/app/services/interceptor';
     ],
     imports: [
         WorkspaceRoutingModule,
-        MaterialModule
+        MaterialModule,
+        CommonModule
     ],
     providers: [
 

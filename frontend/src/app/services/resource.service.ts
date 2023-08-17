@@ -29,6 +29,12 @@ export abstract class ResourceService<T> {
           .pipe(catchError(this.handleError));
       }
 
+    get(id: string | number): Observable<HttpResponse<T>> {
+      return this.httpClient
+        .get<T>(`${this.APIUrl}/${id}`, { observe: 'response' })
+        .pipe(catchError(this.handleError));
+    }  
+
     private handleError(error: HttpErrorResponse) {
         return throwError(() => error);
     }
