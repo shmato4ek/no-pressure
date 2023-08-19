@@ -1,0 +1,36 @@
+<h2
+  mat-dialog-title
+  class="info-text-black"
+>
+  Add new task
+</h2>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="add-dialog-container"
+>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Activity name"
+      formControlName="activityName"
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <input
+    matInput
+    placeholder="Activity description"
+    formControlName="activityDescription"
+  >
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions class="add-button-container">
+  <button
+    class="add-button"
+    (click)="save()"
+    [disabled]="!dialogForm.valid"
+  >
+    Add
+  </button>
+</mat-dialog-actions>

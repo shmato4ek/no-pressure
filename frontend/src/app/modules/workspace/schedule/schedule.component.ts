@@ -1,8 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivityDTO } from 'src/app/models/activity/activity-dto';
 import { ActivityService } from 'src/app/services/activity.service';
 import { RegistrationService } from 'src/app/services/registration.service';
+import { TaskAddDialogComponent } from '../task-adding-dialog/task-add-dialog.component';
+import { NewActivity } from 'src/app/models/activity/new-activity';
 
 @Component({
   selector: 'app-schedule',
@@ -16,7 +19,8 @@ export class ScheduleComponent implements OnInit{
 
   constructor(
     private registrationService: RegistrationService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -35,5 +39,29 @@ export class ScheduleComponent implements OnInit{
             this.activities = activities;
           })
       });
+  }
+
+  public showAddActivityDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+
+    const dialogRef = this.dialog.open(TaskAddDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((activity) => {
+      let newActivity: NewActivity = {
+        userId: this.userId,
+        name: activity.name,
+        description: activity.description,
+      };
+        this.createActivity(newActivity);
+    })
+  }
+
+  public createActivity(newActivity: NewActivity) {
+    this.activityService.add(newActivity)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe();
+    window.location.reload();
   }
 }

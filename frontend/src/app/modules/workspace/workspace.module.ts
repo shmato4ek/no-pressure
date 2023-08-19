@@ -6,19 +6,23 @@ import { WorkspaceBaseComponent } from './workspace-base/w-base.component';
 import { WorkspaceHeaderComponent } from './workspace-header/w-header.component';
 import { UserNavbarComponent } from './user-navbar/u-navbar.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { TaskAddDialogComponent } from './task-adding-dialog/task-add-dialog.component';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
         WorkspaceBaseComponent,
         WorkspaceHeaderComponent,
         UserNavbarComponent,
-        ScheduleComponent
+        ScheduleComponent,
+        TaskAddDialogComponent
     ],
     imports: [
         WorkspaceRoutingModule,
         MaterialModule,
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule
     ],
     providers: [
 

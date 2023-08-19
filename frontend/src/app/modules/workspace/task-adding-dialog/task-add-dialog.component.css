@@ -1,0 +1,42 @@
+.add-button{
+    height: 2.5rem;
+    width: 7.5rem;
+    font-size: 1.25rem;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+}
+  
+.add-button:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    transition: 0.2s;
+    border: 1px solid black;
+}
+
+.info-text-black{
+    font-size: 2rem;
+    margin-block-start: 1.5rem;
+    margin-block-end: 1.5rem;
+    font-weight: 400;
+}
+
+.add-button-container{
+    justify-content: end;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.add-dialog-container{
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+}
+
+.add-activity-field{
+    width: 10rem;
+}
