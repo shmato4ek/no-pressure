@@ -34,5 +34,12 @@ namespace NoPressure.API.Controllers
         {
             return Ok(await _activityService.UpdateActivity(updatedActivity));
         }
+
+        [HttpDelete("{activityId:int}")]
+        public async Task<ActionResult> DeleteActivity(int activityId)
+        {
+            await _activityService.DeleteActivity(activityId);
+            return NoContent();
+        }
     }
 }

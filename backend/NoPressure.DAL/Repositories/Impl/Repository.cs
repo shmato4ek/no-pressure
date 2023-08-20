@@ -33,9 +33,9 @@ namespace NoPressure.DAL.Repositories.Impl
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public void Remove(TEntity item)
+        public async void Remove(TIdentity id)
         {
-            _context.Set<TEntity>().Remove(item);
+            _context.Set<TEntity>().Remove(await _context.Set<TEntity>().FindAsync(id));
         }
 
         public void Update(TEntity item) 

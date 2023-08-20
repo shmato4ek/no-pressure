@@ -17,17 +17,30 @@
     border: 1px solid black;
 }
 
+.delete-button{
+    height: 2.5rem;
+    width: 7.5rem;
+    font-size: 1.25rem;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+}
+
+.delete-button:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: red;
+    transition: 0.2s;
+    border: 1px solid red;
+}
+
 .info-text-black{
     font-size: 2rem;
     margin-block-start: 1.5rem;
     margin-block-end: 1.5rem;
     font-weight: 400;
-}
-
-.add-button-container{
-    justify-content: end;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
 }
 
 .add-dialog-container{
@@ -37,6 +50,21 @@
     padding-bottom: 0;
 }
 
+
 .add-activity-field{
     width: 10rem;
+}
+
+.buttons-container{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 1rem;
+}
+
+.delete-button-container{
+    margin-left: 1rem;
+}
+
+.add-button-container{
+    margin-left: 6rem;
 }

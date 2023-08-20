@@ -5,6 +5,7 @@ import { NewActivity } from 'src/app/models/activity/new-activity';
 import { ScheduleComponent } from '../schedule/schedule.component';
 import { ActivityAddDialog } from 'src/app/models/activity/add-activity-dialog';
 import { UpdateActivity } from 'src/app/models/activity/update-activity';
+import { ActivityService } from 'src/app/services/activity.service';
 
 @Component({
   selector: 'task-add-dialog',
@@ -15,13 +16,16 @@ export class TaskUpdateDialogComponent implements OnInit{
   dialogForm: FormGroup = {} as FormGroup;
   activityName: string;
   activityDescription: string;
+  activityId: number;
 
   constructor(
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<ScheduleComponent>,
+    private activityService: ActivityService,
     @Inject(MAT_DIALOG_DATA) public data: UpdateActivity) { 
       this.activityName = data.name;
       this.activityDescription = data.description;
+      this.activityId = data.id;
     }
 
     ngOnInit(): void {
@@ -50,5 +54,10 @@ export class TaskUpdateDialogComponent implements OnInit{
         description: this.dialogForm.value.activityDescription,
       }
       this.dialogRef.close(activity);
+    }
+
+    delete() {
+      this.activityService.delete(this.activityId).subscribe();
+      window.location.reload();
     }
 }

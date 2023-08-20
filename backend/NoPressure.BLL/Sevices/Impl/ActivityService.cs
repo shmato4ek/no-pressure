@@ -58,5 +58,19 @@ namespace NoPressure.BLL.Sevices.Impl
 
             return _mapper.Map<ActivityDTO>(activityEntity);
         }
+
+        public async Task DeleteActivity(int activityId)
+        {
+            var activityEntity = await _uow.ActivityRepository.FindAsync(activityId);
+
+            if(activityEntity is null)
+            {
+                throw new Exception($"There is no activity with id {activityId}");
+            }
+
+            _uow.ActivityRepository.Remove(activityId);
+
+            await _uow.SaveAsync();
+        }
     }
 }

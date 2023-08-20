@@ -25,12 +25,22 @@
   </mat-form-field>
 </mat-dialog-content>
 
-<mat-dialog-actions class="add-button-container">
-  <button
-    class="add-button"
-    (click)="save()"
-    [disabled]="!dialogForm.valid"
-  >
-    Save
-  </button>
-</mat-dialog-actions>
+<div class="buttons-container">
+  <mat-dialog-actions class="delete-button-container">
+    <button
+      class="delete-button"
+      (click)="delete()"
+    >
+      Delete
+    </button>
+  </mat-dialog-actions>
+  <mat-dialog-actions class="add-button-container">
+    <button
+      class="add-button"
+      (click)="save()"
+      [disabled]="!dialogForm.valid"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>

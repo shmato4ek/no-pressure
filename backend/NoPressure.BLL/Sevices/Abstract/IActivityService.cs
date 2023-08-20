@@ -8,5 +8,6 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task CreateActivity(NewActivity newActivity);
         Task<IEnumerable<ActivityDTO>> GetAllUserActivity(int userId);
         Task<ActivityDTO> UpdateActivity(UpdateActivity updatedActivity);
+        Task DeleteActivity(int activityId);
     }
 }

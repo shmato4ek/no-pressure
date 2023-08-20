@@ -80,14 +80,12 @@ export class ScheduleComponent implements OnInit{
 
   public createActivity(newActivity: NewActivity) {
     this.activityService.add(newActivity)
-      .pipe(takeUntil(this.unsubscribe$))
       .subscribe();
     window.location.reload();
   }
 
   public updateActivity(updatedActivity: UpdateActivity) {
     this.activityService.update(updatedActivity)
-      .pipe(takeUntil(this.unsubscribe$))
       .subscribe();
     window.location.reload();
   }

@@ -58,6 +58,12 @@ export abstract class ResourceService<T> {
       });
     }
 
+    delete(id: string | number): Observable<HttpResponse<T>> {
+      return this.httpClient
+        .delete<T>(`${this.APIUrl}/${id}`, { observe: 'response' })
+        .pipe(catchError(this.handleError));
+    }  
+
     private getHeaders() {
       return this.headers;
     }
