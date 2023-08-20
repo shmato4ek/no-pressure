@@ -6,6 +6,8 @@ import { ActivityService } from 'src/app/services/activity.service';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { TaskAddDialogComponent } from '../task-adding-dialog/task-add-dialog.component';
 import { NewActivity } from 'src/app/models/activity/new-activity';
+import { UpdateActivity } from 'src/app/models/activity/update-activity';
+import { TaskUpdateDialogComponent } from '../task-update-dialog/task-update-dialog.component';
 
 @Component({
   selector: 'app-schedule',
@@ -54,12 +56,37 @@ export class ScheduleComponent implements OnInit{
         name: activity.name,
         description: activity.description,
       };
-        this.createActivity(newActivity);
+      this.createActivity(newActivity);
+    })
+  }
+
+  public showUpdateActivityDialog(currentActivity: ActivityDTO) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = currentActivity;
+
+    const dialogRef = this.dialog.open(TaskUpdateDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((activity) => {
+      let updateActivity: UpdateActivity = {
+        id: currentActivity.id,
+        name: activity.name,
+        description: activity.description
+      };
+      this.updateActivity(updateActivity);
     })
   }
 
   public createActivity(newActivity: NewActivity) {
     this.activityService.add(newActivity)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe();
+    window.location.reload();
+  }
+
+  public updateActivity(updatedActivity: UpdateActivity) {
+    this.activityService.update(updatedActivity)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe();
     window.location.reload();

@@ -28,5 +28,11 @@ namespace NoPressure.API.Controllers
         {
             return Ok(await _activityService.GetAllUserActivity(userId));
         }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateActivity(UpdateActivity updatedActivity)
+        {
+            return Ok(await _activityService.UpdateActivity(updatedActivity));
+        }
     }
 }

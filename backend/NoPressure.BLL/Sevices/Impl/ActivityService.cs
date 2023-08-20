@@ -39,5 +39,24 @@ namespace NoPressure.BLL.Sevices.Impl
 
             return activities;
         }
+
+        public async Task<ActivityDTO> UpdateActivity(UpdateActivity updatedActivity)
+        {
+            var activityEntity = await _uow.ActivityRepository.FindAsync(updatedActivity.Id);
+
+            if(activityEntity is null)
+            {
+                throw new Exception($"There is no activity with id {updatedActivity.Id}");
+            }
+
+            activityEntity.Name = updatedActivity.Name;
+            activityEntity.Description = updatedActivity.Description;
+
+            _uow.ActivityRepository.Update(activityEntity);
+
+            await _uow.SaveAsync();
+
+            return _mapper.Map<ActivityDTO>(activityEntity);
+        }
     }
 }
