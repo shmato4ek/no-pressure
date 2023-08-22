@@ -35,7 +35,6 @@ export class LoginService extends ResourceService<UserLogin> {
     
     public logOut() {
         localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
         this.router.navigate(['/login']);
     }
 

@@ -57,9 +57,8 @@ export class LoginComponent {
       email: this.loginForm.controls['email'].value,
       password:this.loginForm.controls['password'].value
     }
-
     this.loginService.login(userLogined).subscribe({
-      next: (responce) => {
+      next: (responce) => {   
         this.currentUser = responce;
         if (this.loginService.areTokensExist()) {
           this.router.navigate(['/personal/schedule'])

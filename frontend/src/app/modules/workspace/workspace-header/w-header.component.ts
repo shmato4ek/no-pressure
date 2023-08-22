@@ -2,24 +2,27 @@ import { Component, OnInit, Input } from '@angular/core';
 import {Router} from '@angular/router';
 
 import { UserDTO } from 'src/app/models/user/user-dto';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-w-header',
   templateUrl: './w-header.component.html',
   styleUrls: ['./w-header.component.css']
 })
-export class WorkspaceHeaderComponent implements OnInit {
+export class WorkspaceHeaderComponent {
   
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private loginService: LoginService) {}
 
   @Input() currentUser: UserDTO = {} as UserDTO;
-
-  ngOnInit(): void {
-      
-  }
 
   public redirectToLogin()
   {
     this.router.navigate(['./auth']);
+  }
+
+  public logout() {
+    this.loginService.logOut();
   }
 }
