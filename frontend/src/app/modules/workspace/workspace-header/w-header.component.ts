@@ -17,9 +17,14 @@ export class WorkspaceHeaderComponent {
 
   @Input() currentUser: UserDTO = {} as UserDTO;
 
-  public redirectToLogin()
+  public redirectToSchedule()
   {
-    this.router.navigate(['./auth']);
+    this.router.navigate(['./personal/schedule']);
+  }
+
+  public redirectToPlans()
+  {
+    this.router.navigate(['./personal/plans']);
   }
 
   public logout() {
