@@ -22,7 +22,7 @@ namespace NoPressure.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("NoGoal")]
+        [HttpGet("{userId:int}")]
         public async Task<ActionResult> GetAllNoGoalPlans(int userId)
         {
             return Ok(await _planService.GetAllNoGoalPlans(userId));

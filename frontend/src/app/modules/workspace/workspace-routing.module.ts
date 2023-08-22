@@ -3,6 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { WorkspaceBaseComponent } from "./workspace-base/w-base.component";
 import { ScheduleComponent } from "./schedule/schedule.component";
+import { PlansComponent } from "./plans/plans.component";
 
 const routes: Routes = [
     {
@@ -13,6 +14,10 @@ const routes: Routes = [
                 path: 'schedule',
                 component: ScheduleComponent,
             },
+            {
+                path: 'plans',
+                component: PlansComponent,
+            }
         ]
     }
 ]

@@ -10,6 +10,7 @@ import { TaskAddDialogComponent } from './task-adding-dialog/task-add-dialog.com
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TaskUpdateDialogComponent } from './task-update-dialog/task-update-dialog.component';
+import { PlansComponent } from './plans/plans.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { TaskUpdateDialogComponent } from './task-update-dialog/task-update-dial
         UserNavbarComponent,
         ScheduleComponent,
         TaskAddDialogComponent,
-        TaskUpdateDialogComponent
+        TaskUpdateDialogComponent,
+        PlansComponent
     ],
     imports: [
         WorkspaceRoutingModule,
