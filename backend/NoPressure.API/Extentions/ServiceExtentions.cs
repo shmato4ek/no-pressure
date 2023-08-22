@@ -22,11 +22,13 @@ namespace NoPressure.API.Extentions
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IActivityRepository, ActivityRepository>();
             services.AddTransient<IScheduleRepository, ScheduleRepository>();
+            services.AddTransient<IPlanRepository, PlanRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IActivityService, ActivityService>();
             services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IPlanService, PlanService>();
 
             services.AddScoped<JwtFactory>();
         }

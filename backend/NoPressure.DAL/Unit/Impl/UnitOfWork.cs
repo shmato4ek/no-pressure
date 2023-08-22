@@ -1,11 +1,6 @@
 ﻿using NoPressure.DAL.Context;
 using NoPressure.DAL.Repositories.Abstract;
 using NoPressure.DAL.Unit.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoPressure.DAL.Unit.Impl
 {
@@ -17,15 +12,18 @@ namespace NoPressure.DAL.Unit.Impl
         public IUserRepository UserRepository { get; }
         public IActivityRepository ActivityRepository { get; }
         public IScheduleRepository ScheduleRepository { get; }
+        public IPlanRepository PlanRepository { get; }
 
         public UnitOfWork(NoPressureDbContext context, 
                             IUserRepository userRepo,
                             IActivityRepository activityRepo,
-                            IScheduleRepository scheduleRepo)
+                            IScheduleRepository scheduleRepo,
+                            IPlanRepository planRepo)
         {
             UserRepository = userRepo;
             ActivityRepository = activityRepo;
             ScheduleRepository = scheduleRepo;
+            PlanRepository = planRepo;
             _context = context;
         }
 
