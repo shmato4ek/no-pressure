@@ -11,6 +11,7 @@ import { map, Subject, takeUntil } from 'rxjs';
 export class WorkspaceBaseComponent implements OnInit {
 
   currentUser: UserDTO = {} as UserDTO;
+  isExpanded: boolean = false;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -29,5 +30,13 @@ export class WorkspaceBaseComponent implements OnInit {
       .subscribe((user) => {
         this.currentUser = user;
       });
+  }
+
+  public openSidenav() {
+    this.isExpanded = true;
+  }
+
+  public closeSidenav() {
+    this.isExpanded = false;
   }
 }

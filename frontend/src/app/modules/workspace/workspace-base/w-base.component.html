@@ -1,6 +1,73 @@
 <div>
     <app-w-header [currentUser]="currentUser"></app-w-header>
 </div>
-<div>
-    <router-outlet></router-outlet>
-</div>
+
+<mat-drawer-container
+    autosize
+    [hasBackdrop]="false"
+    class="sidenav-container"
+>
+    <mat-drawer
+        #sidenav
+        mode="over"
+        opened="isExpanded"
+        class="sidenav"
+        (mouseenter)="openSidenav()"
+        (mouseleave)="closeSidenav()"
+    >
+      <mat-nav-list>
+
+        <mat-list-item
+          style="cursor: pointer"
+          routerLink="/personal/schedule"
+          [routerLinkActive]="['is-active']"
+          class="nav-item"
+        >
+            <img
+                src="../../../../assets/img/schedule.svg"
+                class="sidenav-img"
+        >
+            <span
+              *ngIf="isExpanded"
+              class="nav-text"
+            >Schedule</span>
+        </mat-list-item>
+
+        <mat-list-item
+          style="cursor: pointer"
+          routerLink="/personal/goals"
+          [routerLinkActive]="['is-active']"
+        >
+            <img
+                src="../../../../assets/img/goals.svg"
+                class="sidenav-img"
+        >
+          <span
+            *ngIf="isExpanded"
+            class="nav-text"
+          >Goals</span>
+        </mat-list-item>
+  
+        <mat-list-item
+          style="cursor: pointer"
+          routerLink="/personal/plans"
+          [routerLinkActive]="['is-active']"
+        >
+            <img
+                src="../../../../assets/img/plans.svg"
+                class="sidenav-img"
+        >
+        <span
+          *ngIf="isExpanded"
+          class="nav-text"
+        >Plans</span>
+        </mat-list-item>
+  
+      </mat-nav-list>
+    </mat-drawer>
+  
+    <mat-drawer-content class="content">
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  
+  </mat-drawer-container>

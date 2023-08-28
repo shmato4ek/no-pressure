@@ -1,0 +1,9 @@
+.sidenav-container{
+    width: var(--sidenavSize);
+    height: 75%;
+    border-bottom: 3px solid #FFA500;
+    border-top: 3px solid #FFA500;
+    border-right: 3px solid #FFA500;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

@@ -12,3 +12,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-block-start: 2rem;
     margin-block-end: 2rem;
 }
+
+:root {
+    --sidenav-width: 8rem;
+    --sidenav-collapsed-width: 2.5rem;
+  }
