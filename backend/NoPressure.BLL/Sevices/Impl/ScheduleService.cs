@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
 using NoPressure.Common.Models.Activity;
@@ -15,56 +16,6 @@ namespace NoPressure.BLL.Sevices.Impl
         {
             _uow = uow;
             _mapper = mapper;
-        }
-
-        public async Task<ScheduleDTO> AddActivityToSchedule(DateTime date, int activityId, int hour)
-        {
-            var scheduleEntity = await _uow.ScheduleRepository.FindAsync(date);
-
-            if(scheduleEntity is null)
-            {
-                throw new Exception($"Schedule with date {date} not found");
-            }
-
-            var activityEntity = await _uow.ActivityRepository.FindAsync(activityId);
-
-            if(activityEntity is null)
-            {
-                throw new Exception($"Activity with id {activityId} not found");
-            }
-
-            var scheduleHour = scheduleEntity
-                .Time
-                .Where(time => time.Hour == hour)
-                .FirstOrDefault();
-
-            if (scheduleHour.Activity != null)
-            {
-                throw new Exception("Hour is already has an activity!");
-            }
-
-            scheduleHour.Activity = activityEntity;
-
-            _uow.ScheduleRepository.Update(scheduleEntity);
-            await _uow.SaveAsync();
-
-            var schedule = _mapper.Map<ScheduleDTO>(scheduleEntity);
-
-            return schedule;
-        }
-
-        public async Task<ScheduleDTO> GetSchedule(DateTime date)
-        {
-            var scheduleEntity = await _uow.ScheduleRepository.FindAsync(date);
-            
-            if(scheduleEntity is null)
-            {
-                throw new Exception($"Schedule with date {date} not found");
-            }
-
-            var schedule = _mapper.Map<ScheduleDTO>(scheduleEntity);
-
-            return schedule;
         }
     }
 }

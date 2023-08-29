@@ -20,7 +20,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
         TaskAddDialogComponent,
         TaskUpdateDialogComponent,
         PlansComponent,
-        SidenavComponent
+        SidenavComponent,
     ],
     imports: [
         WorkspaceRoutingModule,
