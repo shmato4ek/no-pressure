@@ -8,7 +8,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { TaskAddDialogComponent } from './task-adding-dialog/task-add-dialog.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TaskUpdateDialogComponent } from './task-update-dialog/task-update-dialog.component';
+import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { PlansComponent } from './plans/plans.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 
@@ -18,7 +18,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
         WorkspaceHeaderComponent,
         ScheduleComponent,
         TaskAddDialogComponent,
-        TaskUpdateDialogComponent,
+        TaskDialogComponent,
         PlansComponent,
         SidenavComponent,
     ],

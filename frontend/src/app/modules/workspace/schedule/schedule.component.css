@@ -24,6 +24,8 @@
     width: 100%;
     height: 90%;
     background-color: #FBFBFB;
+    padding-block-start: 0.5rem;
+    position: relative;
 }
 
 .header-text {
@@ -52,36 +54,59 @@
     border: none;
     background-color: #FBFBFB;
     height: 100%;
-    width: 100%;
     font-size: 1.5rem;
     text-align: left;
 }
 
 .activity-button:hover {
-    background-color: #FFA500;
-    transition: 0.2s;
+    border-bottom: 2px solid #FFA500;
+    transition: 0;
   }
 
 .activity
 {
+    margin-left: 3rem;
+    margin-top: 1rem;
     display: flex;
     flex-direction: row;
     width: 100%;
-    border-bottom: 2px solid #FFA500;
+    align-items: center;
 }
 
 .add-activity-button {
     margin-top: 1.5rem;
-    border: 2px solid black;
+    border: 2px solid #FFA500;
     background-color: #FBFBFB;
-    height: 2.5rem;
+    height: 3rem;
     width: 20rem;
     font-size: 1.5rem;
     text-align: center;
-    position: relative;
+    position: absolute;
+    bottom: 2rem;
 }
 
 .add-activity-icon {
+    font-size: 2rem;
+    width: fit-content;
+    height: fit-content;
     position: absolute;
     left: 1rem;
+    bottom: 0.4rem;
+}
+
+.tasks-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tasks-img{
+    height: 2rem;
+    padding-right: 0.7rem;
+}
+
+.task-bullet{
+    height: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }

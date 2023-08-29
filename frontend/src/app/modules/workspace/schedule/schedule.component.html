@@ -15,25 +15,25 @@
         </div>
     </div>
     <div class="tasks-container">
-        <p class="header-text">My tasks</p>
+        <div class="tasks-header">
+            <img
+                src="../../../../assets/img/tasks.svg"
+                class="tasks-img"
+            >
+            <p class="header-text">My tasks</p>
+        </div>
         <div class="tasks-list">
             <span *ngFor="let activity of activities" class="activity">
+                <img
+                    src="../../../../assets/img/task-bullet.svg"
+                    class="task-bullet"
+                >
                 <button
                     type="button"
                     class="activity-button"
+                    (click)="showActivityDialog(activity)"
                 >
                     {{activity.name}}
-                </button>
-                <button
-                    mat-icon-button
-                    (click)="showUpdateActivityDialog(activity)"
-                >
-                    <mat-icon>create</mat-icon>
-                </button>
-                <button
-                    mat-icon-button
-                >
-                    <mat-icon>add</mat-icon>
                 </button>
             </span>
             <button

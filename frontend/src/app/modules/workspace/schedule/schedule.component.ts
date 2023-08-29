@@ -7,7 +7,7 @@ import { RegistrationService } from 'src/app/services/registration.service';
 import { TaskAddDialogComponent } from '../task-adding-dialog/task-add-dialog.component';
 import { NewActivity } from 'src/app/models/activity/new-activity';
 import { UpdateActivity } from 'src/app/models/activity/update-activity';
-import { TaskUpdateDialogComponent } from '../task-update-dialog/task-update-dialog.component';
+import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 
 @Component({
   selector: 'app-schedule',
@@ -60,13 +60,13 @@ export class ScheduleComponent implements OnInit{
     })
   }
 
-  public showUpdateActivityDialog(currentActivity: ActivityDTO) {
+  public showActivityDialog(currentActivity: ActivityDTO) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
     dialogConfig.data = currentActivity;
 
-    const dialogRef = this.dialog.open(TaskUpdateDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(TaskDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((activity) => {
       let updateActivity: UpdateActivity = {

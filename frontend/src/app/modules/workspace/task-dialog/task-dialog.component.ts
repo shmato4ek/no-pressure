@@ -9,10 +9,10 @@ import { ActivityService } from 'src/app/services/activity.service';
 
 @Component({
   selector: 'task-add-dialog',
-  templateUrl: './task-update-dialog.component.html',
-  styleUrls: ['./task-update-dialog.component.css']
+  templateUrl: './task-dialog.component.html',
+  styleUrls: ['./task-dialog.component.css']
 })
-export class TaskUpdateDialogComponent implements OnInit{
+export class TaskDialogComponent implements OnInit{
   dialogForm: FormGroup = {} as FormGroup;
   activityName: string;
   activityDescription: string;
