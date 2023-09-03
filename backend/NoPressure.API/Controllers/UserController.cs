@@ -15,11 +15,5 @@ namespace NoPressure.API.Controllers
         {
             _userService = userService;
         }
-
-        [HttpPost]
-        public async Task<ActionResult> GetUserWithSchedule(ScheduleRequest scheduleInfo)
-        {
-            return Ok(await _userService.GetUserWithSchedule(scheduleInfo));
-        }
     }
 }

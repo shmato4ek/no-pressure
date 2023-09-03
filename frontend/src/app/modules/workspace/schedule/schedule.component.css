@@ -41,6 +41,7 @@
     font-size: 2rem;
     margin-block-start: 1rem;
     margin-block-end: 1rem;
+    margin-bottom: 3rem;
 }
 
 .hour-text {
@@ -109,4 +110,61 @@
     height: 1.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+}
+
+.schedule {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.3rem;
+}
+
+.scheduledActivity {
+    height: 100%;
+    width: 100%;
+}
+
+.sideBorders {
+    border-left: 2px solid #FFA500;
+    border-right: 2px solid #FFA500;
+}
+
+.topBorder {
+    border-top: 2px solid #FFA500;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.bottomBorder {
+    border-bottom: 2px solid #FFA500;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.time-container {
+    display: flex;
+    flex-direction: row;
+    margin-left: 2rem;
+    height: 2.65rem;
+    align-items: center;
+}
+
+.time {
+    font-size: 1rem;
+    margin-right: 1rem;
+    font-weight: 550;
+}
+
+.activity-name {
+    margin-block-start: 0.6rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.first-half-schedule {
+    width: 45%;
+    margin-right: 2rem;
+}
+
+.second-half-schedule {
+    width: 45%;
 }

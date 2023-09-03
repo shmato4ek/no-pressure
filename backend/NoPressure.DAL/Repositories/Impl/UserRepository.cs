@@ -21,7 +21,6 @@ namespace NoPressure.DAL.Repositories.Impl
             var foundUser = await _context
                 .Users
                 .Include(user => user.Activities)
-                .Include(user => user.Schedules)
                 .FirstOrDefaultAsync(user => user.Id == id);
 
             if (foundUser is null)

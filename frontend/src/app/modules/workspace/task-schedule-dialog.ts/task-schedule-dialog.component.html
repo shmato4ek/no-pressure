@@ -2,47 +2,41 @@
   mat-dialog-title
   class="info-text-black"
 >
-  Update activity
+  Schedule activity
 </h2>
-
-<button
-  class="create-button"
-  (click)="showScheduleActivityDialog()"
->
-  <img
-    src="../../../../assets/img/add-button.svg"
-    class="create-button-icon"
-  >
-</button>
 
 <mat-dialog-content
   [formGroup]="dialogForm"
   class="add-dialog-container"
 >
   <mat-form-field>
-    <input
-      matInput
-      placeholder="Activity name"
-      formControlName="activityName"
-    >
+    <mat-label>Start time</mat-label>
+      <mat-select formControlName="startTime">
+        <mat-option
+          *ngFor="let option of selectOptions"
+          [value]="option"
+        >
+          {{ option }}:00
+        </mat-option>
+      </mat-select>
   </mat-form-field>
+
   <mat-form-field>
-    <input
-    matInput
-    placeholder="Activity description"
-    formControlName="activityDescription"
-  >
+    <mat-label>End time</mat-label>
+      <mat-select formControlName="endTime">
+        <mat-option
+          *ngFor="let option of selectOptions"
+          [value]="option"
+        >
+          {{ option }}:00
+        </mat-option>
+      </mat-select>
   </mat-form-field>
+
 </mat-dialog-content>
 
 <div class="buttons-container">
   <mat-dialog-actions class="delete-button-container">
-    <button
-      class="delete-button"
-      (click)="delete()"
-    >
-      Delete
-    </button>
   </mat-dialog-actions>
   <mat-dialog-actions class="add-button-container">
     <button

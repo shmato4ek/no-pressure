@@ -6,7 +6,7 @@ namespace NoPressure.BLL.Sevices.Abstract
     public interface IActivityService
     {
         Task CreateActivity(NewActivity newActivity);
-        Task<IEnumerable<ActivityDTO>> GetAllUserActivity(int userId);
+        Task<List<ActivityDTO>> GetAllUserActivity(int userId);
         Task<ActivityDTO> UpdateActivity(UpdateActivity updatedActivity);
         Task DeleteActivity(int activityId);
     }

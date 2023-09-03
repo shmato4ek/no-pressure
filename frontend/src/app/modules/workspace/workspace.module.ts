@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { PlansComponent } from './plans/plans.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { TaskScheduleDialogComponent } from './task-schedule-dialog.ts/task-schedule-dialog-component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
         ScheduleComponent,
         TaskAddDialogComponent,
         TaskDialogComponent,
+        TaskScheduleDialogComponent,
         PlansComponent,
         SidenavComponent,
     ],

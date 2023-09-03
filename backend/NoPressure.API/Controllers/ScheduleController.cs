@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NoPressure.BLL.Sevices.Abstract;
+using NoPressure.Common.Models.Requests;
+using NoPressure.Common.Models.Schedule;
 
 namespace NoPressure.API.Controllers
 {
@@ -13,11 +15,17 @@ namespace NoPressure.API.Controllers
             _scheduleService = scheduleService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetSchedule(DateTime date)
+        [HttpGet("{userId:int}")]
+        public async Task<ActionResult> GetScheduleWithActivities(int userId)
         {
-            return Ok(await _scheduleService.GetSchedule(date));
+            return Ok(await _scheduleService.GetScheduleAndActivities(userId));
         }
 
+        [HttpPost]
+        public async Task<ActionResult> AddTaskToSchedule(AddTaskToSchedule activity)
+        {
+            await _scheduleService.AddActivityToSchedule(activity);
+            return NoContent();
+        }
     }
 }

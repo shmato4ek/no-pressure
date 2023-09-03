@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
-using NoPressure.Common.Models.Requests;
 using NoPressure.Common.Models.User;
 using NoPressure.Common.Security;
 using NoPressure.DAL.Entities;
@@ -57,27 +56,6 @@ namespace NoPressure.BLL.Sevices.Impl
             }
 
             return _mapper.Map<UserInfo>(foundUser);
-        }
-
-        public async Task<UserWithSchedule> GetUserWithSchedule(ScheduleRequest scheduleInfo)
-        {
-            var foundUser = await _uow.UserRepository.GetAllInfoById(scheduleInfo.UserId);
-
-            if(foundUser is null)
-            {
-                throw new Exception();
-            }
-
-            var currentSchedule = foundUser.Schedules.FirstOrDefault(schedule => schedule.Date == scheduleInfo.Date);
-            if (currentSchedule is null)
-            {
-                throw new Exception();
-            }
-
-            var resultUser = _mapper.Map<UserWithSchedule>(foundUser);
-            resultUser.Schedule = _mapper.Map<ScheduleDTO>(currentSchedule);
-            
-            return resultUser;
         }
     }
 }

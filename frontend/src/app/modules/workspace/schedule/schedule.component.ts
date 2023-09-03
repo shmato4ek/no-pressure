@@ -8,6 +8,10 @@ import { TaskAddDialogComponent } from '../task-adding-dialog/task-add-dialog.co
 import { NewActivity } from 'src/app/models/activity/new-activity';
 import { UpdateActivity } from 'src/app/models/activity/update-activity';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
+import { Schedule } from 'src/app/models/schedule/schedule';
+import { ScheduleService } from 'src/app/services/schedule.service';
+import { ScheduleHour } from 'src/app/models/enums/ScheduleHour';
+import { ScheduleTime } from 'src/app/models/schedule/schedule-time';
 
 @Component({
   selector: 'app-schedule',
@@ -17,11 +21,17 @@ import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 export class ScheduleComponent implements OnInit{
   public userId = {} as number;
   public activities = [] as ActivityDTO[];
+  public firstHalfHours = [] as ScheduleTime[];
+  public secondHalfHours = [] as ScheduleTime[];
+
+  public separator = 14 as number;
+
   private unsubscribe$ = new Subject<void>();
 
   constructor(
     private registrationService: RegistrationService,
     private activityService: ActivityService,
+    private shceduleService: ScheduleService,
     public dialog: MatDialog
   ) { }
 
@@ -35,10 +45,11 @@ export class ScheduleComponent implements OnInit{
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((user) => {
         this.userId = user.id;
-        this.activityService.getAllActivities(user.id)
-          .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((activities) => {
-            this.activities = activities;
+        this.shceduleService.getSchedule(user.id)
+          .subscribe((schedule) => {
+            this.activities = schedule.activities,
+            this.firstHalfHours = schedule.hours.slice(0, 9),
+            this.secondHalfHours = schedule.hours.slice(9, 18)
           })
       });
   }

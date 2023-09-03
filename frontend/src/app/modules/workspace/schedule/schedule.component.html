@@ -2,16 +2,56 @@
     <div class="schedule-container">
         <p class="date-text">Monday, 3 July 2023</p>
         <div class="schedule">
-            <p class="hour-text">6:00</p>
-            <p class="hour-text">7:00</p>
-            <p class="hour-text">8:00</p>
-            <p class="hour-text">9:00</p>
-            <p class="hour-text">10:00</p>
-            <p class="hour-text">11:00</p>
-            <p class="hour-text">12:00</p>
-            <p class="hour-text">13:00</p>
-            <p class="hour-text">14:00</p>
-            <p class="hour-text">15:00</p>
+            <div class="first-half-schedule">
+                <span
+                    *ngFor="let hour of firstHalfHours"
+                    class="time-container"
+                >
+                    <div class="time">
+                        {{hour.hour}}:00
+                    </div>
+                    <div
+                        *ngIf="hour.activity !== null"
+                        class="scheduled-activity side-borders"
+                        [ngClass]="{topBorder:!hour.hasPrevious,
+                            bottomBorder:!hour.hasNext,
+                            scheduledActivity:true,
+                            sideBorders:true}"
+                    >
+                        <p
+                            class="activity-name"
+                            *ngIf="!hour.hasPrevious && hour.activity"
+                        >
+                            {{hour.activity.name}}
+                        </p>
+                    </div>
+                </span>
+            </div>
+            <div class="first-half-schedule">
+                <span
+                    *ngFor="let hour of secondHalfHours"
+                    class="time-container"
+                >
+                    <div class="time">
+                        {{hour.hour}}:00
+                    </div>
+                    <div
+                        *ngIf="hour.activity !== null"
+                        class="scheduled-activity side-borders"
+                        [ngClass]="{topBorder:!hour.hasPrevious,
+                            bottomBorder:!hour.hasNext,
+                            scheduledActivity:true,
+                            sideBorders:true}"
+                    >
+                        <p
+                            class="activity-name"
+                            *ngIf="!hour.hasPrevious && hour.activity"
+                        >
+                            {{hour.activity.name}}
+                        </p>
+                    </div>
+                </span>
+            </div>
         </div>
     </div>
     <div class="tasks-container">

@@ -13,6 +13,5 @@ namespace NoPressure.BLL.Sevices.Abstract
     {
         Task<UserDTO> CreateUser(NewUser newUser);
         Task<UserInfo> GetUserById(int id);
-        Task<UserWithSchedule> GetUserWithSchedule(ScheduleRequest scheduleInfo);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
+using NoPressure.Common.Enums;
 using NoPressure.Common.Models.Activity;
+using NoPressure.Common.Models.Schedule;
 using NoPressure.DAL.Entities;
 using NoPressure.DAL.Unit.Abstract;
 
@@ -24,7 +26,7 @@ namespace NoPressure.BLL.Sevices.Impl
             await _uow.SaveAsync();
         }
 
-        public async Task<IEnumerable<ActivityDTO>> GetAllUserActivity(int userId)
+        public async Task<List<ActivityDTO>> GetAllUserActivity(int userId)
         {
             var userEntity = await _uow.UserRepository.FindAsync(userId);
             
