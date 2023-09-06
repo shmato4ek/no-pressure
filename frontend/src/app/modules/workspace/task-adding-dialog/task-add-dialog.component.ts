@@ -12,11 +12,18 @@ import { ActivityAddDialog } from 'src/app/models/activity/add-activity-dialog';
 })
 export class TaskAddDialogComponent implements OnInit{
   dialogForm: FormGroup = {} as FormGroup;
+  
+  public isTagActive: boolean = false;
+  public isSettingColor: boolean = false;
+  public isRepeatable: boolean = false;
+
+  colorInput: HTMLInputElement;
 
   constructor(
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<ScheduleComponent>)
-    { }
+    private dialogRef: MatDialogRef<ScheduleComponent>) {
+      this.colorInput = document.getElementById('colorpicker') as HTMLInputElement;
+    }
 
     ngOnInit(): void {
         this.dialogForm = this.formBuilder.group({
@@ -32,7 +39,12 @@ export class TaskAddDialogComponent implements OnInit{
               Validators.maxLength(50),
             ],
             updateOn:'change',
-          }]
+          }],
+          activityTag: [,{
+            validators: [
+              Validators.maxLength(10)
+            ]
+          }],
         });
     }
 
@@ -40,7 +52,18 @@ export class TaskAddDialogComponent implements OnInit{
       let activity: ActivityAddDialog = {
         name: this.dialogForm.value.activityName,
         description: this.dialogForm.value.activityDescription,
+        tag: this.dialogForm.value.activityTag,
+        isRepeatable: this.isRepeatable,
+        color: this.colorInput.value
       }
       this.dialogRef.close(activity);
+    }
+
+    changeTagState() {
+      this.isTagActive = !this.isTagActive;
+    }
+
+    changeSetColorState() {
+      this.isSettingColor = !this.isSettingColor;
     }
 }

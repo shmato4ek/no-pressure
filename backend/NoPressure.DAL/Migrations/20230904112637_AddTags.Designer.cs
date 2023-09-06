@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoPressure.DAL.Context;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NoPressure.DAL.Migrations
 {
     [DbContext(typeof(NoPressureDbContext))]
-    partial class NoPressureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230904112637_AddTags")]
+    partial class AddTags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,12 +42,6 @@ namespace NoPressure.DAL.Migrations
                     b.Property<int>("EndTime")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsRepeatable")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsScheduled")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -55,7 +52,7 @@ namespace NoPressure.DAL.Migrations
                     b.Property<int>("StartTime")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TagId")
+                    b.Property<int>("TagId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
@@ -155,7 +152,9 @@ namespace NoPressure.DAL.Migrations
 
                     b.HasOne("NoPressure.DAL.Entities.Tag", null)
                         .WithMany("Activities")
-                        .HasForeignKey("TagId");
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("NoPressure.DAL.Entities.User", null)
                         .WithMany("Activities")

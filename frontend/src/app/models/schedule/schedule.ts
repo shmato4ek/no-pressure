@@ -1,7 +1,8 @@
-import { ActivityDTO } from "../activity/activity-dto";
 import { ScheduleTime } from "./schedule-time";
+import { Tag } from "./tag";
 
 export interface Schedule {
-    activities: ActivityDTO[];
+    tags: Tag[];
     hours: ScheduleTime[];
+    date: string;
 }

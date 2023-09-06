@@ -1,6 +1,6 @@
 <div class="schedule-page-container">
     <div class="schedule-container">
-        <p class="date-text">Monday, 3 July 2023</p>
+        <p class="date-text">{{date}}</p>
         <div class="schedule">
             <div class="first-half-schedule">
                 <span
@@ -16,7 +16,8 @@
                         [ngClass]="{topBorder:!hour.hasPrevious,
                             bottomBorder:!hour.hasNext,
                             scheduledActivity:true,
-                            sideBorders:true}"
+                            sideBorders:true,
+                            centralScheduled:hour.hasNext&&hour.hasPrevious}"
                     >
                         <p
                             class="activity-name"
@@ -41,7 +42,8 @@
                         [ngClass]="{topBorder:!hour.hasPrevious,
                             bottomBorder:!hour.hasNext,
                             scheduledActivity:true,
-                            sideBorders:true}"
+                            sideBorders:true,
+                            centralScheduled:hour.hasNext&&hour.hasPrevious}"
                     >
                         <p
                             class="activity-name"
@@ -63,19 +65,28 @@
             <p class="header-text">My tasks</p>
         </div>
         <div class="tasks-list">
-            <span *ngFor="let activity of activities" class="activity">
-                <img
-                    src="../../../../assets/img/task-bullet.svg"
-                    class="task-bullet"
-                >
-                <button
-                    type="button"
-                    class="activity-button"
-                    (click)="showActivityDialog(activity)"
-                >
-                    {{activity.name}}
-                </button>
-            </span>
+            <div class="tasks">
+                <div *ngFor="let tag of tags" class="tag">
+                    <p class="tag-header">
+                        {{tag.name}}
+                    </p>
+                    <div
+                        class="activity"
+                        *ngFor="let activity of tag.activities"
+                    >
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="bullet">
+                            <circle class="svg-circle"/>
+                        </svg>
+                        <button
+                            type="button"
+                            class="activity-button"
+                            (click)="showActivityDialog(activity)"
+                        >
+                            {{activity.name}}
+                        </button>
+                    </div>
+                </div>
+            </div>
             <button
                 class="add-activity-button"
                 (click)="showAddActivityDialog()"

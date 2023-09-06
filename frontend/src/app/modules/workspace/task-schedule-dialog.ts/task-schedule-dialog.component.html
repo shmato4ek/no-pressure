@@ -9,9 +9,10 @@
   [formGroup]="dialogForm"
   class="add-dialog-container"
 >
-  <mat-form-field>
+<div class="set-time-container">
+  <mat-form-field class="start-time">
     <mat-label>Start time</mat-label>
-      <mat-select formControlName="startTime">
+      <mat-select formControlName="startTime" class="start-ti,e-field">
         <mat-option
           *ngFor="let option of selectOptions"
           [value]="option"
@@ -20,7 +21,7 @@
         </mat-option>
       </mat-select>
   </mat-form-field>
-
+  <p class="time-sepaprator">-</p>
   <mat-form-field>
     <mat-label>End time</mat-label>
       <mat-select formControlName="endTime">
@@ -32,7 +33,7 @@
         </mat-option>
       </mat-select>
   </mat-form-field>
-
+</div>
 </mat-dialog-content>
 
 <div class="buttons-container">

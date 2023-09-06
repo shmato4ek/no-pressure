@@ -91,3 +91,20 @@
     background-color: #FFA500;
     transition: 0.2s;
 }
+
+.set-time-container{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.start-time-field{
+    width: 10rem;
+}
+
+.time-sepaprator{
+    font-size: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-block-start: 1rem;
+}

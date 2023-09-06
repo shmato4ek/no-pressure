@@ -91,3 +91,10 @@
     background-color: #FFA500;
     transition: 0.2s;
 }
+
+.handwitten-field {
+    font-family: 'Handwriting', sans-serif !important;
+    color: #000F55 !important;
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+}

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserDTO } from 'src/app/models/user/user-dto';
 import { UserRegister } from 'src/app/models/user/user-register';
+import { LoginService } from 'src/app/services/login.service';
 import { RegistrationService } from 'src/app/services/registration.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class RegisterComponent implements OnInit{
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit() {
@@ -73,7 +75,9 @@ export class RegisterComponent implements OnInit{
     this.registrationService.register(userRegistered).subscribe({
       next: (responce) => {
         this.currentUser = responce;
-        console.log(responce);
+        if (this.loginService.areTokensExist()) {
+          this.router.navigate(['/personal/schedule'])
+        }
       },
     })
   }

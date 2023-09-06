@@ -15,19 +15,11 @@ export class RegistrationService extends ResourceService<UserRegister> {
     private user: UserDTO = {} as UserDTO;
     private subUrl: string = '';
 
-    setSubUrl(url: string) {
-      this.subUrl = url;
-    }
-
-    getResourceUrl(): string {
-      if (this.subUrl) {
-        return this.subUrl;
-      }
-      return '';
-    }
+    override getResourceUrl(): string {
+      return '/register';
+  }
 
     public register(user: UserRegister) {
-        this.setSubUrl('/register');
         return this.handleAuthResponse(
             this.add<UserRegister, AuthUser>(user)
         );
@@ -45,21 +37,22 @@ export class RegistrationService extends ResourceService<UserRegister> {
     private getUserFromToken() {
       return this.getFullRequest<UserDTO>('me');
     }
-
-    private handleAuthResponse(
-        observable: Observable<HttpResponse<AuthUser>>
-      ) {
-        return observable.pipe(
-          map((resp) => {
-            this.setTokens(resp.body?.token as unknown as Token);
-            return resp.body?.user as UserDTO;
-          })
-        );
-      }
     
-    private setTokens(tokens: Token) {
-        if (tokens && tokens.accessToken) {
-            localStorage.setItem('accessToken', JSON.stringify(tokens.accessToken));
-        }
+    private handleAuthResponse(
+      observable: Observable<HttpResponse<AuthUser>>
+    ) {
+      return observable.pipe(
+        map((resp) => {
+          this.setTokens(resp.body?.token as unknown as Token);
+          this.user = resp.body?.user as UserDTO;
+          return this.user;
+        })
+      );
+    }
+    
+    public setTokens(token: Token) {
+      if (token) {
+        localStorage.setItem('accessToken', JSON.stringify(token));
+      }
     }
 }

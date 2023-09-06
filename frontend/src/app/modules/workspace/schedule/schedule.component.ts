@@ -12,6 +12,7 @@ import { Schedule } from 'src/app/models/schedule/schedule';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { ScheduleHour } from 'src/app/models/enums/ScheduleHour';
 import { ScheduleTime } from 'src/app/models/schedule/schedule-time';
+import { Tag } from 'src/app/models/schedule/tag';
 
 @Component({
   selector: 'app-schedule',
@@ -20,9 +21,10 @@ import { ScheduleTime } from 'src/app/models/schedule/schedule-time';
 })
 export class ScheduleComponent implements OnInit{
   public userId = {} as number;
-  public activities = [] as ActivityDTO[];
+  public tags = [] as Tag[];
   public firstHalfHours = [] as ScheduleTime[];
   public secondHalfHours = [] as ScheduleTime[];
+  public date = {} as string;
 
   public separator = 14 as number;
 
@@ -47,9 +49,10 @@ export class ScheduleComponent implements OnInit{
         this.userId = user.id;
         this.shceduleService.getSchedule(user.id)
           .subscribe((schedule) => {
-            this.activities = schedule.activities,
+            this.tags = schedule.tags,
             this.firstHalfHours = schedule.hours.slice(0, 9),
-            this.secondHalfHours = schedule.hours.slice(9, 18)
+            this.secondHalfHours = schedule.hours.slice(9, 18),
+            this.date = schedule.date
           })
       });
   }
@@ -66,6 +69,9 @@ export class ScheduleComponent implements OnInit{
         userId: this.userId,
         name: activity.name,
         description: activity.description,
+        tag: activity.tag,
+        isRepeatable: activity.isRepeatable,
+        color: activity.color
       };
       this.createActivity(newActivity);
     })

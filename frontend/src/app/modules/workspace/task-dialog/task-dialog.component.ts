@@ -8,6 +8,7 @@ import { ActivityService } from 'src/app/services/activity.service';
 import { TaskScheduleDialogComponent } from '../task-schedule-dialog.ts/task-schedule-dialog-component';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { AddTaskToSchedule } from 'src/app/models/schedule/add-task-to-schedule';
+import { UpdateActivityDialog } from 'src/app/models/activity/update-activity-dialog';
 
 @Component({
   selector: 'task-add-dialog',
@@ -53,7 +54,7 @@ export class TaskDialogComponent implements OnInit{
     }
 
     save() {
-      let activity: ActivityAddDialog = {
+      let activity: UpdateActivityDialog = {
         name: this.dialogForm.value.activityName,
         description: this.dialogForm.value.activityDescription,
       }

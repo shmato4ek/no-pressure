@@ -117,3 +117,19 @@
 .registration-logo{
     width: 10rem;
 }
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white;
+}
+
+::ng-deep .mdc-text-field--filled .mdc-line-ripple::after {
+    border-bottom-color: #FFA500 !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: white !important;
+}

@@ -1,3 +1,4 @@
+using System.Globalization;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using NoPressure.BLL.Sevices.Abstract;
@@ -6,6 +7,7 @@ using NoPressure.Common.Enums;
 using NoPressure.Common.Models.Activity;
 using NoPressure.Common.Models.Requests;
 using NoPressure.Common.Models.Schedule;
+using NoPressure.Common.Models.Tag;
 using NoPressure.DAL.Entities;
 using NoPressure.DAL.Unit.Abstract;
 
@@ -36,6 +38,11 @@ namespace NoPressure.BLL.Sevices.Impl
             activityEntity.StartTime = (ScheduleHour)activity.StartTime;
             activityEntity.EndTime = (ScheduleHour)activity.EndTime;
 
+            if(!activityEntity.IsRepeatable)
+            {
+                activityEntity.IsScheduled = true;
+            }
+
             _uow.ActivityRepository.Update(activityEntity);
 
             await _uow.SaveAsync();
@@ -45,21 +52,27 @@ namespace NoPressure.BLL.Sevices.Impl
         {
             var activities = await _activityService.GetAllUserActivity(userId);
 
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             
             var todayActivities = activities.Where(activity => activity.Date.Date == now.Date).ToList();
 
-            var hours = await CreateSchedule(todayActivities);
+            var tags = await _uow.TagRepository.GetAllTagsActivitiesAsync(userId);
+
+            var hours = CreateSchedule(todayActivities);
+
+            var dateTime = DateTime.UtcNow;
+            string date = $"{dateTime.DayOfWeek}, {dateTime.Day} {dateTime.ToString("MMMM", CultureInfo.InvariantCulture)} {dateTime.Year}";
 
             var schedule = new Schedule() {
-                Activities = activities,
-                Hours = hours
+                Tags = _mapper.Map<List<TagDTO>>(tags),
+                Hours = hours,
+                Date = date
             };
 
             return schedule;
         }
 
-        private async Task<List<ScheduleTime>> CreateSchedule(List<ActivityDTO> activities)
+        private List<ScheduleTime> CreateSchedule(List<ActivityDTO> activities)
         {
             var schedule = new List<ScheduleTime>();
 
@@ -83,21 +96,32 @@ namespace NoPressure.BLL.Sevices.Impl
 
             foreach (var time in schedule)
             {
+                if(time.Activity is null) continue;
                 if (time.Hour != ScheduleHour.Six)
                 {
-                    var previous = schedule.Where(h => (int)h.Hour == ((int)time.Hour - 1)).FirstOrDefault().Activity;
+                    var previous = schedule
+                        .Where(h => (int)h.Hour == ((int)time.Hour - 1))
+                        .FirstOrDefault().Activity;
                     if(previous != null)
                     {
-                        time.HasPrevious = true;
+                        if(previous.Id == time.Activity.Id)
+                        {
+                            time.HasPrevious = true;
+                        }
                     }
                 }
 
                 if(time.Hour != ScheduleHour.TwentyThree)
                 {
-                    var next = schedule.Where(h => (int)h.Hour == ((int)time.Hour + 1)).FirstOrDefault().Activity;
+                    var next = schedule
+                        .Where(h => (int)h.Hour == ((int)time.Hour + 1))
+                        .FirstOrDefault().Activity;
                     if(next != null)
                     {
-                        time.HasNext = true;
+                        if(next.Id == time.Activity.Id)
+                        {
+                            time.HasNext = true;
+                        }
                     }
                 }
             }

@@ -12,5 +12,7 @@ namespace NoPressure.Common.DTO
         public ScheduleHour StartTime { get; set; }
         public ScheduleHour EndTime { get; set; }
         public DateTime Date { get; set; }
+
+        public bool IsRepeatable { get; set; }
     }
 }

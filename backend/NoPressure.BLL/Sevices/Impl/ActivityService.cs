@@ -4,6 +4,7 @@ using NoPressure.Common.DTO;
 using NoPressure.Common.Enums;
 using NoPressure.Common.Models.Activity;
 using NoPressure.Common.Models.Schedule;
+using NoPressure.Common.Models.Tag;
 using NoPressure.DAL.Entities;
 using NoPressure.DAL.Unit.Abstract;
 
@@ -21,6 +22,34 @@ namespace NoPressure.BLL.Sevices.Impl
         public async Task CreateActivity(NewActivity newActivity)
         {
             var activityEntity = _mapper.Map<Activity>(newActivity);
+
+            if(newActivity.Tag is null)
+            {
+                newActivity.Tag = "Other";
+            }
+
+            var tagEntity = await _uow.TagRepository.FindByNameAsync(newActivity.Tag);
+
+            if(tagEntity is null)
+            {
+                var newTag = new NewTag() {
+                    UserId = activityEntity.UserId,
+                    Name = newActivity.Tag
+                    
+                };
+
+                await CreateTag(newTag);
+
+                var createdTag = await _uow.TagRepository.FindByNameAsync(newActivity.Tag);
+
+                activityEntity.TagId = createdTag.Id;
+            }
+
+            else
+            {
+                activityEntity.TagId = tagEntity.Id;
+            }
+
             _uow.ActivityRepository.Create(activityEntity);
 
             await _uow.SaveAsync();
@@ -72,6 +101,19 @@ namespace NoPressure.BLL.Sevices.Impl
 
             _uow.ActivityRepository.Remove(activityId);
 
+            await _uow.SaveAsync();
+        }
+
+        private async Task CreateTag(NewTag newTag)
+        {
+            var newTagEntity = new Tag() {
+              Name = newTag.Name,
+              UserId = newTag.UserId,
+              Activities = new List<Activity>()  
+            };
+
+            _uow.TagRepository.Create(newTagEntity);
+            
             await _uow.SaveAsync();
         }
     }

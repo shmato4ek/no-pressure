@@ -13,6 +13,7 @@ namespace NoPressure.DAL.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Plan> Plans { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         public NoPressureDbContext()
         {
@@ -30,6 +31,6 @@ namespace NoPressure.DAL.Context
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=NoPressureDemo;UserName=postgres;Password=0985883147");
+            => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=NoPressureDemo1;UserName=postgres;Password=0985883147");
     }
 }

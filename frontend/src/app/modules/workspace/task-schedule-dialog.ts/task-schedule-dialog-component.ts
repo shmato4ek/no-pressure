@@ -43,7 +43,6 @@ export class TaskScheduleDialogComponent implements OnInit{
     }
 
     save() {
-      console.log(this.dialogForm.value.startTime);
       let activity: AddTaskToSchedule = {
         activityId: this.activityId,
         startTime: this.dialogForm.value.startTime,
