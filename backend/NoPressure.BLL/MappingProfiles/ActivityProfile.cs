@@ -10,7 +10,7 @@ namespace NoPressure.BLL.MappingProfiles
         public ActivityProfile() 
         {
             CreateMap<NewActivity, Activity>();
-            CreateMap<Activity, ActivityDTO>();
+            CreateMap<Activity, ActivityDTO>().ForMember(o => o.Color, opt => opt.MapFrom(src => src.Tag.Color));
             CreateMap<ActivityDTO, Activity>();
         }
     }

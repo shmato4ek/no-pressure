@@ -9,5 +9,7 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task<List<ActivityDTO>> GetAllUserActivity(int userId);
         Task<ActivityDTO> UpdateActivity(UpdateActivity updatedActivity);
         Task DeleteActivity(int activityId);
+        Task<ActivityDTO> GetActivityById(int activityId);
+        Task RemoveFromSchedule(int activityId);
     }
 }

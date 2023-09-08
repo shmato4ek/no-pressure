@@ -7,7 +7,7 @@ namespace NoPressure.DAL.Entities
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }
-        public ActivityColor Color { get; set; }
+        public string? Color { get; set; }
         public List<Activity> Activities { get; set; }
     }
 }

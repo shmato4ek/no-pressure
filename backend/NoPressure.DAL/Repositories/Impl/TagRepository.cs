@@ -10,6 +10,16 @@ namespace NoPressure.DAL.Repositories.Impl
     {
         public TagRepository(NoPressureDbContext context) : base(context) { }
 
+        public async Task<List<Tag>> FindAllTagsByUserId(int userId)
+        {
+            var tags = await _context
+                .Tags
+                .Where(tag => tag.UserId == userId)
+                .ToListAsync();
+
+            return tags;
+        }
+
         public async Task<Tag> FindByNameAsync(string tagName)
         {
             var tag = await _context

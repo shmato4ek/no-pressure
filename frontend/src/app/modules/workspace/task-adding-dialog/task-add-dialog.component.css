@@ -91,6 +91,20 @@
     font-size: 1.5rem !important;
 }
 
+.color-picker{
+    margin-left: 1rem;
+}
+
+.tag-field{
+    width: 80%;
+}
+
+.tag-field-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .checkbox{
     overflow: hidden;
     padding-left: 1rem;

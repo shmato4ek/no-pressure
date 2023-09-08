@@ -21,7 +21,14 @@ namespace NoPressure.BLL.Sevices.Impl
         }
         public async Task CreateActivity(NewActivity newActivity)
         {
-            var activityEntity = _mapper.Map<Activity>(newActivity);
+            var activityEntity = new Activity() {
+                UserId = newActivity.UserId,
+                StartTime = ScheduleHour.Undefined,
+                EndTime = ScheduleHour.Undefined,
+                Name = newActivity.Name,
+                Description = newActivity.Description,
+                IsRepeatable = newActivity.IsRepeatable
+            };
 
             if(newActivity.Tag is null)
             {
@@ -34,8 +41,8 @@ namespace NoPressure.BLL.Sevices.Impl
             {
                 var newTag = new NewTag() {
                     UserId = activityEntity.UserId,
-                    Name = newActivity.Tag
-                    
+                    Name = newActivity.Tag,
+                    Color = newActivity.Color
                 };
 
                 await CreateTag(newTag);
@@ -48,6 +55,8 @@ namespace NoPressure.BLL.Sevices.Impl
             else
             {
                 activityEntity.TagId = tagEntity.Id;
+                tagEntity.Color = newActivity.Color;
+                _uow.TagRepository.Update(tagEntity);
             }
 
             _uow.ActivityRepository.Create(activityEntity);
@@ -82,6 +91,8 @@ namespace NoPressure.BLL.Sevices.Impl
 
             activityEntity.Name = updatedActivity.Name;
             activityEntity.Description = updatedActivity.Description;
+            activityEntity.StartTime = updatedActivity.StartTime;
+            activityEntity.EndTime = updatedActivity.EndTime;
 
             _uow.ActivityRepository.Update(activityEntity);
 
@@ -109,12 +120,32 @@ namespace NoPressure.BLL.Sevices.Impl
             var newTagEntity = new Tag() {
               Name = newTag.Name,
               UserId = newTag.UserId,
+              Color = newTag.Color,
               Activities = new List<Activity>()  
             };
 
             _uow.TagRepository.Create(newTagEntity);
             
             await _uow.SaveAsync();
+        }
+
+        public async Task<ActivityDTO> GetActivityById(int activityId)
+        {
+            var activity = await _uow.ActivityRepository.FindAsync(activityId);
+
+            return _mapper.Map<ActivityDTO>(activity);
+        }
+
+        public async Task RemoveFromSchedule(int activityId)
+        {
+            var activity = await _uow.ActivityRepository.FindAsync(activityId);
+
+            activity.Date = default;
+            activity.StartTime = ScheduleHour.Undefined;
+            activity.EndTime = ScheduleHour.Undefined;
+            activity.IsScheduled = false;
+
+            _uow.ActivityRepository.Update(activity);
         }
     }
 }

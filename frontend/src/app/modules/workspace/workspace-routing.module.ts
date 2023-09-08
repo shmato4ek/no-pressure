@@ -4,6 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { WorkspaceBaseComponent } from "./workspace-base/w-base.component";
 import { ScheduleComponent } from "./schedule/schedule.component";
 import { PlansComponent } from "./plans/plans.component";
+import { ProfileComponent } from "./profile/profile.component";
 
 const routes: Routes = [
     {
@@ -17,6 +18,10 @@ const routes: Routes = [
             {
                 path: 'plans',
                 component: PlansComponent,
+            },
+            {
+                path: 'profile',
+                component: ProfileComponent,
             }
         ]
     }

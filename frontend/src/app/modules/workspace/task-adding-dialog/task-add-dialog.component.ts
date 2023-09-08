@@ -4,6 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NewActivity } from 'src/app/models/activity/new-activity';
 import { ScheduleComponent } from '../schedule/schedule.component';
 import { ActivityAddDialog } from 'src/app/models/activity/add-activity-dialog';
+import { TagService } from 'src/app/services/tag.service';
+import { TagInfo } from 'src/app/models/tag/tag-info';
+import { RegistrationService } from 'src/app/services/registration.service';
 
 @Component({
   selector: 'task-add-dialog',
@@ -14,15 +17,25 @@ export class TaskAddDialogComponent implements OnInit{
   dialogForm: FormGroup = {} as FormGroup;
   
   public isTagActive: boolean = false;
-  public isSettingColor: boolean = false;
   public isRepeatable: boolean = false;
 
+  public userTags = [] as TagInfo[];
+  public userId: number;
+
   colorInput: HTMLInputElement;
+  public color = "#FFA500";
 
   constructor(
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<ScheduleComponent>) {
+    private tagService: TagService,
+    private dialogRef: MatDialogRef<ScheduleComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: number) {
       this.colorInput = document.getElementById('colorpicker') as HTMLInputElement;
+      this.userId = data;
+      this.tagService.getAllTagsInfo(this.userId)
+        .subscribe((tags) => {
+          this.userTags = tags;
+        })
     }
 
     ngOnInit(): void {
@@ -54,7 +67,7 @@ export class TaskAddDialogComponent implements OnInit{
         description: this.dialogForm.value.activityDescription,
         tag: this.dialogForm.value.activityTag,
         isRepeatable: this.isRepeatable,
-        color: this.colorInput.value
+        color: (<HTMLInputElement>document.getElementById("colorpicker")).value
       }
       this.dialogRef.close(activity);
     }
@@ -63,7 +76,17 @@ export class TaskAddDialogComponent implements OnInit{
       this.isTagActive = !this.isTagActive;
     }
 
-    changeSetColorState() {
-      this.isSettingColor = !this.isSettingColor;
+    searchTagColor(name: string) {
+      let color = this.userTags.find(tag => tag.name == name)?.color as string;
+      if(color == null) { 
+        return "#FFA500";
+      }
+      else {
+        return color;
+      }
+    }
+
+    onKey(event: any) {
+      this.color = this.searchTagColor(event.target.value);
     }
 }

@@ -1,0 +1,118 @@
+.add-button{
+    height: 2.5rem;
+    width: 7.5rem;
+    font-size: 1.25rem;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+}
+  
+.add-button:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    transition: 0.2s;
+    border: 1px solid black;
+}
+
+.info-text-black{
+    font-size: 2rem;
+    margin-block-start: 1.5rem;
+    margin-block-end: 1.5rem;
+    text-align: center;
+    font-family: 'Handwriting', sans-serif;
+    color: #000F55;
+    font-weight: 800;
+}
+
+.add-dialog-container{
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+}
+
+
+.add-activity-field{
+    width: 10rem;
+}
+
+.buttons-container{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 1rem;
+}
+
+.add-button-container{
+    margin-left: 62.5%;
+}
+
+.create-button-icon{
+    width: 3rem;
+    height: 3rem;
+}
+
+.create-button{
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    padding: 0;
+    border: none;
+}
+
+.create-button:hover{
+    background-color: #FFA500;
+    transition: 0.2s;
+}
+
+.handwitten-field {
+    font-family: 'Handwriting', sans-serif !important;
+    color: #000F55 !important;
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+}
+
+.tag-field-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tag-field{
+    width: 80%;
+}
+
+.color-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.color-picker{
+    margin-left: 1rem;
+}
+
+#colorpicker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 2rem;
+    height: 2rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  #colorpicker::-webkit-color-swatch {
+    border-radius: 5px;
+    border: none;
+  }
+  #colorpicker::-moz-color-swatch {
+    border-radius: 5px;
+    border: none;
+  }

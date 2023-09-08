@@ -13,6 +13,7 @@ namespace NoPressure.DAL.Repositories.Impl
         {
             var activities = await _context
                 .Activities
+                .Include(a => a.Tag)
                 .Where(activity => activity.UserId == userId)
                 .ToListAsync();
 

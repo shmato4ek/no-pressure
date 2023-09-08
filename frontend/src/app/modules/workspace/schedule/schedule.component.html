@@ -18,13 +18,16 @@
                             scheduledActivity:true,
                             sideBorders:true,
                             centralScheduled:hour.hasNext&&hour.hasPrevious}"
+                        [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
                     >
-                        <p
-                            class="activity-name"
-                            *ngIf="!hour.hasPrevious && hour.activity"
-                        >
-                            {{hour.activity.name}}
-                        </p>
+                        <div (click)="showScheduledActivityDialog(hour.activity)">
+                            <p
+                                class="activity-name"
+                                *ngIf="!hour.hasPrevious && hour.activity"
+                            >
+                                {{hour.activity.name}}
+                            </p>
+                        </div>
                     </div>
                 </span>
             </div>
@@ -44,13 +47,16 @@
                             scheduledActivity:true,
                             sideBorders:true,
                             centralScheduled:hour.hasNext&&hour.hasPrevious}"
+                        [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
                     >
-                        <p
-                            class="activity-name"
-                            *ngIf="!hour.hasPrevious && hour.activity"
-                        >
-                            {{hour.activity.name}}
-                        </p>
+                        <div (click)="showScheduledActivityDialog(hour.activity)">
+                            <p
+                                class="activity-name"
+                                *ngIf="!hour.hasPrevious && hour.activity"
+                            >
+                                {{hour.activity.name}}
+                            </p>
+                        </div>
                     </div>
                 </span>
             </div>
@@ -65,25 +71,61 @@
             <p class="header-text">My tasks</p>
         </div>
         <div class="tasks-list">
+            <button
+                class="edit-icon"
+                (click)="changeIsEditingState()">
+                <img
+                    *ngIf="!isEditing"
+                    src="../../../../assets/img/edit.svg"
+                    class="write-icon">
+                <img
+                    *ngIf="isEditing"
+                    src="../../../../assets/img/mark.svg"
+                    class="write-icon">
+            </button>
             <div class="tasks">
                 <div *ngFor="let tag of tags" class="tag">
-                    <p class="tag-header">
-                        {{tag.name}}
-                    </p>
+                    <div class="tag-header-container">
+                        <p class="tag-header">
+                            {{tag.name}}
+                        </p>
+                        <div
+                            class="edit-container"
+                            *ngIf="isEditing">
+                            <button
+                                (click)="showTagDialog(tag)"
+                                class="edit-button">
+                                <img
+                                    src="../../../../assets/img/write.svg"
+                                    class="activity-edit-icon">
+                            </button>
+                        </div>
+                    </div>
                     <div
                         class="activity"
                         *ngFor="let activity of tag.activities"
                     >
                         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="bullet">
-                            <circle class="svg-circle"/>
+                            <circle class="svg-circle" [ngStyle]="{'filter': setSvgColor(tag)}"/>
                         </svg>
                         <button
                             type="button"
                             class="activity-button"
-                            (click)="showActivityDialog(activity)"
+                            (click)="showScheduleActivityDialog(activity)"
                         >
                             {{activity.name}}
                         </button>
+                        <div
+                            class="edit-container"
+                            *ngIf="isEditing">
+                            <button
+                                class="edit-button"
+                                (click)="showActivityDialog(activity)">
+                                <img
+                                    src="../../../../assets/img/write.svg"
+                                    class="activity-edit-icon">
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

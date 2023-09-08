@@ -10,7 +10,7 @@ namespace NoPressure.DAL.Entities.Configuration
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Name).IsRequired();
             builder.HasOne<User>().WithMany(c => c.Activities).HasForeignKey(a => a.UserId);
-            builder.HasOne<Tag>().WithMany(c => c.Activities).HasForeignKey(a => a.TagId);
+            builder.HasOne(c => c.Tag).WithMany(c => c.Activities).HasForeignKey(a => a.TagId);
         }
     }
 }

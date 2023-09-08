@@ -65,35 +65,4 @@ export class TaskDialogComponent implements OnInit{
       this.activityService.delete(this.activityId).subscribe();
       window.location.reload();
     }
-
-    public showScheduleActivityDialog() {
-      const dialogConfig = new MatDialogConfig();
-  
-      dialogConfig.autoFocus = true;
-      
-      let activity: UpdateActivity = {
-        name: this.activityName,
-        id: this.activityId,
-        description: this.activityDescription
-      }
-
-      dialogConfig.data = activity;
-  
-      const dialogRef = this.dialog.open(TaskScheduleDialogComponent, dialogConfig);
-  
-      dialogRef.afterClosed().subscribe((activity) => {
-        let scheduledActivity: AddTaskToSchedule = {
-          activityId: this.activityId,
-          startTime: activity.startTime,
-          endTime: activity.endTime,
-        };
-        this.scheduleActivity(scheduledActivity);
-      })
-    }
-
-    public scheduleActivity(activity: AddTaskToSchedule) {
-      this.scheduleService.addActivityToSchedule(activity);
-      window.location.reload();
-    }
-
 }

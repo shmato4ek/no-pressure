@@ -6,5 +6,6 @@ namespace NoPressure.DAL.Repositories.Abstract
     {
         Task<List<Tag>> GetAllTagsActivitiesAsync(int userId);
         Task<Tag> FindByNameAsync(string tagName);
+        Task<List<Tag>> FindAllTagsByUserId(int userId);
     }
 }

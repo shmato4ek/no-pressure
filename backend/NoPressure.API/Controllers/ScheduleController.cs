@@ -10,9 +10,11 @@ namespace NoPressure.API.Controllers
     public class ScheduleController : ControllerBase
     {
         private readonly IScheduleService _scheduleService;
-        public ScheduleController(IScheduleService scheduleService)
+        private readonly IActivityService _activityService;
+        public ScheduleController(IScheduleService scheduleService, IActivityService activityService)
         {
             _scheduleService = scheduleService;
+            _activityService = activityService;
         }
 
         [HttpGet("{userId:int}")]
@@ -25,6 +27,13 @@ namespace NoPressure.API.Controllers
         public async Task<ActionResult> AddTaskToSchedule(AddTaskToSchedule activity)
         {
             await _scheduleService.AddActivityToSchedule(activity);
+            return NoContent();
+        }
+
+        [HttpDelete("{activityId}")]
+        public async Task<ActionResult> RemoveFromSchedule(int activityId)
+        {
+            await _activityService.RemoveFromSchedule(activityId);
             return NoContent();
         }
     }

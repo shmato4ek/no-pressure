@@ -110,6 +110,51 @@
     bottom: 0.4rem;
 }
 
+.write-icon {
+    height: 1.5rem;
+}
+
+.write-icon:hover {
+    height: 1.7rem;
+    transition: 0.2s;
+}
+
+.tag-header-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.activity-edit-icon{
+    height: 0.8rem;
+}
+
+.edit-container{
+    height: fit-content;
+    width: fit-content;
+}
+
+.edit-button{
+    height: fit-content;
+    width: fit-content;
+    padding: 0;
+    margin-left: 0.5rem;
+    border: none;
+    background-color: #FBFBFB;
+}
+
+.edit-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    height: fit-content;
+    width: fit-content;
+    border: none;
+    padding: 0;
+    background-color: #FBFBFB;
+}
+
 .tasks-header{
     display: flex;
     flex-direction: row;
@@ -198,6 +243,11 @@
     color: #000F55
 }
 
+.activity-name:hover {
+    font-size: 1.7rem;
+    transition: o.5s;
+}
+
 .first-half-schedule {
     width: 45%;
     margin-right: 2rem;
@@ -225,4 +275,8 @@
 ::-webkit-scrollbar-thumb {
     background: #FFA500;
     border-radius: 10px;
+}
+
+.test {
+    filter: invert(24%) sepia(90%) saturate(6058%) hue-rotate(355deg) brightness(94%) contrast(122%);
 }

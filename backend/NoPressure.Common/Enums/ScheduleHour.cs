@@ -2,6 +2,7 @@ namespace NoPressure.Common.Enums
 {
     public enum ScheduleHour
     {
+        Undefined = 0,
         Six = 6,
         Seven = 7,
         Eight = 8,

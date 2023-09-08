@@ -12,6 +12,9 @@ import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { PlansComponent } from './plans/plans.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { TaskScheduleDialogComponent } from './task-schedule-dialog.ts/task-schedule-dialog-component';
+import { ScheduledTaskDialogComponent } from './scheduled-task-dialog/scheduled-task-dialog.component';
+import { TagEditDialogComponent } from './tag-edit-dialog/tag-edit-dialog.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +26,9 @@ import { TaskScheduleDialogComponent } from './task-schedule-dialog.ts/task-sche
         TaskScheduleDialogComponent,
         PlansComponent,
         SidenavComponent,
+        ScheduledTaskDialogComponent,
+        TagEditDialogComponent,
+        ProfileComponent
     ],
     imports: [
         WorkspaceRoutingModule,

@@ -35,4 +35,9 @@ export class ScheduleService extends ResourceService<Schedule> {
         return this.add(activity)
             .subscribe();
     }
+
+    public removeActivityFromSchedule(activityId: number) {
+        return this.delete(activityId)
+            .subscribe();
+    }
 }

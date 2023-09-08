@@ -55,7 +55,7 @@ namespace NoPressure.DAL.Migrations
                     b.Property<int>("StartTime")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TagId")
+                    b.Property<int>("TagId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
@@ -103,8 +103,8 @@ namespace NoPressure.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Color")
-                        .HasColumnType("integer");
+                    b.Property<string>("Color")
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -153,15 +153,19 @@ namespace NoPressure.DAL.Migrations
                         .WithMany("Activities")
                         .HasForeignKey("PlanId");
 
-                    b.HasOne("NoPressure.DAL.Entities.Tag", null)
+                    b.HasOne("NoPressure.DAL.Entities.Tag", "Tag")
                         .WithMany("Activities")
-                        .HasForeignKey("TagId");
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("NoPressure.DAL.Entities.User", null)
                         .WithMany("Activities")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("NoPressure.DAL.Entities.Plan", b =>

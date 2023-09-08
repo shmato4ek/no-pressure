@@ -43,37 +43,28 @@
     </p>
   </button>
 
-  <mat-form-field *ngIf="isTagActive">
-    <input
-      matInput
-      placeholder="Activity tag"
-      formControlName="activityTag"
-      class="handwitten-field"
-    >
-  </mat-form-field>
-  <div
-    class="color-container"
-    *ngIf="isTagActive"  
-  >
-    <button
-      class="color-button"
-      (click)="changeSetColorState()"
-    >
-      <p class="tag-header">
-        Set tag color
-      </p>
-      <img
-        *ngIf="!isSettingColor"
-        src="../../../../assets/img/right-arrow.svg"
-        class="right-arrow"
+  <div class="tag-field-container">
+    <mat-form-field *ngIf="isTagActive" class="tag-field">
+      <input
+        matInput
+        placeholder="Activity tag"
+        formControlName="activityTag"
+        class="handwitten-field"
+        (keyup)="onKey($event)"
       >
-      <img
-        *ngIf="isSettingColor"
-        src="../../../../assets/img/left-arrow.svg"
-        class="right-arrow"
-      >
-    </button>
-      <input *ngIf="isSettingColor" type="color" id="colorpicker" value="#0000ff">
+    </mat-form-field>
+
+    <div
+      class="color-container"
+      *ngIf="isTagActive"  
+    >
+        <input
+          type="color"
+          id="colorpicker"
+          value={{color}}
+          class="color-picker"
+        >
+    </div>
   </div>
 </mat-dialog-content>
 
