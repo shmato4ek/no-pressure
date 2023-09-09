@@ -58,5 +58,12 @@ namespace NoPressure.API.Controllers
             await _tagService.UpdateTag(updateTag);
             return NoContent();
         }
+
+        [HttpPatch("state")]
+        public async Task<ActionResult> ChangeState(UpdateActivityState activity)
+        {
+            await _activityService.ChangeState(activity);
+            return NoContent();
+        }
     }
 }

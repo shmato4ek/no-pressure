@@ -15,5 +15,6 @@ namespace NoPressure.Common.DTO
         public DateTime Date { get; set; }
 
         public bool IsRepeatable { get; set; }
+        public ActivityState State { get; set; }
     }
 }

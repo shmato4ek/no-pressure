@@ -147,5 +147,15 @@ namespace NoPressure.BLL.Sevices.Impl
 
             _uow.ActivityRepository.Update(activity);
         }
+
+        public async Task ChangeState(UpdateActivityState updateActivity)
+        {
+            var activity = await _uow.ActivityRepository.FindAsync(updateActivity.Id);
+
+            activity.State = updateActivity.State;
+
+            _uow.ActivityRepository.Update(activity);
+            await _uow.SaveAsync();
+        }
     }
 }

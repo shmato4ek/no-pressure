@@ -78,6 +78,29 @@
     padding-left: 1.5rem;
 }
 
+.approve-icon{
+    height: 2rem;
+}
+
+.approve-button{
+    height: fit-content;
+    width: fit-content;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.botton-text{
+    font-size: 1.5rem;
+    margin-left: 1rem;
+}
+
+.approve-task-container{
+    margin-left: 1.5rem;
+}
+
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
     background-color: white;
 }

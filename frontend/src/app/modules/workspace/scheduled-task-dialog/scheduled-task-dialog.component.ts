@@ -10,6 +10,8 @@ import { RegistrationService } from 'src/app/services/registration.service';
 import { ActivityDTO } from 'src/app/models/activity/activity-dto';
 import { UpdateScheduledActivity } from 'src/app/models/activity/update-scheduled-activity';
 import { ScheduleService } from 'src/app/services/schedule.service';
+import { UpdateStateActivity } from 'src/app/models/activity/update-state-activity';
+import { ActivityService } from 'src/app/services/activity.service';
 
 @Component({
   selector: 'task-add-dialog',
@@ -26,6 +28,7 @@ export class ScheduledTaskDialogComponent implements OnInit{
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<ScheduleComponent>,
     private scheduleService: ScheduleService,
+    private activityService: ActivityService,
     @Inject(MAT_DIALOG_DATA) public data: ActivityDTO) {
       this.currentActivity = data;
       this.selectOptions = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
@@ -60,6 +63,16 @@ export class ScheduledTaskDialogComponent implements OnInit{
 
     delete() {
       this.scheduleService.removeActivityFromSchedule(this.currentActivity.id);
+      window.location.reload();
+    }
+
+    changeState(currentState: number) {
+      let activity: UpdateStateActivity = {
+        id: this.currentActivity.id,
+        state: currentState
+      }
+      
+      this.activityService.changeState(activity);
       window.location.reload();
     }
 }

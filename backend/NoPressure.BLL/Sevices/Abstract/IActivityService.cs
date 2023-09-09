@@ -11,5 +11,6 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task DeleteActivity(int activityId);
         Task<ActivityDTO> GetActivityById(int activityId);
         Task RemoveFromSchedule(int activityId);
+        Task ChangeState(UpdateActivityState updateActivity);
     }
 }

@@ -36,6 +36,30 @@
 </div>
 </mat-dialog-content>
 
+<div *ngIf="currentActivity.state === 0"
+  class="approve-task-container">
+  <button
+    class="approve-button"
+    (click)="changeState(1)">
+    <img
+      src="../../../../assets/img/approve-mark.svg"
+      class="approve-icon">
+    <p class="botton-text">Mark as done</p>
+  </button>
+</div>
+
+<div *ngIf="currentActivity.state === 1"
+  class="approve-task-container">
+  <button
+    class="approve-button"
+    (click)="changeState(0)">
+    <img
+      src="../../../../assets/img/cancel-mark.svg"
+      class="approve-icon">
+    <p class="botton-text">Mark as active</p>
+  </button>
+</div>
+
 <mat-dialog-actions class="buttons-container">
   <button
     class="remove-button"

@@ -62,7 +62,14 @@ export abstract class ResourceService<T> {
       return this.httpClient
         .delete<T>(`${this.APIUrl}/${id}`, { observe: 'response' })
         .pipe(catchError(this.handleError));
-    }  
+    }
+    
+    patch<TRequest>(request:TRequest): Observable<HttpResponse<TRequest>> {
+      return this.httpClient.patch<TRequest>(`${environment.apiUrl}/activity/state`, request, {
+        observe: 'response',
+        headers: this.getHeaders(),
+      });
+    }
 
     private getHeaders() {
       return this.headers;

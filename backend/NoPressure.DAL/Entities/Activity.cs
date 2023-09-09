@@ -14,6 +14,7 @@ namespace NoPressure.DAL.Entities
 
         public bool IsRepeatable { get; set; } = false;
         public bool IsScheduled { get; set; } = false;
+        public ActivityState State { get; set; } = ActivityState.Active;
 
         public int UserId { get; set; }
         public int? PlanId { get; set; }
