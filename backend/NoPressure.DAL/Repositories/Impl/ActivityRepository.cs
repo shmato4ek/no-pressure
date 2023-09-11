@@ -9,12 +9,22 @@ namespace NoPressure.DAL.Repositories.Impl
     {
         public ActivityRepository(NoPressureDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<Activity>> FindAllUserActivitiesAsync(int userId)
+        public async Task<List<Activity>> FindAllUserActivitiesAsync(int userId)
         {
             var activities = await _context
                 .Activities
                 .Include(a => a.Tag)
                 .Where(activity => activity.UserId == userId)
+                .ToListAsync();
+
+            return activities;
+        }
+
+        public async Task<List<Activity>> GetActivitiesByDate(DateTime date)
+        {
+            var activities = await _context
+                .Activities
+                .Where(activity => activity.Date.Date == date.Date)
                 .ToListAsync();
 
             return activities;

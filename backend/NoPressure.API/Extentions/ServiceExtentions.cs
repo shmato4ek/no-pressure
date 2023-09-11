@@ -30,6 +30,7 @@ namespace NoPressure.API.Extentions
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IStatisticService, StatisticService>();
 
             services.AddScoped<JwtFactory>();
         }

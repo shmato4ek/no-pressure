@@ -4,6 +4,7 @@ import { ActivityDTO } from "../models/activity/activity-dto";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs";
 import { UpdateStateActivity } from "../models/activity/update-state-activity";
+import { Statistic } from "../models/statistic/statistic";
 
 @Injectable({
     providedIn: 'root',
@@ -32,5 +33,14 @@ export class ActivityService extends ResourceService<ActivityDTO> {
 
     public changeState(activity: UpdateStateActivity) {
         return this.patch(activity).subscribe();
+    }
+
+    public getStatistic(userId: number) {
+        return this.getFullRequest<Statistic>(`activity/statistic/${userId}`)
+        .pipe(
+            map((resp) => {
+                return resp.body as Statistic;
+            })
+        );
     }
 }

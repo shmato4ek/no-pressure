@@ -23,6 +23,24 @@ namespace NoPressure.BLL.Sevices.Impl
             _mapper = mapper;
         }
 
+        public async Task<List<TagDTO>> GetBestUserTags(int userId)
+        {
+            var tagsEntity = await _uow.TagRepository.GetTagsWithActivities(userId);
+            if(!tagsEntity.Any())
+            {
+                return null;
+            }
+            var sortedTags = tagsEntity.OrderByDescending(tag => tag.Activities.Count).ToList();
+            var bestTags = new List<TagDTO>();
+            var sortedTagsCount = sortedTags.Count >= 5 ? 5 : sortedTags.Count;
+            for(int i = 0; i <= sortedTagsCount-1; i++)
+            {
+                bestTags.Add(_mapper.Map<TagDTO>(sortedTags[i]));
+            }
+
+            return bestTags;
+        }
+
         public async Task<List<TagInfoDTO>> GetUsersTagInfo(int userId)
         {
             var tags = await _uow.TagRepository.FindAllTagsByUserId(userId);

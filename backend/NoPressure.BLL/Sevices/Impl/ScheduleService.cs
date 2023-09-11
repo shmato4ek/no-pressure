@@ -73,6 +73,15 @@ namespace NoPressure.BLL.Sevices.Impl
             return schedule;
         }
 
+        public int GetHoursOfDoneTasks(List<ActivityDTO> activities)
+        {
+            var schedule = CreateSchedule(activities);
+
+            var doneSchedule = schedule.Where(s => s.Activity != null).ToList();
+
+            return doneSchedule.Count;
+        }
+
         private List<ScheduleTime> CreateSchedule(List<ActivityDTO> activities)
         {
             var schedule = new List<ScheduleTime>();

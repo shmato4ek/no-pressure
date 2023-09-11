@@ -13,11 +13,15 @@ namespace NoPressure.API.Controllers
     {
         private readonly IActivityService _activityService;
         private readonly ITagService _tagService;
+        private readonly IStatisticService _statisticService;
 
-        public ActivityController(IActivityService activityService, ITagService tagService)
+        public ActivityController(IActivityService activityService,
+                                    ITagService tagService,
+                                    IStatisticService statisticService)
         {
             _activityService = activityService;
             _tagService = tagService;
+            _statisticService = statisticService;
         }
 
         [HttpPost]
@@ -64,6 +68,12 @@ namespace NoPressure.API.Controllers
         {
             await _activityService.ChangeState(activity);
             return NoContent();
+        }
+
+        [HttpGet("statistic/{userId}")]
+        public async Task<ActionResult> GetStatistic(int userId)
+        {
+            return Ok(await _statisticService.GetActivitiesStatistic(userId));
         }
     }
 }

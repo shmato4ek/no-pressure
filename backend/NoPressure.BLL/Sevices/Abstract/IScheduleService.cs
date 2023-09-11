@@ -8,5 +8,6 @@ namespace NoPressure.BLL.Sevices.Abstract
     {
         Task<Schedule> GetScheduleAndActivities(int userId);
         Task AddActivityToSchedule(AddTaskToSchedule activity);
+        int GetHoursOfDoneTasks(List<ActivityDTO> activities);
     }
 }

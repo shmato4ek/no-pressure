@@ -157,5 +157,18 @@ namespace NoPressure.BLL.Sevices.Impl
             _uow.ActivityRepository.Update(activity);
             await _uow.SaveAsync();
         }
+
+        public async Task<List<ActivityDTO>> GetActivitiesByDate(DateTime date)
+        {
+            var activities = await _uow.ActivityRepository.GetActivitiesByDate(date);
+            if (activities == null)
+            {
+                return null;
+            }
+            else
+            {
+                return _mapper.Map<List<ActivityDTO>>(activities);
+            }
+        }
     }
 }

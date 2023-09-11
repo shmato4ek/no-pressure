@@ -52,5 +52,16 @@ namespace NoPressure.DAL.Repositories.Impl
 
             return tags;
         }
+
+        public async Task<List<Tag>> GetTagsWithActivities(int userId)
+        {
+            var tags = await _context
+                .Tags
+                .Include(tag => tag.Activities)
+                .Where(tag => tag.UserId == userId)
+                .ToListAsync();
+
+            return tags;
+        }
     }
 }

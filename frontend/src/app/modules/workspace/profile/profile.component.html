@@ -1,11 +1,98 @@
-<div class="plans-page-container">
-    <div class="progress-container">
-        <div
-            role="progressbar"
-            aria-valuenow="67"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            style="--value: {{p}}">
+<div class="profile-page">
+    <div class="profile-container">
+        <img
+            src="../../../../assets/img/user-logo.png"
+            class="user-logo">
+        <p class="header-text">My profile</p>
+
+        <div class="point-container">
+            <img
+                src="../../../../assets/img/subscribers.svg"
+                class="point-icon">
+            <p class="point-text">4 subscriptions / 6 subscribers</p>
         </div>
+
+        <div class="point-container">
+            <img
+                src="../../../../assets/img/time.svg"
+                class="point-icon">
+            <p class="point-text">since September 2023</p>
+        </div>
+
+        <div class="schedule-container">
+            <div
+                *ngFor="let day of statistic.schedule"
+                class="day-container">
+                <div
+                    *ngIf="day.hoursAmmount === 0"
+                    class="day-without-task">
+                </div>
+                <div *ngIf="day.hoursAmmount !== 0"
+                    class="day-with-task">
+                    {{day.hoursAmmount}}h
+                </div>
+
+                <div class="day-of-week">
+                    {{day.dayOfWeek[0]}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="activities-stats">
+        <p class="stat-header">Performance of tasks</p>
+        <div class="progress-container" *ngIf="isAppear">
+            <div class="progress-bar-container">
+                <div
+                    role="progressbar"
+                    aria-valuenow="67"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    style="--value: {{statistic.qualityWeek}}">
+                </div>
+                <p class="progress-text">Last week</p>
+            </div>
+
+            <div class="progress-bar-container">
+                <div
+                    role="progressbar"
+                    aria-valuenow="67"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    style="--value: {{statistic.qualityMonth}}">
+                    </div>
+                <p class="progress-text">Last month</p>
+            </div>
+
+            <div class="progress-bar-container">
+                <div
+                    role="progressbar"
+                    aria-valuenow="67"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    style="--value: {{statistic.qualityAllTime}}">
+                </div>
+                <p class="progress-text">All time</p>
+            </div>
+        </div>
+
+        <p class="statistic-header">Favourite tags</p>
+
+        <div class="tag-stat-container" *ngIf="isAppear" style="--value: {{statistic.qualityAllTime}};">
+            <div
+                *ngFor="let tag of statistic.tagStatistics"
+                class="tag-point">
+    
+                <p class="point-text">{{tag.name}}</p>
+                <div class="progress">
+                    <div
+                        class="progress-value"
+                        style="--value: {{tag.quality}}%;">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
     </div>
 </div>
