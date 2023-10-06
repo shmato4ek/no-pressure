@@ -8,6 +8,7 @@ import { NewPlanDTO } from "../models/plan/new-plan";
 import { PlanChangeState } from "../models/plan/plan-change-state";
 import { UpdatePlanDTO } from "../models/plan/plan-update";
 import { GoalDTO } from "../models/plan/goal-dto";
+import { GoalInfoDTO } from "../models/plan/goal-info-dto";
 
 @Injectable({
     providedIn: 'root',
@@ -29,6 +30,15 @@ export class PlanService extends ResourceService<PlanDTO> {
             .pipe(
                 map((resp) => {
                     return resp.body as PlanDTO[];
+                })
+            );
+    }
+
+    public getAllGoals(id: number) {
+        return this.getFullRequest<GoalInfoDTO[]>(`plan/goals/${id}`)
+            .pipe(
+                map((resp) => {
+                    return resp.body as GoalInfoDTO[];
                 })
             );
     }

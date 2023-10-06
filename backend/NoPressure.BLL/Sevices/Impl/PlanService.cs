@@ -45,7 +45,7 @@ namespace NoPressure.BLL.Sevices.Impl
             await _uow.SaveAsync();
         }
 
-        public async Task<List<PlanDTO>> GetAllGoals(int userId)
+        public async Task<List<GoalInfoDTO>> GetAllGoals(int userId)
         {
             var userEntity = await _uow.UserRepository.FindAsync(userId);
 
@@ -56,7 +56,34 @@ namespace NoPressure.BLL.Sevices.Impl
 
             var plansEntity = _uow.PlanRepository.GetAllGoals(userId).Result;
             
-            return _mapper.Map<List<PlanDTO>>(plansEntity);
+            var goals = new List<GoalInfoDTO>();
+
+            foreach(var plan in plansEntity)
+            {
+                var activities = plan.Activities;
+                double doneActivities = activities.Where(a => a.State == ActivityState.Done).Count();
+                double allActivities = activities.Count();
+                int progress = 0;
+
+                if(allActivities != 0)
+                {
+                    progress = (int)(Math.Round(doneActivities / allActivities));
+                }
+
+                var foundGoal = new GoalInfoDTO()
+                {
+                    Id = plan.Id,
+                    Name = plan.Name,
+                    Activities = _mapper.Map<List<ActivityDTO>>(plan.Activities),
+                    DoneTasksAmmount = (int)doneActivities,
+                    AllTasksAmmount = (int)allActivities,
+                    Progress = progress*100
+                };
+
+                goals.Add(foundGoal);
+            }
+
+            return goals;
         }
 
         public async Task<List<PlanDTO>> GetAllNoGoalPlans(int userId)

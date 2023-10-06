@@ -5,6 +5,7 @@ import { WorkspaceBaseComponent } from "./workspace-base/w-base.component";
 import { ScheduleComponent } from "./schedule/schedule.component";
 import { PlansComponent } from "./plans/plans.component";
 import { ProfileComponent } from "./profile/profile.component";
+import { GoalsComponent } from "./goals/goals.component";
 
 const routes: Routes = [
     {
@@ -22,6 +23,10 @@ const routes: Routes = [
             {
                 path: 'profile',
                 component: ProfileComponent,
+            },
+            {
+                path: 'goals',
+                component: GoalsComponent,
             }
         ]
     }

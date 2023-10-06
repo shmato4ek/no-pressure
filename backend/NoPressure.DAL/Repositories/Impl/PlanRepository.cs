@@ -16,6 +16,7 @@ namespace NoPressure.DAL.Repositories.Impl
                 .Plans
                 .Include(p => p.Activities)
                 .Where(p => p.UserId == userId)
+                .Where(p => p.State == PlanState.Goal)
                 .ToListAsync();
 
             return plans;

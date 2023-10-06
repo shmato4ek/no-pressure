@@ -17,6 +17,7 @@ import { TagEditDialogComponent } from './tag-edit-dialog/tag-edit-dialog.compon
 import { ProfileComponent } from './profile/profile.component';
 import { PlanEditDialogComponent } from './plan-edit-dialog/plan-edit-dialog.component';
 import { ConvertToGoalDialog } from './convert-to-goal-dialog/convert-to-goal-dialog.component';
+import { GoalsComponent } from './goals/goals.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { ConvertToGoalDialog } from './convert-to-goal-dialog/convert-to-goal-di
         TagEditDialogComponent,
         ProfileComponent,
         PlanEditDialogComponent,
-        ConvertToGoalDialog
+        ConvertToGoalDialog,
+        GoalsComponent
     ],
     imports: [
         WorkspaceRoutingModule,

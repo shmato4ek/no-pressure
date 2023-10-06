@@ -277,7 +277,3 @@
     background: #FFA500;
     border-radius: 10px;
 }
-
-.test {
-    filter: invert(24%) sepia(90%) saturate(6058%) hue-rotate(355deg) brightness(94%) contrast(122%);
-}

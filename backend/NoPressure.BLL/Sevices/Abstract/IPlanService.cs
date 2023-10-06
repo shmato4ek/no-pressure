@@ -8,7 +8,7 @@ namespace NoPressure.BLL.Sevices.Abstract
     {
         Task AddNewPlan(NewPlan newPlan);
         Task<List<PlanDTO>> GetAllNoGoalPlans(int userId);
-        Task<List<PlanDTO>> GetAllGoals(int userId);
+        Task<List<GoalInfoDTO>> GetAllGoals(int userId);
         Task ChangeState(PlanChangeState updatedPlan);
         Task ConvertToGoal(GoalDTO goal);
         Task UpdatePlan(UpdatePlan updatedPlan);

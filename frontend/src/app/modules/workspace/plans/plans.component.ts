@@ -111,7 +111,7 @@ export class PlansComponent implements OnInit{
         activities: goal.activities
       }
       this.planService.convertToGoal(newGoal);
-      //window.location.reload();
+      window.location.reload();
     })
   }
 }

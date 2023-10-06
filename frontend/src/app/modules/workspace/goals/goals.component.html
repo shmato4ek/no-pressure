@@ -1,0 +1,33 @@
+<div class="goals-page-container">
+    <div class="goals-container">
+        <p class="goals-header">My goals</p>
+
+        <div class="goals-list">
+            <div *ngFor="let goal of goals">
+                <input type="checkbox" id="goal{{goal.id}}" class="goal-check" [checked]="currentlyChecked === goal.id" (click)="selectCheckBox(goal.id)">
+                <label for="goal{{goal.id}}" class="goal">
+                    <div class="goal-name">
+                        <p class="goal-name-text">
+                            {{goal.name}}
+                        </p>
+                    </div>
+
+                    <div class="progress-bar-container" *ngIf="isAppear">
+                        <div
+                            role="progressbar"
+                            aria-valuenow="67"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            style="--value: {{goal.progress}}">
+                        </div>
+                        <p class="progress-text">{{goal.doneTasksAmmount}} / {{goal.allTasksAmmount}}</p>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="goal-stat-container">
+
+    </div>
+</div>
