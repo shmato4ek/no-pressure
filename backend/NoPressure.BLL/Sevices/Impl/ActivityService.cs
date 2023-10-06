@@ -115,7 +115,7 @@ namespace NoPressure.BLL.Sevices.Impl
             await _uow.SaveAsync();
         }
 
-        private async Task CreateTag(NewTag newTag)
+        public async Task<int> CreateTag(NewTag newTag)
         {
             var newTagEntity = new Tag() {
               Name = newTag.Name,
@@ -127,6 +127,9 @@ namespace NoPressure.BLL.Sevices.Impl
             _uow.TagRepository.Create(newTagEntity);
             
             await _uow.SaveAsync();
+
+            var tagId = _uow.TagRepository.FindByNameAsync(newTag.Name).Result.Id;
+            return tagId;
         }
 
         public async Task<ActivityDTO> GetActivityById(int activityId)
@@ -169,6 +172,34 @@ namespace NoPressure.BLL.Sevices.Impl
             {
                 return _mapper.Map<List<ActivityDTO>>(activities);
             }
+        }
+
+        public async Task AddNewGoalActivities(List<NewActivity> activities, int tagId, int planId)
+        {
+            if(!activities.Any())
+            {
+                throw new Exception();
+            }
+
+            var activitiesEntity = new List<Activity>();
+
+            foreach(var activity in activities)
+            {
+                var activityEntity = new Activity() {
+                    UserId = activity.UserId,
+                    StartTime = ScheduleHour.Undefined,
+                    EndTime = ScheduleHour.Undefined,
+                    Name = activity.Name,
+                    Description = activity.Description,
+                    IsRepeatable = activity.IsRepeatable,
+                    PlanId = planId
+                };
+
+                activityEntity.TagId = tagId;
+                activitiesEntity.Add(activityEntity);
+            }
+            await _uow.ActivityRepository.BulkInsert(activitiesEntity);
+            await _uow.SaveAsync();
         }
     }
 }

@@ -49,7 +49,10 @@ namespace NoPressure.BLL.Sevices.Impl
                 
                 if(doneActivities != null)
                 {
-                    statistic.QualityAllTime = Math.Round((double)doneActivities.Count / (double)userActivities.Count * 100);
+                    if(userActivities.Count != 0)
+                    {
+                        statistic.QualityAllTime = Math.Round((double)doneActivities.Count / (double)userActivities.Count * 100);
+                    }
                 }
 
                 else
@@ -71,7 +74,10 @@ namespace NoPressure.BLL.Sevices.Impl
                 
                 if(weekDoneActivities != null)
                 {
-                    statistic.QualityWeek = Math.Round((double)weekDoneActivities.Count / (double)weekActivities.Count * 100);
+                    if(weekActivities.Count != 0)
+                    {
+                        statistic.QualityWeek = Math.Round((double)weekDoneActivities.Count / (double)weekActivities.Count * 100);
+                    }
                 }
                 else
                 {
@@ -92,7 +98,10 @@ namespace NoPressure.BLL.Sevices.Impl
 
                 if(monthDoneActivities != null)
                 {
-                    statistic.QualityMonth = Math.Round((double)monthDoneActivities.Count / (double)monthActivities.Count * 100);
+                    if(monthActivities.Count != 0)
+                    {
+                        statistic.QualityMonth = Math.Round((double)monthDoneActivities.Count / (double)monthActivities.Count * 100);
+                    }
                 }
                 else
                 {

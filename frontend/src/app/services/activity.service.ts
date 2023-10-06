@@ -32,7 +32,7 @@ export class ActivityService extends ResourceService<ActivityDTO> {
     }
 
     public changeState(activity: UpdateStateActivity) {
-        return this.patch(activity).subscribe();
+        return this.patch(activity, `activity/state`).subscribe();
     }
 
     public getStatistic(userId: number) {

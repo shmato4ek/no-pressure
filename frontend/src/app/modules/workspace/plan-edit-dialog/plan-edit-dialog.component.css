@@ -1,0 +1,120 @@
+.add-dialog-container{
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+}
+
+.info-text-black{
+    font-size: 2rem;
+    margin-block-start: 1.5rem;
+    margin-block-end: 1.5rem;
+    font-family: 'Handwriting', sans-serif;
+    font-weight: 800;
+    color: #000F55;
+    text-align: center;
+}
+
+.add-button{
+    height: 2.5rem;
+    width: 7.5rem;
+    font-size: 1.25rem;
+    background-color: black;
+    margin-left: 7rem;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+}
+  
+.add-button:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    transition: 0.2s;
+    border: 1px solid black;
+}
+
+.remove-button{
+    height: 2.5rem;
+    width: 7.5rem;
+    font-size: 1.25rem;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+}
+
+.remove-button:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: red;
+    transition: 0.2s;
+    border: 1px solid red;
+}
+
+.buttons-container{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.approve-icon{
+    height: 2rem;
+}
+
+.approve-button{
+    height: fit-content;
+    width: fit-content;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.botton-text{
+    font-size: 1.5rem;
+    margin-left: 1rem;
+}
+
+.approve-task-container{
+    margin-left: 1.5rem;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white;
+}
+
+::ng-deep .mdc-text-field--filled .mdc-line-ripple::after {
+    border-bottom-color: #FFA500 !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: white !important;
+}
+
+#colorpicker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 2rem;
+    height: 2rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  #colorpicker::-webkit-color-swatch {
+    border-radius: 5px;
+    border: none;
+  }
+  #colorpicker::-moz-color-swatch {
+    border-radius: 5px;
+    border: none;
+  }

@@ -79,6 +79,7 @@
 
 .tag-header {
     font-size: 1.5rem;
+    margin-block-end: 0.5rem;
     font-weight: bold;
     text-align: center;
     font-family: 'Handwriting', sans-serif;
@@ -146,8 +147,8 @@
 
 .edit-icon {
     position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+    right: 0.8rem;
+    top: 0.8rem;
     height: fit-content;
     width: fit-content;
     border: none;
@@ -240,7 +241,7 @@
     font-size: 1.5rem;
     font-family: 'Handwriting', sans-serif;
     font-weight: 1000;
-    color: #000F55
+    color: #000F55;
 }
 
 .activity-name:hover {

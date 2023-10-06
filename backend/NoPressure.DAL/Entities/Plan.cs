@@ -1,11 +1,15 @@
+using NoPressure.Common.Enums;
+
 namespace NoPressure.DAL.Entities
 {
     public class Plan
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
         public string Name { get; set; }
         public List<Activity> Activities { get; set; }
-        public bool IsGoal { get; set; } = false;
+        public PlanState State { get; set; } = PlanState.Plan;
+
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

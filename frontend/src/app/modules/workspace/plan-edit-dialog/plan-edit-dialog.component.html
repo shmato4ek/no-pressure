@@ -1,0 +1,43 @@
+<h2
+  mat-dialog-title
+  class="info-text-black"
+>
+  {{plan.name}}
+</h2>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="plan-dialog-container"
+>
+  <div class="plan-field-container">
+    <mat-form-field class="plan-field">
+      <input
+        matInput
+        placeholder="Plan name"
+        formControlName="planName"
+        class="handwitten-field"
+        value="{{plan.name}}"
+      >
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<div class="buttons-container">
+  <mat-dialog-actions class="delete-button-container">
+    <button
+      class="delete-button"
+      (click)="delete()"
+    >
+      Delete
+    </button>
+  </mat-dialog-actions>
+  <mat-dialog-actions class="add-button-container">
+    <button
+      class="add-button"
+      (click)="save()"
+      [disabled]="!dialogForm.valid"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -3,11 +3,18 @@ using NoPressure.DAL.Context;
 using NoPressure.DAL.Entities;
 using NoPressure.DAL.Repositories.Abstract;
 
+using EFCore.BulkExtensions;
+
 namespace NoPressure.DAL.Repositories.Impl
 {
     public class ActivityRepository : Repository<Activity, int>, IActivityRepository
     {
         public ActivityRepository(NoPressureDbContext context) : base(context) { }
+
+        public async Task BulkInsert(List<Activity> activities)
+        {
+            await _context.BulkInsertAsync(activities);
+        }
 
         public async Task<List<Activity>> FindAllUserActivitiesAsync(int userId)
         {

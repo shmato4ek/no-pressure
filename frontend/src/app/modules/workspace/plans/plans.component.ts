@@ -1,11 +1,17 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
-import { ActivityDTO } from 'src/app/models/activity/activity-dto';
+import { PlanState } from 'src/app/models/enums/PlanState';
+import { NewPlanDTO } from 'src/app/models/plan/new-plan';
+import { PlanChangeState } from 'src/app/models/plan/plan-change-state';
 import { PlanDTO } from 'src/app/models/plan/plan-dto';
-import { ActivityService } from 'src/app/services/activity.service';
 import { PlanService } from 'src/app/services/plan.service';
 import { RegistrationService } from 'src/app/services/registration.service';
+import { PlanEditDialogComponent } from '../plan-edit-dialog/plan-edit-dialog.component';
+import { UpdatePlanDTO } from 'src/app/models/plan/plan-update';
+import { ConvertToGoalDialog } from '../convert-to-goal-dialog/convert-to-goal-dialog.component';
+import { GoalDTO } from 'src/app/models/plan/goal-dto';
 
 @Component({
   selector: 'app-plans',
@@ -16,15 +22,27 @@ export class PlansComponent implements OnInit{
   public userId = {} as number;
   public plans = [] as PlanDTO[];
   private unsubscribe$ = new Subject<void>();
+  public isEditing = false as boolean;
+  dialogForm: FormGroup = {} as FormGroup;
 
   constructor(
     private registrationService: RegistrationService,
     private planService: PlanService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
       this.getUserId();
+      this.dialogForm = this.formBuilder.group({
+        planName: [,{
+          validators: [
+            Validators.required,
+            Validators.maxLength(30),
+          ],
+          updateOn:'change',
+        }],
+      });
   }
 
   public getUserId() {
@@ -35,10 +53,65 @@ export class PlansComponent implements OnInit{
         this.userId = user.id;
         this.planService
           .getAllNoGoalActivities(user.id)
-          .pipe(takeUntil(this.unsubscribe$))
           .subscribe((plans) => {
             this.plans = plans;
           });
       });
+  }
+
+  public switchEditMode() {
+    this.isEditing = !this.isEditing;
+  }
+
+  public save() {
+    let plan: NewPlanDTO = {
+      name: this.dialogForm.value.planName,
+      userId: this.userId
+    }
+
+    this.planService.createPlan(plan);
+
+    window.location.reload();
+  }
+
+  public showEditPlan(plan: PlanDTO) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = plan;
+
+    const dialogRef = this.dialog.open(PlanEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((plan
+      ) => {
+      let updatedPlan: UpdatePlanDTO = {
+        id: plan.id,
+        name: plan.name
+      }
+      this.planService.update(updatedPlan).subscribe();
+      window.location.reload();
+    })
+  }
+
+  public showConvertDialog(plan: PlanDTO) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = plan;
+
+    const dialogRef = this.dialog.open(ConvertToGoalDialog, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((goal
+      ) => {
+      let newGoal: GoalDTO = {
+        id: goal.id,
+        userId: goal.userId,
+        name: goal.name,
+        tag: goal.tag,
+        activities: goal.activities
+      }
+      this.planService.convertToGoal(newGoal);
+      //window.location.reload();
+    })
   }
 }

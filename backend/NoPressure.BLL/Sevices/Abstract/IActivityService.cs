@@ -1,5 +1,6 @@
 ﻿using NoPressure.Common.DTO;
 using NoPressure.Common.Models.Activity;
+using NoPressure.Common.Models.Tag;
 
 namespace NoPressure.BLL.Sevices.Abstract
 {
@@ -13,5 +14,7 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task RemoveFromSchedule(int activityId);
         Task ChangeState(UpdateActivityState updateActivity);
         Task<List<ActivityDTO>> GetActivitiesByDate(DateTime date);
+        Task AddNewGoalActivities(List<NewActivity> activities, int tagId, int planId);
+        Task<int> CreateTag(NewTag newTag);
     }
 }

@@ -64,8 +64,8 @@ export abstract class ResourceService<T> {
         .pipe(catchError(this.handleError));
     }
     
-    patch<TRequest>(request:TRequest): Observable<HttpResponse<TRequest>> {
-      return this.httpClient.patch<TRequest>(`${environment.apiUrl}/activity/state`, request, {
+    patch<TRequest>(request:TRequest, url:string): Observable<HttpResponse<TRequest>> {
+      return this.httpClient.patch<TRequest>(`${environment.apiUrl}/${url}`, request, {
         observe: 'response',
         headers: this.getHeaders(),
       });

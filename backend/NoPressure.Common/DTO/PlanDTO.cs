@@ -1,3 +1,5 @@
+using NoPressure.Common.Enums;
+
 namespace NoPressure.Common.DTO
 {
     public class PlanDTO
@@ -6,6 +8,6 @@ namespace NoPressure.Common.DTO
         public int UserId { get; set; }
         public string Name { get; set; }
         public List<ActivityDTO> Activities { get; set; }
-        public bool IsGoal { get; set; } = false;
+        public PlanState State { get; set; }
     }
 }
