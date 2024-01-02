@@ -13,6 +13,7 @@ import { UpdatePlanDTO } from 'src/app/models/plan/plan-update';
 import { ConvertToGoalDialog } from '../convert-to-goal-dialog/convert-to-goal-dialog.component';
 import { GoalDTO } from 'src/app/models/plan/goal-dto';
 import { GoalInfoDTO } from 'src/app/models/plan/goal-info-dto';
+import { ActivityDTO } from 'src/app/models/activity/activity-dto';
 
 @Component({
   selector: 'app-goals',
@@ -25,6 +26,7 @@ export class GoalsComponent implements OnInit{
   public isAppear = false;
 
   currentlyChecked = 0;
+  currentGoal = {} as GoalInfoDTO;
 
   constructor(
     private registrationService: RegistrationService,
@@ -55,14 +57,24 @@ export class GoalsComponent implements OnInit{
       });
   }
   
-  selectCheckBox(id: number) {
-    // If the checkbox was already checked, clear the currentlyChecked variable
-    if(this.currentlyChecked === id) {
+  selectCheckBox(goal: GoalInfoDTO) {
+    if(this.currentlyChecked === goal.id) {
       this.currentlyChecked = 0;
+      this.currentGoal = {} as GoalInfoDTO;
       return;
     }
 
-    this.currentlyChecked = id;
+    this.currentlyChecked = goal.id;
+    this.currentGoal = goal;
+  }
+
+  checkActivities(activities: ActivityDTO[]) {
+    if(activities.length === 0) {
+      return false
+    } else {
+      console.log(activities)
+      return true;
+    }
   }
 
 }

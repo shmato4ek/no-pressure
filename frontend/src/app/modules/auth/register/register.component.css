@@ -71,6 +71,10 @@
     width: 100%;
 }
 
+.password-form-field{
+    width: 80%;
+}
+
 .register-buttons {
     display: flex;
     flex-direction: raw;
@@ -116,6 +120,26 @@
 
 .registration-logo{
     width: 10rem;
+}
+
+.show-password-button{
+    height: 2rem;
+    width: 2rem;
+    background-color: none;
+    margin-left: 1rem;
+}
+
+.show-password-svg{
+    height: 2rem;
+    width: 2rem;
+    background-color: white;
+}
+
+.password-field{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
 }
 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {

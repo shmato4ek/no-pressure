@@ -4,7 +4,7 @@
 
         <div class="goals-list">
             <div *ngFor="let goal of goals">
-                <input type="checkbox" id="goal{{goal.id}}" class="goal-check" [checked]="currentlyChecked === goal.id" (click)="selectCheckBox(goal.id)">
+                <input type="checkbox" id="goal{{goal.id}}" class="goal-check" [checked]="currentlyChecked === goal.id" (click)="selectCheckBox(goal)">
                 <label for="goal{{goal.id}}" class="goal">
                     <div class="goal-name">
                         <p class="goal-name-text">
@@ -29,5 +29,42 @@
 
     <div class="goal-stat-container">
 
+        <p class="goal-stat-text">{{currentGoal.name}}</p>
+
+        <div class="active-tasks" *ngIf="currentlyChecked !== 0">
+            <p class="activities-header" *ngIf="currentGoal.activeActivities">
+                Active:
+            </p>
+
+            <div class="activities-list" *ngIf="checkActivities(currentGoal.activeActivities)">
+                <div
+                    *ngFor="let activity of currentGoal.activeActivities"
+                    class="active-activity">
+                    {{activity.name}}
+                </div>
+            </div>
+    
+            <div class="activities-list" *ngIf="!checkActivities(currentGoal.activeActivities)">
+                <p>There is no active tasks</p>
+            </div>
+        </div>
+
+        <div class="done-tasks" *ngIf="currentlyChecked !== 0">
+            <p class="activities-header" *ngIf="currentGoal.doneActivities">
+                Done:
+            </p>
+
+            <div class="activities-list" *ngIf="checkActivities(currentGoal.doneActivities)">
+                <div
+                    *ngFor="let activity of currentGoal.doneActivities"
+                    class="active-activity">
+                    {{activity.name}}
+                </div>
+            </div>
+    
+            <div class="activities-list" *ngIf="!checkActivities(currentGoal.doneActivities)">
+                <p>There is no done tasks</p>
+            </div>
+        </div>
     </div>
 </div>

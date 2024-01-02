@@ -60,9 +60,9 @@ namespace NoPressure.BLL.Sevices.Impl
 
             foreach(var plan in plansEntity)
             {
-                var activities = plan.Activities;
-                double doneActivities = activities.Where(a => a.State == ActivityState.Done).Count();
-                double allActivities = activities.Count();
+                var activitiesEntity = plan.Activities;
+                double doneActivities = activitiesEntity.Where(a => a.State == ActivityState.Done).Count();
+                double allActivities = activitiesEntity.Count();
                 int progress = 0;
 
                 if(allActivities != 0)
@@ -70,11 +70,14 @@ namespace NoPressure.BLL.Sevices.Impl
                     progress = (int)(Math.Round(doneActivities / allActivities));
                 }
 
+                var activities = _mapper.Map<List<ActivityDTO>>(plan.Activities);
+
                 var foundGoal = new GoalInfoDTO()
                 {
                     Id = plan.Id,
                     Name = plan.Name,
-                    Activities = _mapper.Map<List<ActivityDTO>>(plan.Activities),
+                    ActiveActivities = activities.Where(a => a.State == ActivityState.Active).ToList(),
+                    DoneActivities = activities.Where(a => a.State == ActivityState.Done).ToList(),
                     DoneTasksAmmount = (int)doneActivities,
                     AllTasksAmmount = (int)allActivities,
                     Progress = progress*100

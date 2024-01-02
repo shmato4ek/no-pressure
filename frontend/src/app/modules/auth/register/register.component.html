@@ -42,18 +42,30 @@
                 >
             </mat-form-field>
 
-            <mat-form-field
-                appearance="fill"
-                class="form-field"
-                hideRequiredMarker="true"
-            >
-                <mat-label>Password</mat-label>
-                <input
-                    matInput
-                    formControlName="password"
-                    id="password"
+            <div class="password-field">
+                <mat-form-field
+                    appearance="fill"
+                    class="form-field"
+                    hideRequiredMarker="true"
                 >
-            </mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input
+                        [type]="passwordType"
+                        matInput
+                        formControlName="password"
+                        id="password"
+                    >
+                </mat-form-field>
+                <button
+                    type="button"
+                    class="show-password-button"
+                    (click)="togglePassword()">
+                    <img
+                        class="show-password-svg"
+                        src="{{imgSrc}}"
+                    >
+                </button>
+            </div>
 
             <mat-form-field
                 appearance="fill"

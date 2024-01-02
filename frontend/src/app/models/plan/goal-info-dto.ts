@@ -5,7 +5,8 @@ import { NewTag } from "../tag/new-tag";
 export interface GoalInfoDTO {
     id: number;
     name: string;
-    activities: ActivityDTO[];
+    activeActivities: ActivityDTO[];
+    doneActivities: ActivityDTO[];
     progress: number;
     doneTasksAmmount: number;
     allTasksAmmount: number;

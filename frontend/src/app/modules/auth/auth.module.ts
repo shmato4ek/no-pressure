@@ -13,7 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     imports:[
         MaterialModule,
         AuthRoutinModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
 })
 

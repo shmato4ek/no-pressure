@@ -12,6 +12,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { MatSelectSearchModule } from 'mat-select-search';
+import { IonicModule } from "@ionic/angular";
 
 const MaterialComponents = [
     MatButtonModule,
@@ -26,7 +27,8 @@ const MaterialComponents = [
     MatSelectModule,
     MatCheckboxModule,
     FormsModule,
-    MatSelectSearchModule
+    MatSelectSearchModule,
+    IonicModule
 ]
 
 @NgModule({

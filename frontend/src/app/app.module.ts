@@ -9,6 +9,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './services/interceptor';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { WorkspaceModule } from './modules/workspace/workspace.module';
     AuthModule,
     BrowserAnimationsModule,
     WorkspaceModule,
+    IonicModule.forRoot({}),
   ],
   providers: [
     {
