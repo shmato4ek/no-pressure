@@ -48,5 +48,11 @@ namespace NoPressure.API.Controllers
             var userId = _jwtFactory.GetValueFromToken(token);
             return Ok(await _userService.GetUserById(userId));
         }
+
+        [HttpGet("check/email/{email}")]
+        public async Task<ActionResult> EmailAvailabilityCheck(string email)
+        {
+            return Ok(await _authService.EmailAvailablityCheck(email));
+        }
     }
 }

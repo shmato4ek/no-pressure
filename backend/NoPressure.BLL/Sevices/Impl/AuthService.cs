@@ -4,6 +4,7 @@ using NoPressure.BLL.JWT;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.Auth;
 using NoPressure.Common.DTO;
+using NoPressure.Common.Models.Requests;
 using NoPressure.Common.Models.User;
 using NoPressure.Common.Security;
 using NoPressure.DAL.Repositories.Abstract;
@@ -53,6 +54,17 @@ namespace NoPressure.BLL.Sevices.Impl
         {
             string accessToken = await _jwtFactory.GenerateAccessToken(id, userName, email);
             return new AccessToken(accessToken);
+        }
+
+        public async Task<EmailCheckResults> EmailAvailablityCheck(string email)
+        {
+            var userEntity = await _userRepository.FindUserByEmail(email);
+            
+            return new EmailCheckResults
+            {
+              Email = email,
+              Availability = userEntity is null,  
+            };
         }
     }
 }

@@ -19,6 +19,7 @@
                 class="form-field"
                 appearance="fill"
                 hideRequiredMarker="true"
+                subscriptSizing="dynamic"
             >
                 <mat-label>Username</mat-label>
                 <input
@@ -27,58 +28,137 @@
                     id="username"
                 >
             </mat-form-field>
+            <div class="errors">
+                <span *ngIf="registerForm.controls['username'].touched">
+                    <span *ngIf="registerForm.controls['username'].errors?.['required']">
+                        Username is required
+                    </span>
+                    <span
+                        *ngIf="(registerForm.controls['username'].errors?.['minlength'] ||
+                        registerForm.controls['username'].errors?.['maxlength']) &&
+                        !registerForm.controls['username'].errors?.['pattern']"
+                    >
+                        Username must be 3 to 15 characters
+                    </span>
+                    <span *ngIf="registerForm.controls['username'].errors?.['pattern']">
+                        Username mustn`t contain '_' and '.' in the start or the end
+                    </span>
+                </span>
+            </div>
 
             <mat-form-field
                 appearance="fill"
                 class="form-field"
                 color="accent"
                 hideRequiredMarker="true"
+                subscriptSizing="dynamic"
             >
                 <mat-label>Email</mat-label>
                 <input
                     matInput
                     formControlName="email"
                     id="email"
+                    (focusout)="emailCheck()"
                 >
             </mat-form-field>
-
-            <div class="password-field">
-                <mat-form-field
-                    appearance="fill"
-                    class="form-field"
-                    hideRequiredMarker="true"
-                >
-                    <mat-label>Password</mat-label>
-                    <input
-                        [type]="passwordType"
-                        matInput
-                        formControlName="password"
-                        id="password"
+            <div class="errors">
+                <span *ngIf="registerForm.controls['email'].touched">
+                    <span *ngIf="registerForm.controls['email'].errors?.['required']">
+                        Email is required
+                    </span>
+                    <span
+                        *ngIf="registerForm.controls['email'].errors?.['pattern']"
                     >
-                </mat-form-field>
-                <button
-                    type="button"
-                    class="show-password-button"
-                    (click)="togglePassword()">
-                    <img
-                        class="show-password-svg"
-                        src="{{imgSrc}}"
-                    >
-                </button>
+                        Invalid email
+                    </span>
+                    <span *ngIf="registerForm.controls['email'].errors?.['emailNotAvailable']">
+                        This email is already used
+                    </span>
+                </span>
             </div>
 
-            <mat-form-field
-                appearance="fill"
-                class="form-field"
-                hideRequiredMarker="true"
-            >
-                <mat-label>Confirm password</mat-label>
-                <input
-                    matInput
-                    formControlName="confirmPassword"
-                    id="confirmPassword"
-                >
-            </mat-form-field>
+                <div class="password-field">
+                        <mat-form-field
+                            appearance="fill"
+                            class="form-field"
+                            hideRequiredMarker="true"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-label>Password</mat-label>
+                            <input
+                                [type]="passwordType"
+                                matInput
+                                formControlName="password"
+                                id="password"
+                            >
+                        </mat-form-field>
+        
+                    <button
+                        type="button"
+                        class="show-password-button"
+                        (click)="togglePassword('psw')">
+                        <img
+                            class="show-password-svg"
+                            src="{{imgSrc}}"
+                        >
+                    </button>
+                </div>
+                <div class="errors">
+                    <span *ngIf="registerForm.controls['password'].touched">
+                        <span *ngIf="registerForm.controls['password'].errors?.['required']">
+                            Password is required
+                        </span>
+                        <span
+                            *ngIf="(registerForm.controls['password'].errors?.['minlength'] ||
+                            registerForm.controls['password'].errors?.['maxlength']) && 
+                            !registerForm.controls['password'].errors?.['pattern']"
+                        >
+                            Password must be 8 to 20 characters
+                        </span>
+                        <span *ngIf="registerForm.controls['password'].errors?.['pattern']">
+                            Password must contain letters and special symbols
+                        </span>
+                    </span>
+                </div>
+
+                <div class="password-field">
+                        <mat-form-field
+                            appearance="fill"
+                            class="form-field"
+                            hideRequiredMarker="true"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-label>Confirm password</mat-label>
+                            <input
+                                [type]="confirmPasswordType"
+                                matInput
+                                formControlName="confirmPassword"
+                                id="confirmPassword"
+                            >
+                        </mat-form-field>
+        
+                    <button
+                        type="button"
+                        class="show-password-button"
+                        (click)="togglePassword('conf')">
+                        <img
+                            class="show-password-svg"
+                            src="{{confImgSrc}}"
+                        >
+                    </button>
+                </div>
+                <div class="errors">
+                    <span *ngIf="registerForm.controls['confirmPassword'].touched">
+                        <span *ngIf="registerForm.controls['confirmPassword'].errors?.['required']">
+                            Password confirmation is a required
+                        </span>
+                        <span
+                            *ngIf="registerForm.controls['confirmPassword'].errors?.['noPasswordMatch']"
+                        >
+                            Passwords must be matched
+                        </span>
+                    </span>
+                </div>
                 <button
                     class="register-button"
                     type="submit"

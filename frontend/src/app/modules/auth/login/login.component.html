@@ -19,6 +19,7 @@
                 class="form-field"
                 color="accent"
                 hideRequiredMarker="true"
+                subscriptSizing="dynamic"
             >
                 <mat-label>Email</mat-label>
                 <input
@@ -27,19 +28,62 @@
                     id="email"
                 >
             </mat-form-field>
+            <div class="errors">
+                <span *ngIf="loginForm.controls['email'].touched">
+                    <span *ngIf="loginForm.controls['email'].errors?.['required']">
+                        Email is required
+                    </span>
+                    <span
+                        *ngIf="loginForm.controls['email'].errors?.['pattern']"
+                    >
+                        Invalid email
+                    </span>
+                </span>
+            </div>
 
-            <mat-form-field
-                appearance="fill"
-                class="form-field"
-                hideRequiredMarker="true"
-            >
-                <mat-label>Password</mat-label>
-                <input
-                    matInput
-                    formControlName="password"
-                    id="password"
+            <div class="password-field">
+                <mat-form-field
+                    appearance="fill"
+                    class="form-field"
+                    hideRequiredMarker="true"
+                    subscriptSizing="dynamic"
                 >
-            </mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input
+                        [type]="passwordType"
+                        matInput
+                        formControlName="password"
+                        id="password"
+                    >
+                </mat-form-field>
+
+            <button
+                type="button"
+                class="show-password-button"
+                (click)="togglePassword()">
+                <img
+                    class="show-password-svg"
+                    src="{{imgSrc}}"
+                >
+            </button>
+        </div>
+            <div class="errors">
+                <span *ngIf="loginForm.controls['password'].touched">
+                    <span *ngIf="loginForm.controls['password'].errors?.['required']">
+                        Password is required
+                    </span>
+                    <span
+                        *ngIf="(loginForm.controls['password'].errors?.['minlength'] ||
+                        loginForm.controls['password'].errors?.['maxlength']) && 
+                        !loginForm.controls['password'].errors?.['pattern']"
+                    >
+                        Password must be 8 to 20 characters
+                    </span>
+                    <span *ngIf="loginForm.controls['password'].errors?.['pattern']">
+                        Password must contain letters and special symbols
+                    </span>
+                </span>
+            </div>
                 <button
                     class="login-button"
                     type="submit"

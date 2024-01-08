@@ -15,6 +15,10 @@ export class LoginComponent {
   public currentUser: UserDTO = {} as UserDTO;
   redirectUrl: string | undefined;
 
+  passwordType = '';
+  imgSrc = '';
+  showPassword = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -23,6 +27,8 @@ export class LoginComponent {
   ) {}
 
   ngOnInit() {
+    this.passwordType = 'password';
+    this.imgSrc = '../../../../assets/img/show-password.svg';
       this.validateForm();
       this.route.queryParams.subscribe((params) => {
         this.redirectUrl = params['redirect_url'];
@@ -65,6 +71,20 @@ export class LoginComponent {
         }
       },
     })
+  }
+
+  togglePassword() {
+      this.showPassword = !this.showPassword;
+      if (this.showPassword)
+      {
+        this.passwordType = 'text';
+        this.imgSrc = '../../../../assets/img/hide-password.svg';
+      }
+      else
+      {
+        this.passwordType = 'password';
+        this.imgSrc = '../../../../assets/img/show-password.svg';
+      }
   }
 
   public redirectToHome() {

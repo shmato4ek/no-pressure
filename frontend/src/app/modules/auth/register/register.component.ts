@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserDTO } from 'src/app/models/user/user-dto';
 import { UserRegister } from 'src/app/models/user/user-register';
 import { LoginService } from 'src/app/services/login.service';
 import { RegistrationService } from 'src/app/services/registration.service';
+import { CustomValidators } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +21,10 @@ export class RegisterComponent implements OnInit{
   imgSrc = '';
   showPassword = false;
 
+  confirmPasswordType = '';
+  confImgSrc = '';
+  showConfirmPassword = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -29,60 +34,65 @@ export class RegisterComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.passwordType = 'password';
-    this.imgSrc = '../../../../assets/img/hide-password.svg';
+    this.passwordType = this.confirmPasswordType = 'password';
+    this.imgSrc = this.confImgSrc = '../../../../assets/img/show-password.svg';
     this.validateForm();
     this.route.queryParams.subscribe((params) => {
       this.redirectUrl = params['redirect_url'];
     });
   }
 
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-    if (this.showPassword)
-    {
-      this.passwordType = 'text';
-      this.imgSrc = '../../../../assets/img/hide-password.svg';
+  togglePassword(type: string) {
+    if (type == 'psw') {
+      this.showPassword = !this.showPassword;
+      if (this.showPassword)
+      {
+        this.passwordType = 'text';
+        this.imgSrc = '../../../../assets/img/hide-password.svg';
+      }
+      else
+      {
+        this.passwordType = 'password';
+        this.imgSrc = '../../../../assets/img/show-password.svg';
+      }
     }
-    else
-    {
-      this.passwordType = 'password';
-      this.imgSrc = '../../../../assets/img/show-password.svg';
+    else {
+      this.showConfirmPassword = !this.showConfirmPassword;
+      if (this.showConfirmPassword)
+      {
+        this.confirmPasswordType = 'text';
+        this.confImgSrc = '../../../../assets/img/hide-password.svg';
+      }
+      else
+      {
+        this.confirmPasswordType = 'password';
+        this.confImgSrc = '../../../../assets/img/show-password.svg';
+      }
     }
   }
 
   private validateForm() {
-    this.registerForm = this.formBuilder.group(
+    this.registerForm = this.formBuilder.group({
+      username: ['', [
+        Validators.required,
+        Validators.pattern('(?![_.])[a-zA-Z0-9._]+(?<![_.])$'),
+        Validators.minLength(3),
+        Validators.maxLength(15)
+      ]],
+      email: ['', [
+        Validators.required,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(20),
+        Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')
+      ]],
+      confirmPassword: ['', Validators.required]},
       {
-        username: [
-          ,
-          [
-            Validators.required,
-            Validators.pattern(
-              '^[а-яА-ЯёЁa-zA-Z\`\'][а-яА-ЯёЁa-zA-Z-\`\' ]+[а-яА-ЯёЁa-zA-Z\`\']?$'
-            ),
-            Validators.minLength(3),
-            Validators.maxLength(15),
-          ],
-        ],
-        email: [
-          ,
-          [
-            Validators.required,
-            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-          ],
-        ],
-        password: [
-          ,
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(20),
-            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-          ],
-        ],
-      },
-    );
+        validator: CustomValidators.passwordMatch
+      });
   }
 
   public registerUser() {
@@ -99,6 +109,15 @@ export class RegisterComponent implements OnInit{
           this.router.navigate(['/personal/schedule'])
         }
       },
+    })
+  }
+
+  public emailCheck() {
+    const email = this.registerForm.get('email')?.value;
+    this.registrationService.emailCheck(email).subscribe((resp) => {
+      if (!resp?.availability) {
+        this.registerForm.get('email')?.setErrors({emailNotAvailable: true})
+      }
     })
   }
 

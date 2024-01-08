@@ -1,5 +1,3 @@
-using NoPressure.Common.Enums;
-
 namespace NoPressure.Common.Models.Requests
 {
     public class AddTaskToSchedule

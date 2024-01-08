@@ -6,6 +6,7 @@ import { UserDTO } from '../models/user/user-dto';
 import { AuthUser } from '../models/user/auth-user';
 import { Token } from '../models/token/token';
 import { ResourceService } from './resource.service';
+import { EmailCheckResults } from '../models/user/email-check';
 
 @Injectable({
     providedIn: 'root'
@@ -33,6 +34,14 @@ export class RegistrationService extends ResourceService<UserRegister> {
         })
       );
     }
+
+    public emailCheck(email: string) {
+      return this.getFullRequest<EmailCheckResults>("check/email/" + email).pipe(
+        map((resp) => {
+          return resp.body;
+        })
+      );
+  }
 
     private getUserFromToken() {
       return this.getFullRequest<UserDTO>('me');
