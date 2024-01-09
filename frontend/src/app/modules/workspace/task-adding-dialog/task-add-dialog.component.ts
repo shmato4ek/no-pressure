@@ -25,6 +25,8 @@ export class TaskAddDialogComponent implements OnInit{
   colorInput: HTMLInputElement;
   public color = "#FFA500";
 
+  isToastVisible = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private tagService: TagService,
@@ -88,5 +90,15 @@ export class TaskAddDialogComponent implements OnInit{
 
     onKey(event: any) {
       this.color = this.searchTagColor(event.target.value);
+    }
+
+    inputValidation(event: any) {   
+      var k;  
+      k = event.charCode;
+      return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    }
+
+    toggleToast() {
+      this.isToastVisible = !this.isToastVisible;
     }
 }

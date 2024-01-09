@@ -1,3 +1,5 @@
+
+
 <h2
   mat-dialog-title
   class="info-text-black"
@@ -15,6 +17,7 @@
       placeholder="Activity name"
       formControlName="activityName"
       class="handwitten-field"
+      (keypress)="inputValidation($event)"
     >
   </mat-form-field>
 
@@ -24,6 +27,7 @@
     placeholder="Activity description"
     formControlName="activityDescription"
     class="handwitten-field"
+    (keypress)="inputValidation($event)"
   >
   </mat-form-field>
 
@@ -84,4 +88,6 @@
   >
     Add
   </button>
+
+  <button (click)="toggleToast()" cButton class="m-1">Toast</button>
 </mat-dialog-actions>

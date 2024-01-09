@@ -18,6 +18,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PlanEditDialogComponent } from './plan-edit-dialog/plan-edit-dialog.component';
 import { ConvertToGoalDialog } from './convert-to-goal-dialog/convert-to-goal-dialog.component';
 import { GoalsComponent } from './goals/goals.component';
+import { ToastModule } from '@coreui/angular';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { GoalsComponent } from './goals/goals.component';
         WorkspaceRoutingModule,
         MaterialModule,
         CommonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToastModule
     ],
     providers: [
 
