@@ -15,6 +15,7 @@
       placeholder="Activity name"
       formControlName="activityName"
       class="handwitten-field"
+      (keypress)="inputValidation($event, 'Activity name')"
     >
   </mat-form-field>
   <mat-form-field>
@@ -23,6 +24,7 @@
     placeholder="Activity description"
     formControlName="activityDescription"
     class="handwitten-field"
+    (keypress)="inputValidation($event, 'Description')"
   >
   </mat-form-field>
 </mat-dialog-content>

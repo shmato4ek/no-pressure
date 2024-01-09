@@ -12,6 +12,7 @@ import { PlanEditDialogComponent } from '../plan-edit-dialog/plan-edit-dialog.co
 import { UpdatePlanDTO } from 'src/app/models/plan/plan-update';
 import { ConvertToGoalDialog } from '../convert-to-goal-dialog/convert-to-goal-dialog.component';
 import { GoalDTO } from 'src/app/models/plan/goal-dto';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'app-plans',
@@ -26,6 +27,7 @@ export class PlansComponent implements OnInit{
   dialogForm: FormGroup = {} as FormGroup;
 
   constructor(
+    private snackBarService: SnackBarService,
     private registrationService: RegistrationService,
     private planService: PlanService,
     public dialog: MatDialog,
@@ -113,5 +115,19 @@ export class PlansComponent implements OnInit{
       this.planService.convertToGoal(newGoal);
       window.location.reload();
     })
+  }
+
+  inputValidation(event: any, target: string) {   
+    var k;  
+    k = event.charCode;
+    var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    if (!isValid) {
+      this.openSnackBar(target);
+    }
+    return isValid; 
+  }
+
+  openSnackBar(target: string) {
+    this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
   }
 }

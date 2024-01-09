@@ -17,6 +17,7 @@
         formControlName="planName"
         class="handwitten-field"
         value="{{plan.name}}"
+        (keypress)="inputValidation($event, 'Plan name')"
       >
     </mat-form-field>
   </div>
@@ -31,9 +32,9 @@
       Delete
     </button>
   </mat-dialog-actions>
-  <mat-dialog-actions class="add-button-container">
+  <mat-dialog-actions class="plan-button-container">
     <button
-      class="add-button"
+      class="plan-button"
       (click)="save()"
       [disabled]="!dialogForm.valid"
     >

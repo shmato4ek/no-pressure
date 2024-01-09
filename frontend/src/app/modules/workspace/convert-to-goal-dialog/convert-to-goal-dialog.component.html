@@ -19,6 +19,7 @@
           formControlName="goalName"
           class="handwritten-field"
           value="{{plan.name}}"
+          (keypress)="inputValidation($event, 'Goal name')"
         >
       </mat-form-field>
     </div>
@@ -33,6 +34,7 @@
             formControlName="goalTag"
             class="handwritten-field"
             value="{{plan.name}}"
+            (keypress)="inputValidation($event, 'Tag')"
           >
         </mat-form-field>
     
@@ -63,14 +65,16 @@
               <input matInput
                     formControlName="name"
                     placeholder="Name"
-                    class="handwritten-field">
+                    class="handwritten-field"
+                    (keypress)="inputValidation($event, 'Activity name')">
           </mat-form-field>
           <mat-form-field 
             class="description-field">
               <input matInput
                     formControlName="description"
                     placeholder="Description"
-                    class="handwritten-field">
+                    class="handwritten-field"
+                    (keypress)="inputValidation($event, 'Description')">
           </mat-form-field>
           <img src="../../../../assets/img/delete.png" class="delete-btn" (click)="deleteActivity(i)">
       </div>

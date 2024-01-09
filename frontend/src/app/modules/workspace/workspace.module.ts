@@ -18,7 +18,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PlanEditDialogComponent } from './plan-edit-dialog/plan-edit-dialog.component';
 import { ConvertToGoalDialog } from './convert-to-goal-dialog/convert-to-goal-dialog.component';
 import { GoalsComponent } from './goals/goals.component';
-import { ToastModule } from '@coreui/angular';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @NgModule({
     declarations: [
@@ -41,11 +41,7 @@ import { ToastModule } from '@coreui/angular';
         WorkspaceRoutingModule,
         MaterialModule,
         CommonModule,
-        ReactiveFormsModule,
-        ToastModule
-    ],
-    providers: [
-
+        ReactiveFormsModule
     ]
 })
 

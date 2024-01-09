@@ -9,6 +9,7 @@ import { GoalDTO } from 'src/app/models/plan/goal-dto';
 import { NewTag } from 'src/app/models/tag/new-tag';
 import { NewActivity } from 'src/app/models/activity/new-activity';
 import { ActivityForm } from 'src/app/models/activity/activity-form';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'convert-to-goal-dialog',
@@ -21,6 +22,7 @@ export class ConvertToGoalDialog implements OnInit{
   tagColor = "#FFA500";
 
   constructor(
+    private snackBarService: SnackBarService,
     private planService: PlanService,
     private dialogRef: MatDialogRef<PlansComponent>,
     private formBuilder: FormBuilder,
@@ -119,5 +121,19 @@ export class ConvertToGoalDialog implements OnInit{
     delete() {
       this.planService.deletePlan(this.plan.id);
       window.location.reload();
+    }
+
+    inputValidation(event: any, target: string) {   
+      var k;  
+      k = event.charCode;
+      var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+      if (!isValid) {
+        this.openSnackBar(target);
+      }
+      return isValid; 
+    }
+
+    openSnackBar(target: string) {
+      this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
     }
 }

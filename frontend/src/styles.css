@@ -13,7 +13,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-block-end: 2rem;
 }
 
+::ng-deep .mat-mdc-snack-bar-container{
+    --mdc-snackbar-container-color: red !important;
+}
+
 :root {
     --sidenav-width: 8rem;
     --sidenav-collapsed-width: 2.5rem;
   }
+  

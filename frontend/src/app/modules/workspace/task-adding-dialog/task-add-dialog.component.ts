@@ -7,6 +7,7 @@ import { ActivityAddDialog } from 'src/app/models/activity/add-activity-dialog';
 import { TagService } from 'src/app/services/tag.service';
 import { TagInfo } from 'src/app/models/tag/tag-info';
 import { RegistrationService } from 'src/app/services/registration.service';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'task-add-dialog',
@@ -25,9 +26,8 @@ export class TaskAddDialogComponent implements OnInit{
   colorInput: HTMLInputElement;
   public color = "#FFA500";
 
-  isToastVisible = false;
-
   constructor(
+    private snackBarService: SnackBarService,
     private formBuilder: FormBuilder,
     private tagService: TagService,
     private dialogRef: MatDialogRef<ScheduleComponent>,
@@ -92,13 +92,17 @@ export class TaskAddDialogComponent implements OnInit{
       this.color = this.searchTagColor(event.target.value);
     }
 
-    inputValidation(event: any) {   
+    inputValidation(event: any, target: string) {   
       var k;  
       k = event.charCode;
-      return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+      var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+      if (!isValid) {
+        this.openSnackBar(target);
+      }
+      return isValid; 
     }
 
-    toggleToast() {
-      this.isToastVisible = !this.isToastVisible;
+    openSnackBar(target: string) {
+      this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
     }
 }

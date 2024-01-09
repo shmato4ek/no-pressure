@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { TokenInterceptor } from './services/interceptor';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
 import { IonicModule } from '@ionic/angular';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { IonicModule } from '@ionic/angular';
     AuthModule,
     BrowserAnimationsModule,
     WorkspaceModule,
+    MatSnackBarModule,
     IonicModule.forRoot({}),
   ],
   providers: [

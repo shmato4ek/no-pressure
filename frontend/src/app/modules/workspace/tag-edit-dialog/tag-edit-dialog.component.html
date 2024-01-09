@@ -17,6 +17,7 @@
         formControlName="tagName"
         class="handwitten-field"
         value="{{tagName}}"
+        (keypress)="inputValidation($event, 'Tag')"
       >
     </mat-form-field>
 

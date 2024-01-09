@@ -75,6 +75,7 @@
                     placeholder="Plan name"
                     formControlName="planName"
                     class="handwitten-field"
+                    (keypress)="inputValidation($event, 'Plan name')"
                 >
             </mat-form-field>
 

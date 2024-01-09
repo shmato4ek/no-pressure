@@ -1,4 +1,4 @@
-.add-dialog-container{
+.plan-dialog-container{
     width: 25rem;
     display: flex;
     flex-direction: column;
@@ -15,19 +15,19 @@
     text-align: center;
 }
 
-.add-button{
+.plan-button{
     height: 2.5rem;
     width: 7.5rem;
     font-size: 1.25rem;
     background-color: black;
-    margin-left: 7rem;
+    margin-left: 5rem;
     color: white;
     border: none;
     border-radius: 5px;
     position: relative;
 }
   
-.add-button:hover {
+.plan-button:hover {
     border-radius: 5px;
     background-color: white;
     color: black;
@@ -35,7 +35,7 @@
     border: 1px solid black;
 }
 
-.remove-button{
+.delete-button{
     height: 2.5rem;
     width: 7.5rem;
     font-size: 1.25rem;
@@ -46,7 +46,7 @@
     position: relative;
 }
 
-.remove-button:hover {
+.delete-button:hover {
     border-radius: 5px;
     background-color: white;
     color: red;
@@ -63,6 +63,10 @@
 
 .approve-icon{
     height: 2rem;
+}
+
+.plan-field{
+    width: 100%;
 }
 
 .approve-button{
@@ -117,4 +121,33 @@
   #colorpicker::-moz-color-swatch {
     border-radius: 5px;
     border: none;
+  }
+
+  ::ng-deep .mat-mdc-snack-bar-container{
+    --mdc-snackbar-container-color: white !important;
+    border: 3px solid #FFA500 !important;
+    border-top: none !important;
+    margin: 0 !important;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__label{
+    color: black !important;
+}
+
+.handwitten-field {
+    font-family: 'Handwriting', sans-serif !important;
+    color: #000F55 !important;
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
   }

@@ -12,6 +12,7 @@ import { UpdateActivityDialog } from 'src/app/models/activity/update-activity-di
 import { ActivityDTO } from 'src/app/models/activity/activity-dto';
 import { Tag } from 'src/app/models/tag/tag';
 import { UpdateTag } from 'src/app/models/tag/update-tag';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'task-add-dialog',
@@ -25,6 +26,7 @@ export class TagEditDialogComponent implements OnInit{
   tagColor: string;
 
   constructor(
+    private snackBarService: SnackBarService,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<ScheduleComponent>,
     public dialog: MatDialog,
@@ -54,5 +56,19 @@ export class TagEditDialogComponent implements OnInit{
         color: (<HTMLInputElement>document.getElementById("colorpicker")).value
       }
       this.dialogRef.close(activity);
+    }
+
+    inputValidation(event: any, target: string) {   
+      var k;  
+      k = event.charCode;
+      var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+      if (!isValid) {
+        this.openSnackBar(target);
+      }
+      return isValid; 
+    }
+
+    openSnackBar(target: string) {
+      this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
     }
 }
