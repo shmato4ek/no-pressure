@@ -57,5 +57,59 @@ namespace NoPressure.BLL.Sevices.Impl
 
             return _mapper.Map<UserInfo>(foundUser);
         }
+
+        public async Task<Subscriptions> GetUserSubscriptions(int userId)
+        {
+            var subscriptions = new Subscriptions();
+
+            var followers = await _uow.SubscriptionRepository.GetAllUsersFollowers(userId);
+            var followings = await _uow.SubscriptionRepository.GetAllUsersFollowings(userId);
+
+            foreach (var follower in followers)
+            {
+                subscriptions.Followers.Add(new UserSubscription()
+                {
+                    User = _mapper.Map<UserInfo>(follower.Follower),
+                    Date = follower.Date
+                });
+            }
+
+            foreach (var following in followings)
+            {
+                subscriptions.Followings.Add(new UserSubscription()
+                {
+                    User = _mapper.Map<UserInfo>(following.Following),
+                    Date = following.Date
+                });
+            }
+
+            return subscriptions;
+        }
+
+        public async Task Subscribe(int followerId, int followingId)
+        {
+            var follower = await _uow.UserRepository.FindAsync(followerId);
+
+            if (follower is null)
+            {
+                throw new Exception($"There is no user with id {followerId}");
+            }
+
+            var following = await _uow.UserRepository.FindAsync(followingId);
+
+            if (following is null)
+            {
+                throw new Exception($"There is no user with id {following}");
+            }
+
+            var subscription = new Subscription()
+            {
+                FollowerId = followerId,
+                FollowingId = followingId
+            };
+
+            _uow.SubscriptionRepository.Create(subscription);
+            await _uow.SaveAsync();
+        }
     }
 }

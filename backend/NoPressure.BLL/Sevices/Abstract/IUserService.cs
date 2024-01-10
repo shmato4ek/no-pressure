@@ -13,5 +13,7 @@ namespace NoPressure.BLL.Sevices.Abstract
     {
         Task<UserDTO> CreateUser(NewUser newUser);
         Task<UserInfo> GetUserById(int id);
+        Task Subscribe(int followerId, int followingId);
+        Task<Subscriptions> GetUserSubscriptions(int userId);
     }
 }

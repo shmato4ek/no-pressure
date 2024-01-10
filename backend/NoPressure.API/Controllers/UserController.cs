@@ -15,5 +15,18 @@ namespace NoPressure.API.Controllers
         {
             _userService = userService;
         }
+
+        [HttpGet("subscriptions/{userId}")]
+        public async Task<ActionResult> GetUserSubscriptions(int userId)
+        {
+            return Ok(await _userService.GetUserSubscriptions(userId));
+        }
+
+        [HttpPost("subscriprions")]
+        public async Task<ActionResult> Subscribe(SubscribeUsers subscribe)
+        {
+            await _userService.Subscribe(subscribe.FollowerId, subscribe.FollowingId);
+            return Ok();
+        }
     }
 }
