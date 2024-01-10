@@ -14,6 +14,8 @@ namespace NoPressure.DAL.Context
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ActivityConfiguration());
+            modelBuilder.ApplyConfiguration(new PlanConfiguration());
+            modelBuilder.ApplyConfiguration(new SubscriptionsConfiguration());
         }
     }
 }
