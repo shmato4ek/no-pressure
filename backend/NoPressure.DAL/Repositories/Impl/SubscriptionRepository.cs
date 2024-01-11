@@ -15,7 +15,6 @@ namespace NoPressure.DAL.Repositories.Impl
             var followers = await _context
                 .Subscriptions
                 .Include(s => s.Follower)
-                .Include(s => s.Following)
                 .Where(s => s.FollowingId == userId)
                 .ToListAsync();
 
@@ -26,7 +25,6 @@ namespace NoPressure.DAL.Repositories.Impl
         {
             var followings = await _context
                 .Subscriptions
-                .Include(s => s.Follower)
                 .Include(s => s.Following)
                 .Where(s => s.FollowerId == userId)
                 .ToListAsync();

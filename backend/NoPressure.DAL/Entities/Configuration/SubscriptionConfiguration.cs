@@ -8,8 +8,8 @@ namespace NoPressure.DAL.Entities.Configuration
         public void Configure(EntityTypeBuilder<Subscription> builder)
         {
             builder.HasKey(a => a.Id);
-            builder.HasOne<User>().WithMany(u => u.Followers).HasForeignKey(s => s.FollowerId);
-            builder.HasOne<User>().WithMany(u => u.Following).HasForeignKey(s => s.FollowingId);
+            builder.HasOne(s => s.Follower).WithMany(u => u.Followers).HasForeignKey(s => s.FollowerId);
+            builder.HasOne(s => s.Following).WithMany(u => u.Followings).HasForeignKey(s => s.FollowingId);
         }
     }
 }

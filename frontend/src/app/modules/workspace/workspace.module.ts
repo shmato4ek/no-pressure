@@ -19,6 +19,7 @@ import { PlanEditDialogComponent } from './plan-edit-dialog/plan-edit-dialog.com
 import { ConvertToGoalDialog } from './convert-to-goal-dialog/convert-to-goal-dialog.component';
 import { GoalsComponent } from './goals/goals.component';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { SubscriptionDialogComponent } from './subscriptions-dialog/subscription-dialog.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
         ProfileComponent,
         PlanEditDialogComponent,
         ConvertToGoalDialog,
-        GoalsComponent
+        GoalsComponent,
+        SubscriptionDialogComponent
     ],
     imports: [
         WorkspaceRoutingModule,

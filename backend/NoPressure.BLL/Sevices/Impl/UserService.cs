@@ -60,7 +60,11 @@ namespace NoPressure.BLL.Sevices.Impl
 
         public async Task<Subscriptions> GetUserSubscriptions(int userId)
         {
-            var subscriptions = new Subscriptions();
+            var subscriptions = new Subscriptions()
+            {
+                Followers = new List<UserSubscription>(),
+                Followings = new List<UserSubscription>()
+            };
 
             var followers = await _uow.SubscriptionRepository.GetAllUsersFollowers(userId);
             var followings = await _uow.SubscriptionRepository.GetAllUsersFollowings(userId);
@@ -70,7 +74,7 @@ namespace NoPressure.BLL.Sevices.Impl
                 subscriptions.Followers.Add(new UserSubscription()
                 {
                     User = _mapper.Map<UserInfo>(follower.Follower),
-                    Date = follower.Date
+                    Date = follower.Date.ToString("MM/dd/yyyy")
                 });
             }
 
@@ -79,7 +83,7 @@ namespace NoPressure.BLL.Sevices.Impl
                 subscriptions.Followings.Add(new UserSubscription()
                 {
                     User = _mapper.Map<UserInfo>(following.Following),
-                    Date = following.Date
+                    Date = following.Date.ToString("MM/dd/yyyy")
                 });
             }
 

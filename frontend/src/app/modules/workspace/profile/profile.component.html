@@ -9,7 +9,12 @@
             <img
                 src="../../../../assets/img/subscribers.svg"
                 class="point-icon">
-            <p class="point-text">4 subscriptions / 6 subscribers</p>
+            <p
+                class="point-text"
+                (click)="showSubscriptionsDialog()"
+            >
+                {{followingsCount}} followings / {{followersCount}} followers
+            </p>
         </div>
 
         <div class="point-container">
