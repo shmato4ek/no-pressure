@@ -6,5 +6,6 @@ namespace NoPressure.DAL.Repositories.Abstract
     {
         Task<List<Subscription>> GetAllUsersFollowers(int userId);
         Task<List<Subscription>> GetAllUsersFollowings(int userId);
+        Task UnSubscribe (int followerId, int followingId);
     }
 }

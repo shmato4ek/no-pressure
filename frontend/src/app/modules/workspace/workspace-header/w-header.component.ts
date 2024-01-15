@@ -19,7 +19,7 @@ export class WorkspaceHeaderComponent {
 
   public redirectToProfile()
   {
-    this.router.navigate(['./personal/profile']);
+    this.router.navigate(['./profile']);
   }
 
   public logout() {

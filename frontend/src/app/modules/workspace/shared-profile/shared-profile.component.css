@@ -1,0 +1,276 @@
+@keyframes progress {
+    0% { --percentage: 0;}
+    100% { --percentage: var(--value);}
+  }
+  
+  @property --percentage {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+  
+  [role="progressbar"] {
+    --percentage: var(--value);
+    --primary: #FFA500;
+    --secondary: black;
+    --size: 7rem;
+    animation: progress 1s 0s forwards;
+    width: var(--size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+  
+  [role="progressbar"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(var(--primary) calc(var(--percentage) * 1%), var(--secondary) 0);
+    mask: radial-gradient(white 55%, transparent 0);
+    mask-mode: alpha;
+    -webkit-mask: radial-gradient(#0000 55%, #000 0);
+    -webkit-mask-mode: alpha;
+  }
+  
+  [role="progressbar"]::after {
+    counter-reset: percentage var(--value);
+    content: counter(percentage) '%';
+    font-size: calc(var(--size) / 5);
+    color: var(--secondary);
+  }
+
+  .user-name-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flw-btn{
+    margin-left: 0.5rem;
+    height: 1.5rem;
+    width: 5rem;
+    font-size: 1rem;
+    background-color: #FFA500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+.flw-btn:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: #FFA500;
+    transition: 0.2s;
+    border: 1px solid #FFA500;
+}
+
+.unflw-btn {
+  margin-left: 0.5rem;
+  height: 1.5rem;
+  width: 5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  background-color: white;
+  color: #FFA500;
+  transition: 0.2s;
+  border: 1px solid #FFA500;
+}
+
+.unflw-btn:hover{
+  background-color: #FFA500;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  position: relative;
+}
+
+  .progress-container{
+    width: 25.5rem;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+  }
+
+  .progress-bar-container{
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    margin-left: 1.5rem;
+  }
+
+  .progress-text{
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .stat-header{
+    font-size: 1.75rem;
+    text-align: center;
+    margin-left: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .activities-stats{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    height: 100%;
+    margin-left: 20rem;
+  }
+
+  .profile-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .profile-container{
+    position: relative;
+    padding-left: 10rem;
+    padding-top: 5rem;
+    height: fit-content;
+    width: 31rem;
+  }
+
+  .user-logo{
+    height: 7rem;
+    padding-left: 7rem;
+  }
+
+  .header-text{
+    font-size: 1.75rem;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .point-container{
+    display: flex;
+    flex-direction: row;
+    height: 2rem;
+    align-items: center;
+    width: fit-content;
+    padding-bottom: 0.5rem;
+  }
+
+  .point-icon{
+    height: 1.5rem;
+  }
+
+  .point-text{
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .schedule-container{
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .day-container{
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+  }
+
+  .day-with-task{
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    padding-top: 1rem;
+    height: 2rem;
+    width: 3rem;
+    border-bottom: 3px solid #FFA500;
+  }
+
+  .day-without-task{
+    height: 3rem;
+    width: 3rem;
+    border-bottom: 3px solid black;
+  }
+
+  .day-of-week{
+    margin-top:0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .tag-stat-container {
+    width: 22rem;
+    height: fit-content;
+    position: relative;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  @keyframes load {
+    0% { width: 0; }
+    100% { width: var(--value); }
+  }
+  
+  .progress {
+    background: black;
+    justify-content: flex-start;
+    border-radius: 2px;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    padding: 0;
+    display: flex;
+    height: 0.75rem;
+    width: 15rem;
+    margin-left: 1rem;
+  }
+  
+  .progress-value {
+    animation: load 1s forwards;
+    box-shadow: none;
+    border-radius: 2px;
+    background: #FFA500;
+    height: 0.75rem;
+    width: var(--value);
+  }
+
+  .tag-point{
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .header-container{
+    margin-top: 1rem;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 2rem;
+    width: fit-content;
+  }
+
+  .stat-icon{
+    height: 2rem;
+  }
+
+  .statistic-header{
+    font-size: 1.75rem;
+    margin-block-start: 0rem;
+    margin-block-end: 0;
+  }

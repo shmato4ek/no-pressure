@@ -17,11 +17,13 @@ namespace NoPressure.BLL.Sevices.Impl
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
+        private readonly IStatisticService _statisticService;
 
-        public UserService(IUnitOfWork ouw, IMapper mapper)
+        public UserService(IUnitOfWork ouw, IMapper mapper, IStatisticService statisticService)
         {
             _uow = ouw;
             _mapper = mapper;
+            _statisticService = statisticService;
         }
 
         public async Task<UserDTO> CreateUser(NewUser newUser)
@@ -56,6 +58,43 @@ namespace NoPressure.BLL.Sevices.Impl
             }
 
             return _mapper.Map<UserInfo>(foundUser);
+        }
+
+        public async Task<UserShared> GetUserByEmail(string email, int userId)
+        {
+            var userShared = new UserShared();
+
+            var encodedEmail = System.Convert.FromBase64String(email);
+            var decodedEmail = System.Text.Encoding.UTF8.GetString(encodedEmail);
+
+            var userEntity = await _uow
+                .UserRepository
+                .FindUserByEmail(decodedEmail);
+            
+            if (userEntity is null)
+            {
+                throw new Exception($"User with email {decodedEmail} was not founded.");
+            }
+
+            userShared.User = _mapper.Map<UserInfo>(userEntity);
+
+            var followers = await _uow.SubscriptionRepository.GetAllUsersFollowers(userEntity.Id);
+
+            var isFollowed = false;
+
+            foreach (var follower in followers)
+            {
+                if(follower.FollowerId == userId)
+                {
+                    isFollowed = true;
+                }
+            }
+
+            userShared.IsFollowed = isFollowed;
+
+            userShared.Statistic = await _statisticService.GetActivitiesStatistic(userEntity.Id);
+            
+            return userShared;
         }
 
         public async Task<Subscriptions> GetUserSubscriptions(int userId)
@@ -113,6 +152,27 @@ namespace NoPressure.BLL.Sevices.Impl
             };
 
             _uow.SubscriptionRepository.Create(subscription);
+            await _uow.SaveAsync();
+        }
+
+        public async Task UnSubscribe(int followerId, int followingId)
+        {
+            var follower = await _uow.UserRepository.FindAsync(followerId);
+
+            if (follower is null)
+            {
+                throw new Exception($"There is no user with id {followerId}");
+            }
+
+            var following = await _uow.UserRepository.FindAsync(followingId);
+
+            if (following is null)
+            {
+                throw new Exception($"There is no user with id {following}");
+            }
+
+            await _uow.SubscriptionRepository.UnSubscribe(followerId, followingId);
+            
             await _uow.SaveAsync();
         }
     }

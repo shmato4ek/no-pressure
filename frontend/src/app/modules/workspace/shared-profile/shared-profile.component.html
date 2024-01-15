@@ -3,7 +3,23 @@
         <img
             src="../../../../assets/img/user-logo.png"
             class="user-logo">
-        <p class="header-text">My profile</p>
+        <div class="user-name-container">
+            <p class="header-text">{{currentUser.name}}</p>
+            <button
+                class="flw-btn"
+                *ngIf="!isFollowed"
+                (click)="subscribe()"    
+            >
+                Follow
+            </button>
+            <button
+                class="unflw-btn"
+                *ngIf="isFollowed"
+                (click)="unsubscribe()"
+            >
+                Unfollow
+            </button>
+        </div>
 
         <div class="point-container">
             <img

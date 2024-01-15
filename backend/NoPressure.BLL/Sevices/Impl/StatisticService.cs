@@ -39,6 +39,12 @@ namespace NoPressure.BLL.Sevices.Impl
         public async Task<ActivitiesStatistic> GetActivitiesStatistic(int userId)
         {
             var statistic = new ActivitiesStatistic();
+
+            var followers = await _uow.SubscriptionRepository.GetAllUsersFollowers(userId);
+            var followings = await _uow.SubscriptionRepository.GetAllUsersFollowings(userId);
+
+            statistic.Followers = followers.Any() ? followers.Count : 0;
+            statistic.Followings = followings.Any() ? followings.Count : 0;
             
             var userActivities = await _uow.ActivityRepository.FindAllUserActivitiesAsync(userId);
             if(userActivities != null)
@@ -113,27 +119,30 @@ namespace NoPressure.BLL.Sevices.Impl
 
             var userTags = await _tagService.GetBestUserTags(userId);
 
-            foreach(var tag in userTags)
+            if (userTags != null)
             {
-                var tagStatistic = new TagStatistic();
-                tagStatistic.Name = tag.Name;
-                var doneTagTasks = tag.Activities
-                    .Where(activity => activity.State == ActivityState.Done)
-                    .ToList();
-
-                if(doneTagTasks != null)
+                foreach(var tag in userTags)
                 {
-                    if (tag.Activities.Count != 0)
+                    var tagStatistic = new TagStatistic();
+                    tagStatistic.Name = tag.Name;
+                    var doneTagTasks = tag.Activities
+                        .Where(activity => activity.State == ActivityState.Done)
+                        .ToList();
+
+                    if(doneTagTasks != null)
                     {
-                        tagStatistic.Quality = Math.Round((double)doneTagTasks.Count / (double)tag.Activities.Count * 100);
+                        if (tag.Activities.Count != 0)
+                        {
+                            tagStatistic.Quality = Math.Round((double)doneTagTasks.Count / (double)tag.Activities.Count * 100);
+                        }
                     }
-                }
-                else
-                {
-                    tagStatistic.Quality = 0;
-                }
+                    else
+                    {
+                        tagStatistic.Quality = 0;
+                    }
 
-                tagsStatistic.Add(tagStatistic);
+                    tagsStatistic.Add(tagStatistic);
+                }
             }
 
             statistic.TagStatistics = tagsStatistic;

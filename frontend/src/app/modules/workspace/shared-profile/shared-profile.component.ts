@@ -12,38 +12,48 @@ import { PlanService } from 'src/app/services/plan.service';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { UserService } from 'src/app/services/user.service';
 import { SubscriptionDialogComponent } from '../subscriptions-dialog/subscription-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SubscribeRequest } from 'src/app/models/subscriptions/subscribe-request';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  selector: 'app-shared-profile',
+  templateUrl: './shared-profile.component.html',
+  styleUrls: ['./shared-profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class SharedProfileComponent implements OnInit {
   public currentUser = {} as UserDTO;
   public statistic = {} as Statistic;
   public isAppear = false;
+  public userId = 0;
+
+  public isFollowed = false;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(
-    private userService: UserService,
     private registrationService: RegistrationService,
-    private activityService: ActivityService,
-    public dialog: MatDialog
+    private userService: UserService,
+    private router: Router,
+    public dialog: MatDialog,
+    private activateRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.registrationService
-    .getUser()
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((user) => {
-      this.currentUser = user;
-      this.activityService
-        .getStatistic(this.currentUser.id)
-        .subscribe((resp) => {
-          this.statistic = resp;
-        })
-    });
+    this.userService
+      .getUserByEmail(this.activateRoute.snapshot.params['id'])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((resp) => {
+        this.currentUser = resp.user;
+        this.statistic = resp.statistic;
+        this.isFollowed = resp.isFollowed;
+
+        this.registrationService
+          .getUser()
+          .subscribe((resp) => {
+            this.checkSameUser(resp.id);
+          })
+      });
+
     setTimeout(() => {
       this.showStat();
     }, 100)
@@ -60,5 +70,31 @@ export class ProfileComponent implements OnInit {
     dialogConfig.data = this.currentUser.id;
 
     const dialogRef = this.dialog.open(SubscriptionDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(() => {
+      window.location.reload();
+    })
+  }
+
+  subscribe() {
+    let subscribe: SubscribeRequest = {
+      followingId: this.currentUser.id
+    }
+
+    this.userService.subscribe(subscribe);
+
+    window.location.reload();
+  }
+
+  unsubscribe() {
+    this.userService.unsubscribe(this.currentUser.id);
+
+    window.location.reload();
+  }
+
+  checkSameUser(userBasicId: number) {
+    if (this.currentUser.id == userBasicId) {
+      this.router.navigate(['profile']);
+    }
   }
 }

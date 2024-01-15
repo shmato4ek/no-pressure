@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TokenExistsGuard } from './guards/token-exists.guard';
+import { WorkspaceBaseComponent } from './modules/workspace/workspace-base/w-base.component';
 
 const routes: Routes = [
   {
@@ -24,7 +25,12 @@ const routes: Routes = [
         (m) => m.WorkspaceModule
       ),
     canActivate: [TokenExistsGuard],
-  }
+  },
+  {
+    path: 'profile/:id',
+    component: WorkspaceBaseComponent,
+    canActivate: [TokenExistsGuard],
+  },
 ];
 
 @NgModule({

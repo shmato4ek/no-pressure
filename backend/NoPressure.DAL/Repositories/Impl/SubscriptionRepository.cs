@@ -31,5 +31,19 @@ namespace NoPressure.DAL.Repositories.Impl
 
             return followings;
         }
+
+        public async Task UnSubscribe(int followerId, int followingId)
+        {
+            var subscription = await _context
+                .Subscriptions
+                .Where(s => s.FollowerId == followerId)
+                .Where(s => s.FollowingId == followingId)
+                .FirstOrDefaultAsync();
+
+            if (subscription != null)
+            {
+                _context.Subscriptions.Remove(subscription);
+            }
+        }
     }
 }

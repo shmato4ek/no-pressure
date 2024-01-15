@@ -4,6 +4,8 @@ import { ProfileComponent } from "../profile/profile.component";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Subscriptions } from "src/app/models/subscriptions/subscriptions";
 import { UserSubscription } from "src/app/models/subscriptions/user-subscription";
+import { UserService } from "src/app/services/user.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'subscription-dialog',
@@ -14,17 +16,23 @@ import { UserSubscription } from "src/app/models/subscriptions/user-subscription
 export class SubscriptionDialogComponent{
   dialogForm: FormGroup = {} as FormGroup;
 
-  followers: UserSubscription[];
-  followings: UserSubscription[];
+  followers = [] as UserSubscription[];
+  followings = [] as UserSubscription[];
 
   isFollowers = true;
 
   constructor(
+    private userService: UserService,
     private dialogRef: MatDialogRef<ProfileComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: Subscriptions) { 
-      this.followers = data.followers;
-      this.followings = data.followings;
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: number) { 
+      this.userService
+        .getSubscriptions(data)
+        .subscribe((resp) => {
+          this.followers = resp.followers,
+          this.followings = resp.followings
+        })
     }
 
     toggleSubscriptions(type: string) {
@@ -34,5 +42,11 @@ export class SubscriptionDialogComponent{
       else {
         this.isFollowers = false;
       }
+    }
+
+    redirect(user: UserSubscription) {
+      let path = btoa(user.user.email);
+      this.router.navigate([`profile/${path}`]);
+      this.dialogRef.close();
     }
 }

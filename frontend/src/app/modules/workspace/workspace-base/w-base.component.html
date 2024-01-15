@@ -19,7 +19,7 @@
 
         <mat-list-item
           style="cursor: pointer"
-          routerLink="/personal/schedule"
+          routerLink="/schedule"
           [routerLinkActive]="['is-active']"
           class="nav-item"
         >
@@ -35,7 +35,7 @@
 
         <mat-list-item
           style="cursor: pointer"
-          routerLink="/personal/goals"
+          routerLink="/goals"
           [routerLinkActive]="['is-active']"
         >
             <img
@@ -50,7 +50,7 @@
   
         <mat-list-item
           style="cursor: pointer"
-          routerLink="/personal/plans"
+          routerLink="/plans"
           [routerLinkActive]="['is-active']"
         >
             <img
@@ -67,7 +67,8 @@
     </mat-drawer>
   
     <mat-drawer-content class="content">
-      <router-outlet></router-outlet>
+      <router-outlet *ngIf="!isShared"></router-outlet>
+      <app-shared-profile *ngIf="isShared"></app-shared-profile>
     </mat-drawer-content>
   
   </mat-drawer-container>
