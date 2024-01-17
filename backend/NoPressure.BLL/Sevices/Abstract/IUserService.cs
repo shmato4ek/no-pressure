@@ -17,5 +17,9 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task UnSubscribe(int followerId, int followingId);
         Task<Subscriptions> GetUserSubscriptions(int userId);
         Task<UserShared> GetUserByEmail(string email, int userId);
+        Task<SettingsDTO> GetUserSettings(int userId);
+        Task UpdateUserSettings(SettingsDTO settings, int userId);
+        Task UpdateUser(UpdateUser user);
+        Task<UserInfo> ChangePassword(ChangePassword changePassword);
     }
 }

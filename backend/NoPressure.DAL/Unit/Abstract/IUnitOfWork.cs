@@ -14,6 +14,7 @@ namespace NoPressure.DAL.Unit.Abstract
         IPlanRepository PlanRepository { get; }
         ITagRepository TagRepository { get; }
         ISubscriptionRepository SubscriptionRepository { get; }
+        ISettingsRepository SettingsRepository { get; }
 
         Task SaveAsync();
         void Save();

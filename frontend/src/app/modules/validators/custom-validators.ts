@@ -9,7 +9,29 @@ export class CustomValidators {
         {
             form.get('confirmPassword')?.setErrors({noPasswordMatch: true})
         }
-    }  
+    }
+    
+    static checkboxValidation1(form: AbstractControl) {
+        const checkbox1 = form.get('checkbox11')?.value;
+        const checkbox2 = form.get('checkbox12')?.value;
+        const checkbox3 = form.get('checkbox13')?.value;
+
+        console.log(`1: ${checkbox1}, 2: ${checkbox2}, 3: ${checkbox3}`)
+
+        if(!checkbox1 && !checkbox2 && !checkbox3) {
+            form.get('checkbox11')?.setErrors({noChosenCheckbox: true});
+        }
+    }
+
+    static checkboxValidation2(form: AbstractControl) {
+        const checkbox1 = form.get('checkbox21')?.value;
+        const checkbox2 = form.get('checkbox22')?.value;
+        const checkbox3 = form.get('checkbox23')?.value;
+
+        if(!checkbox1 && !checkbox2 && !checkbox3) {
+            form.get('checkbox21')?.setErrors({noChosenCheckbox: true})
+        }
+    }
 }
 
 

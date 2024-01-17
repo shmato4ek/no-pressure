@@ -72,7 +72,6 @@ export class GoalsComponent implements OnInit{
     if(activities.length === 0) {
       return false
     } else {
-      console.log(activities)
       return true;
     }
   }

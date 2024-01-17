@@ -17,9 +17,12 @@ export class WorkspaceHeaderComponent {
 
   @Input() currentUser: UserDTO = {} as UserDTO;
 
-  public redirectToProfile()
-  {
+  public redirectToProfile() {
     this.router.navigate(['./profile']);
+  }
+
+  public redirectToSettings() {
+    this.router.navigate(['./settings']);
   }
 
   public logout() {

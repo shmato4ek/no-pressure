@@ -1,0 +1,390 @@
+<div class="profile-page">
+    <div class="settings-left-part">
+        <div class="profile-container">
+            <div class="img-container">
+                <img
+                    src="../../../../assets/img/user-logo.png"
+                    class="user-logo">
+                <button
+                    class="user-logo-edit-btn"
+                >    
+                    <img
+                        class="user-logo-edit"
+                        src="../../../../assets/img/edit.png"
+                    >
+                </button>
+            </div>
+            <p class="header-text">My settings</p>
+        </div>
+
+        <div class="acc-settings">
+            <div class="settings-header">
+                <img
+                    src="../../../../assets/img/settings.svg"
+                    class="settings-icon"
+                >
+                <p class="settings-header-text">Account</p>
+            </div>
+            <div class="settings-content">
+                <form
+                    class="register-form"
+                    [formGroup]="updateForm"
+                    action=""
+                    (submit)="updateUser()"
+                >
+                    <div class="content-point">
+                        <p class="content-text-bld">Username:</p>
+                        <mat-form-field
+                            appearance="fill"
+                            class="update-field"
+                            hideRequiredMarker="true"
+                            subscriptSizing="dynamic"
+                        >
+                            <input
+                                matInput
+                                formControlName="username"
+                                id="username"
+                                (keypress)="inputValidation($event, 'Username')"
+                            >
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content-point">
+                        <p class="content-text-bld">Email:</p>
+                        <mat-form-field
+                            appearance="fill"
+                            class="update-field"
+                            hideRequiredMarker="true"
+                            subscriptSizing="dynamic"
+                        >
+                            <input
+                                matInput
+                                formControlName="email"
+                                id="email"
+                                (keypress)="inputValidation($event, 'Email')"
+                            >
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content-point">
+                        <p class="content-text-bld">Country:</p>
+                        <mat-form-field
+                            appearance="fill"
+                            class="update-field"
+                            hideRequiredMarker="true"
+                            subscriptSizing="dynamic"
+                        >
+                            <input
+                                matInput
+                                formControlName="country"
+                                id="country"
+                            >
+                        </mat-form-field>
+                    </div>
+
+                    <div class="errors">
+                        <span *ngIf="updateForm.controls['username'].touched">
+                            <span *ngIf="updateForm.controls['username'].errors?.['required']">
+                                Username is required
+                            </span>
+                            <span
+                                *ngIf="(updateForm.controls['username'].errors?.['minlength'] ||
+                                updateForm.controls['username'].errors?.['maxlength']) &&
+                                !updateForm.controls['username'].errors?.['pattern']"
+                            >
+                                Username must be 3 to 15 characters
+                            </span>
+                            <span *ngIf="updateForm.controls['username'].errors?.['pattern']">
+                                Username mustn`t contain '_' and '.' in the start or the end
+                            </span>
+                        </span>
+
+                        <span *ngIf="updateForm.controls['email'].touched &&
+                                    !updateForm.controls['username'].errors?.['required'] &&
+                                    !updateForm.controls['username'].errors?.['minlength'] &&
+                                    !updateForm.controls['username'].errors?.['maxlength'] &&
+                                    !updateForm.controls['username'].errors?.['pattern']">
+                            <span *ngIf="updateForm.controls['email'].errors?.['required']">
+                                Email is required
+                            </span>
+                            <span
+                                *ngIf="updateForm.controls['email'].errors?.['pattern']"
+                            >
+                                Invalid email
+                            </span>
+                            <span *ngIf="updateForm.controls['email'].errors?.['emailNotAvailable']">
+                                This email is already used
+                            </span>
+                        </span>
+                    </div>
+                    <button
+                        class="update-button"
+                        type="submit"
+                    >
+                        Change
+                    </button>
+                </form>
+           </div>
+        </div>
+    </div>
+
+    <div class="settings-right-part">
+        <div class="acc-settings">
+            <div class="settings-header">
+                <img
+                    src="../../../../assets/img/settings.svg"
+                    class="settings-icon"
+                >
+                <p class="settings-header-text">Privacy</p>
+            </div>
+
+            <div class="settings-content">
+                <p class="content-text-bld">Who can see my statistic?</p>
+
+                <form
+                    class="checkbox-options"
+                    [formGroup]="settingsForm"
+                    action=""
+                    (submit)="changeStat()"
+                >
+                    <div class="checkbox-wrapper">
+                        <input
+                            id="tmp-1.1"
+                            type="checkbox"
+                            class="promoted-input-checkbox"
+                            (click)="selectStatCheckBox(0)"
+                            [checked]="currentStatChecked === 0"
+                            formControlName="checkbox11"
+                        />
+                        <svg><use xlink:href="#checkmark-28" /></svg>
+                        <label for="tmp-1.1">
+                        All users   
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                        <symbol id="checkmark-28" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                            </path>
+                        </symbol>
+                        </svg>
+                    </div>
+
+                    <div class="checkbox-wrapper">
+                        <input
+                            id="tmp-1.2"
+                            type="checkbox"
+                            class="promoted-input-checkbox"
+                            (click)="selectStatCheckBox(1)"
+                            [checked]="currentStatChecked === 1"
+                            formControlName="checkbox12"
+                        />
+                        <svg><use xlink:href="#checkmark-28" /></svg>
+                        <label for="tmp-1.2">
+                        Followers   
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                        <symbol id="checkmark-28" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                            </path>
+                        </symbol>
+                        </svg>
+                    </div>
+
+                    <div class="checkbox-wrapper">
+                        <input
+                            id="tmp-1.3" 
+                            type="checkbox" 
+                            class="promoted-input-checkbox"
+                            (click)="selectStatCheckBox(2)"
+                            [checked]="currentStatChecked === 2"
+                            formControlName="checkbox13"
+                        />
+                        <svg><use xlink:href="#checkmark-28" /></svg>
+                        <label for="tmp-1.3">
+                        Nobody   
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                        <symbol id="checkmark-28" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                            </path>
+                        </symbol>
+                        </svg>
+                    </div>
+                </form>
+
+                <p class="content-text-bld">Who can invite me to joint activities?</p>
+
+                <form
+                    class="checkbox-options"
+                    [formGroup]="settingsForm"
+                    action=""
+                    (submit)="changeStat()"
+                >
+                    <div class="checkbox-wrapper">
+                        <input
+                            id="tmp-2.1" 
+                            type="checkbox" 
+                            class="promoted-input-checkbox"
+                            (click)="selectActCheckBox(0)"
+                            [checked]="currentActChecked === 0"
+                            formControlName="checkbox21"
+                        />
+                        <svg><use xlink:href="#checkmark-28" /></svg>
+                        <label for="tmp-2.1">
+                        All users   
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                        <symbol id="checkmark-28" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                            </path>
+                        </symbol>
+                        </svg>
+                    </div>
+
+                    <div class="checkbox-wrapper">
+                        <input
+                            id="tmp-2.2"
+                            type="checkbox"
+                            class="promoted-input-checkbox"
+                            (click)="selectActCheckBox(1)"
+                            [checked]="currentActChecked === 1"
+                            formControlName="checkbox22"
+                        />
+                        <svg><use xlink:href="#checkmark-28" /></svg>
+                        <label for="tmp-2.2">
+                        Followers   
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                        <symbol id="checkmark-28" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                            </path>
+                        </symbol>
+                        </svg>
+                    </div>
+
+                    <div class="checkbox-wrapper">
+                        <input
+                            id="tmp-2.3"
+                            type="checkbox"
+                            class="promoted-input-checkbox"
+                            (click)="selectActCheckBox(2)"
+                            [checked]="currentActChecked === 2"
+                            formControlName="checkbox23"
+                        />
+                        <svg><use xlink:href="#checkmark-28" /></svg>
+                        <label for="tmp-2.3">
+                        Nobody   
+                        </label>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                        <symbol id="checkmark-28" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+                            </path>
+                        </symbol>
+                        </svg>
+                    </div>
+                </form>
+            </div>
+            <button
+                class="password-button"
+                type="submit"
+                (click)="changeStat()"
+            >
+                Save
+            </button>
+        </div>
+
+        <div class="acc-settings">
+            <div class="settings-header">
+                <img
+                    src="../../../../assets/img/settings.svg"
+                    class="settings-icon"
+                >
+                <p class="settings-header-text">Change password</p>
+            </div>
+            <div class="settings-content">
+                <div class="password-field">
+                    <form
+                        class="register-form"
+                        [formGroup]="passwordForm"
+                        action=""
+                        (submit)="changePassword()"
+                    >
+                        <div class="password-field">
+                            <mat-form-field
+                                appearance="fill"
+                                class="form-field"
+                                hideRequiredMarker="true"
+                                subscriptSizing="dynamic"
+                            >
+                                <mat-label>Old password</mat-label>
+                                <input
+                                    [type]="passwordType"
+                                    matInput
+                                    formControlName="oldPassword"
+                                    id="oldPassword"
+                                >
+                            </mat-form-field>
+
+                            <button
+                                type="button"
+                                class="show-password-button"
+                                (click)="togglePassword('psw')">
+                                <img
+                                    class="show-password-svg"
+                                    src="{{imgSrc}}"
+                                >
+                            </button>
+                        </div>
+
+                    <div class="password-field">
+                        <mat-form-field
+                            appearance="fill"
+                            class="form-field"
+                            hideRequiredMarker="true"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-label>New password</mat-label>
+                            <input
+                                [type]="newPasswordType"
+                                matInput
+                                formControlName="newPassword"
+                                id="newPassword"
+                            >
+                        </mat-form-field>
+        
+                        <button
+                            type="button"
+                            class="show-password-button"
+                            (click)="togglePassword('new')">
+                            <img
+                                class="show-password-svg"
+                                src="{{newImgSrc}}"
+                            >
+                        </button>
+                    </div>
+                    <div class="errors">
+                        <span *ngIf="passwordForm.controls['newPassword'].touched">
+                            <span *ngIf="passwordForm.controls['newPassword'].errors?.['required']">
+                                New password is a required
+                            </span>
+                        </span>
+
+                        <span *ngIf="passwordForm.controls['oldPassword'].touched &&
+                                    !passwordForm.controls['newPassword'].errors?.['required']">
+                            <span *ngIf="passwordForm.controls['oldPassword'].errors?.['required']">
+                                Old password is a required
+                            </span>
+                        </span>
+                    </div>
+
+                    <button
+                        class="password-button"
+                        type="submit"
+                        (click)="changePassword()"
+                    >
+                        Change
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NoPressure.BLL.JWT;
 using NoPressure.BLL.Sevices.Abstract;
+using NoPressure.Common.DTO;
 using NoPressure.Common.Models.Requests;
 using NoPressure.Common.Models.User;
 
@@ -52,6 +53,39 @@ namespace NoPressure.API.Controllers
             var token = request[10..(request.Length-2)];
             var userId = _jwtFactory.GetValueFromToken(token);
             return Ok(await _userService.GetUserByEmail(email, userId));
+        }
+
+        [HttpGet("settings")]
+        public async Task<ActionResult> GetUserSettings()
+        {
+            var request = Request.Headers["auth-token"].ToString();
+            var token = request[10..(request.Length-2)];
+            var userId = _jwtFactory.GetValueFromToken(token);
+            return Ok(await _userService.GetUserSettings(userId));
+        }
+
+        [HttpPut("settings")]
+        public async Task<ActionResult> UpdateSettings(SettingsDTO settings)
+        {
+            var request = Request.Headers["auth-token"].ToString();
+            var token = request[10..(request.Length-2)];
+            var userId = _jwtFactory.GetValueFromToken(token);
+            await _userService.UpdateUserSettings(settings, userId);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(UpdateUser user)
+        {
+            await _userService.UpdateUser(user);
+            return Ok();
+        }
+
+        [HttpPut("password")]
+        public async Task<ActionResult> ChangePassword(ChangePassword changePassword)
+        {
+            await _userService.ChangePassword(changePassword);
+            return Ok();
         }
     }
 }

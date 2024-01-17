@@ -30,7 +30,7 @@ namespace NoPressure.Common.Security
         {
             var hash = HashPassword(password, Convert.FromBase64String(salt));
 
-            return hasedPassword == hash;
+            return String.Equals(hash, hasedPassword);
         }
 
     }

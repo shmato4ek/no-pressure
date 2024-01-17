@@ -3,8 +3,12 @@ import { ResourceService } from "./resource.service";
 import { UserDTO } from "../models/user/user-dto";
 import { SubscribeRequest } from "../models/subscriptions/subscribe-request";
 import { Subscriptions } from "../models/subscriptions/subscriptions";
-import { map } from "rxjs";
+import { catchError, map } from "rxjs";
 import { UserShared } from "../models/user/user-shared";
+import { Settings } from "../models/settings/settings";
+import { UpdateUser } from "../models/user/update-user";
+import { ChangePassword } from "../models/user/change-password";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root',
@@ -41,4 +45,13 @@ export class UserService extends ResourceService<UserDTO> {
         this.delete(userId).subscribe();
     }
 
+    public updateUser(user: UpdateUser) {
+        return this.httpClient
+            .put<UserDTO>(`${environment.apiUrl}/user`, user, {observe: 'response'});
+    }
+
+    public changePassword(changePassword: ChangePassword) {
+        return this.httpClient
+            .put<UserDTO>(`${environment.apiUrl}/user/password`, changePassword, {observe: 'response'});
+    }
 }

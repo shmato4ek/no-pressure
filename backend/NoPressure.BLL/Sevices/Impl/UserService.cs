@@ -175,5 +175,52 @@ namespace NoPressure.BLL.Sevices.Impl
             
             await _uow.SaveAsync();
         }
+
+        public async Task<SettingsDTO> GetUserSettings(int userId)
+        {
+            var settings = await _uow.SettingsRepository.FindAsync(userId);
+
+            return _mapper.Map<SettingsDTO>(settings);
+        }
+
+        public async Task UpdateUserSettings(SettingsDTO settings, int userId)
+        {
+            var settingsEntity = await _uow
+                .SettingsRepository
+                .FindSettingByUserId(userId);
+
+            settingsEntity.Activities = settings.Activities;
+            settingsEntity.Statistic = settings.Statistic;
+
+            _uow.SettingsRepository.Update(settingsEntity);
+        }
+
+        public async Task UpdateUser(UpdateUser user)
+        {
+            var userEntity = await _uow.UserRepository.FindAsync(user.Id);
+
+            userEntity.Email = user.Email;
+            userEntity.Name = user.Name;
+
+            _uow.UserRepository.Update(userEntity);
+        }
+
+        public async Task<UserInfo> ChangePassword(ChangePassword changePassword)
+        {
+            var userEntity = await _uow.UserRepository.FindAsync(changePassword.UserId);
+
+            if(!SecurityHelper.IsValidPassword(userEntity.Password, changePassword.OldPassword, userEntity.Salt))
+            {
+                throw new Exception("Password is not valid");
+            }
+
+            var salt = SecurityHelper.GetRandomBytes();
+            userEntity.Salt = Convert.ToBase64String(salt);
+            userEntity.Password = SecurityHelper.HashPassword(changePassword.NewPassword, salt);
+
+            _uow.UserRepository.Update(userEntity);
+
+            return _mapper.Map<UserInfo>(userEntity);
+        }
     }
 }

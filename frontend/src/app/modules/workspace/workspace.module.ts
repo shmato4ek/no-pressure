@@ -21,6 +21,7 @@ import { GoalsComponent } from './goals/goals.component';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { SubscriptionDialogComponent } from './subscriptions-dialog/subscription-dialog.component';
 import { SharedProfileComponent } from './shared-profile/shared-profile.component';
+import { SettingsComponent } from './settings-page/settings.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +40,8 @@ import { SharedProfileComponent } from './shared-profile/shared-profile.componen
         ConvertToGoalDialog,
         GoalsComponent,
         SubscriptionDialogComponent,
-        SharedProfileComponent
+        SharedProfileComponent,
+        SettingsComponent
     ],
     imports: [
         WorkspaceRoutingModule,

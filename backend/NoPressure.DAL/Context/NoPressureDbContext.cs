@@ -15,6 +15,7 @@ namespace NoPressure.DAL.Context
         public DbSet<Plan> Plans { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<Settings> Settings { get; set; }
 
         public NoPressureDbContext()
         {
