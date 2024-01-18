@@ -9,6 +9,7 @@ import { Settings } from "../models/settings/settings";
 import { UpdateUser } from "../models/user/update-user";
 import { ChangePassword } from "../models/user/change-password";
 import { environment } from "src/environments/environment";
+import { Notification } from "../models/notifications/notification";
 
 @Injectable({
     providedIn: 'root',
@@ -53,5 +54,19 @@ export class UserService extends ResourceService<UserDTO> {
     public changePassword(changePassword: ChangePassword) {
         return this.httpClient
             .put<UserDTO>(`${environment.apiUrl}/user/password`, changePassword, {observe: 'response'});
+    }
+
+    public getNotifications() {
+        return this.getFullRequest<Notification[]>(`user/notifications`)
+        .pipe(
+            map((resp) => {
+                return resp.body as Notification[];
+            })
+        );
+    }
+
+    public checkNotification(id: number) {
+        return this.httpClient
+        .put(`${environment.apiUrl}/user/notifications/${id}`, {observe: 'response'});
     }
 }

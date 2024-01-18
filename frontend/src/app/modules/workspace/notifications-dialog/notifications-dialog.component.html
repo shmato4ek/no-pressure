@@ -1,0 +1,35 @@
+<mat-dialog-content
+  class="notifications-container"
+>
+  <p class="notif-header-text">Notifications</p>
+  <div
+    *ngIf="notifications.length !== 0"
+    class="notif-list-container"
+    >
+    <div
+      *ngFor="let notification of notifications"
+      class="notif-item"
+      (click)="redirect(notification.id, notification.link)"
+    >
+      <div class="notif-img-container">
+        <img
+          class="notif-img"
+          *ngIf="notification.isRead"
+          src="../../../../assets/img/checked-notification.png"
+        >
+        <img
+          class="notif-img"
+          *ngIf="!notification.isRead"
+          src="../../../../assets/img/not-checked-notifications.png"
+        >
+      </div>
+      <div class="notif-content">
+        <div class="title-container">
+          <p class="notif-title">{{notification.title}}</p>
+          <p class="notif-date">{{notification.date}}</p>
+        </div>
+        <p class="notif-text">{{notification.text}}</p>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

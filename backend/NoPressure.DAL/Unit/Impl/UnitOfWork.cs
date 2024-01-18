@@ -15,6 +15,7 @@ namespace NoPressure.DAL.Unit.Impl
         public ITagRepository TagRepository { get; }
         public ISubscriptionRepository SubscriptionRepository { get; }
         public ISettingsRepository SettingsRepository { get; }
+        public INotificationRepository NotificationRepository { get; }
 
         public UnitOfWork(NoPressureDbContext context, 
                             IUserRepository userRepo,
@@ -22,7 +23,8 @@ namespace NoPressure.DAL.Unit.Impl
                             IPlanRepository planRepo,
                             ITagRepository tagRepo,
                             ISubscriptionRepository subRepo,
-                            ISettingsRepository settingsRepo)
+                            ISettingsRepository settingsRepo,
+                            INotificationRepository notificationRepo)
         {
             UserRepository = userRepo;
             ActivityRepository = activityRepo;
@@ -30,6 +32,7 @@ namespace NoPressure.DAL.Unit.Impl
             TagRepository = tagRepo;
             SubscriptionRepository = subRepo;
             SettingsRepository = settingsRepo;
+            NotificationRepository = notificationRepo;
             _context = context;
         }
 

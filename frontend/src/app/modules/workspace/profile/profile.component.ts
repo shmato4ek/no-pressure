@@ -12,6 +12,7 @@ import { PlanService } from 'src/app/services/plan.service';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { UserService } from 'src/app/services/user.service';
 import { SubscriptionDialogComponent } from '../subscriptions-dialog/subscription-dialog.component';
+import { Notification } from 'src/app/models/notifications/notification';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +23,8 @@ export class ProfileComponent implements OnInit {
   public currentUser = {} as UserDTO;
   public statistic = {} as Statistic;
   public isAppear = false;
+
+  public notifications = [] as Notification[];
 
   private unsubscribe$ = new Subject<void>();
 
@@ -38,6 +41,11 @@ export class ProfileComponent implements OnInit {
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe((user) => {
       this.currentUser = user;
+      this.userService
+        .getNotifications()
+        .subscribe((resp) => {
+          this.notifications = resp
+        })
       this.activityService
         .getStatistic(this.currentUser.id)
         .subscribe((resp) => {

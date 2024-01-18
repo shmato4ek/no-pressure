@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using NoPressure.BLL.Helpers;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
+using NoPressure.Common.Enums;
 using NoPressure.Common.Models.User;
 using NoPressure.Common.Security;
 using NoPressure.DAL.Entities;
@@ -18,12 +20,14 @@ namespace NoPressure.BLL.Sevices.Impl
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
         private readonly IStatisticService _statisticService;
+        private readonly INotificationService _notificationService;
 
-        public UserService(IUnitOfWork ouw, IMapper mapper, IStatisticService statisticService)
+        public UserService(IUnitOfWork ouw, IMapper mapper, IStatisticService statisticService, INotificationService notificationService)
         {
             _uow = ouw;
             _mapper = mapper;
             _statisticService = statisticService;
+            _notificationService = notificationService;
         }
 
         public async Task<UserDTO> CreateUser(NewUser newUser)
@@ -57,7 +61,11 @@ namespace NoPressure.BLL.Sevices.Impl
                 throw new Exception();
             }
 
-            return _mapper.Map<UserInfo>(foundUser);
+            var userInfo = _mapper.Map<UserInfo>(foundUser);
+
+            userInfo.IsNotificationsChecked = await _notificationService.CheckNotifications(userInfo.Id);
+
+            return userInfo;
         }
 
         public async Task<UserShared> GetUserByEmail(string email, int userId)
@@ -152,6 +160,21 @@ namespace NoPressure.BLL.Sevices.Impl
             };
 
             _uow.SubscriptionRepository.Create(subscription);
+
+            var newNotification = new Notification()
+            {
+                UserId = followingId,
+                Title = NotificationTitle.NewSubscription,
+                Data = new NotificationData()
+                {
+                    SecondUserName = follower.Name,
+                    Link = NotificationLinkHelper.GetNewSubscriptionLink(follower.Email),
+                },
+                Date = DateTime.UtcNow
+            };
+
+            _uow.NotificationRepository.Create(newNotification);
+
             await _uow.SaveAsync();
         }
 

@@ -27,6 +27,7 @@
   height: 2.25rem;
   position: relative;
   margin-right: 0.5rem;
+  margin-left: 1rem;
 }
 
 .username{
@@ -40,4 +41,24 @@
   position: absolute;
   right: 0;
   top: 0.5rem;
+}
+
+.notifications-btn{
+  height: 2.25rem;
+  width: 2.25rem;
+  background-color: white;
+  position: relative;
+}
+
+.notifications-img{
+  height: 2.25rem;
+  width: 2.25rem;
+}
+
+.not-act-img{
+  height: 0.5rem;
+  width: 0.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
 }

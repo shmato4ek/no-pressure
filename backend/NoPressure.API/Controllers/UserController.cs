@@ -13,10 +13,13 @@ namespace NoPressure.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly INotificationService _notificationService;
         private readonly JwtFactory _jwtFactory;
-        public UserController(IUserService userService, JwtFactory jwtFactory)
+
+        public UserController(IUserService userService, INotificationService notificationService, JwtFactory jwtFactory)
         {
             _userService = userService;
+            _notificationService = notificationService;
             _jwtFactory = jwtFactory;
         }
 
@@ -85,6 +88,22 @@ namespace NoPressure.API.Controllers
         public async Task<ActionResult> ChangePassword(ChangePassword changePassword)
         {
             await _userService.ChangePassword(changePassword);
+            return Ok();
+        }
+
+        [HttpGet("notifications")]
+        public async Task<ActionResult> GetNotifications()
+        {
+            var request = Request.Headers["auth-token"].ToString();
+            var token = request[10..(request.Length-2)];
+            var userId = _jwtFactory.GetValueFromToken(token);
+            return Ok(await _notificationService.GetUserNotifications(userId));
+        }
+
+        [HttpPut("notifications/{id}")]
+        public async Task<ActionResult> CheckNotification(int id)
+        {
+            await _notificationService.CheckNotification(id);
             return Ok();
         }
     }
