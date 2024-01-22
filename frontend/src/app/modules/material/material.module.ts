@@ -13,6 +13,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { MatSelectSearchModule } from 'mat-select-search';
 import { IonicModule } from "@ionic/angular";
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const MaterialComponents = [
     MatButtonModule,
@@ -28,7 +29,8 @@ const MaterialComponents = [
     MatCheckboxModule,
     FormsModule,
     MatSelectSearchModule,
-    IonicModule
+    IonicModule,
+    ClipboardModule
 ]
 
 @NgModule({

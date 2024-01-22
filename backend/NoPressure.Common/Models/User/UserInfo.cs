@@ -7,6 +7,7 @@ namespace NoPressure.Common.Models.User
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        public string RegistrationDate { get; set; }
         public bool IsNotificationsChecked { get; set; }
         public List<ActivityDTO> Activities { get; set; }
     }

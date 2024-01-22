@@ -5,5 +5,6 @@ export interface UserDTO {
     name: string;
     email: string;
     isNotificationsChecked: boolean;
+    registrationDate: string;
     activities: ActivityDTO[];
 }

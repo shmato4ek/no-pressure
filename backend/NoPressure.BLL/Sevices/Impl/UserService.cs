@@ -44,8 +44,18 @@ namespace NoPressure.BLL.Sevices.Impl
             var userEntity = _mapper.Map<User>(newUser);
             userEntity.Salt = Convert.ToBase64String(salt);
             userEntity.Password = SecurityHelper.HashPassword(newUser.Password, salt);
+            userEntity.RegistrationDate = DateTime.UtcNow;
             
             _uow.UserRepository.Create(userEntity);
+
+            var settings = new Settings()
+            {
+                UserId = userEntity.Id,
+                Statistic = SettingsPrivacy.AllUsers,
+                Activities = SettingsPrivacy.AllUsers
+            };
+
+            _uow.SettingsRepository.Create(settings);
 
             await _uow.SaveAsync();
 
@@ -62,6 +72,8 @@ namespace NoPressure.BLL.Sevices.Impl
             }
 
             var userInfo = _mapper.Map<UserInfo>(foundUser);
+
+            userInfo.RegistrationDate = foundUser.RegistrationDate.ToString("dd/MM/yy");
 
             userInfo.IsNotificationsChecked = await _notificationService.CheckNotifications(userInfo.Id);
 

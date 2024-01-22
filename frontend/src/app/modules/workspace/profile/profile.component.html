@@ -4,7 +4,19 @@
             <img
                 src="../../../../assets/img/user-logo.png"
                 class="user-logo">
-            <p class="header-text">My profile</p>
+            <div class="username-container">
+                <p class="header-text">My profile</p>
+                <button
+                    class="copy-link-btn"
+                    [cdkCopyToClipboard]="profileLink"
+                    (click)="openSnackbar()"
+                >
+                    <img
+                        src="../../../../assets/img/copy-link.png"
+                        class="copy-link-img"
+                    >
+                </button>
+            </div>
         </div>
         <div class="point-container">
             <img
@@ -22,7 +34,7 @@
             <img
                 src="../../../../assets/img/time.svg"
                 class="point-icon">
-            <p class="point-text">since September 2023</p>
+            <p class="point-text">since {{currentUser.registrationDate}}</p>
         </div>
 
         <div class="schedule-container">

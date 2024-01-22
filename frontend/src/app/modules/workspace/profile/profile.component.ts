@@ -13,6 +13,8 @@ import { RegistrationService } from 'src/app/services/registration.service';
 import { UserService } from 'src/app/services/user.service';
 import { SubscriptionDialogComponent } from '../subscriptions-dialog/subscription-dialog.component';
 import { Notification } from 'src/app/models/notifications/notification';
+import { environment } from 'src/environments/environment';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +26,8 @@ export class ProfileComponent implements OnInit {
   public statistic = {} as Statistic;
   public isAppear = false;
 
+  public profileLink = "";
+
   public notifications = [] as Notification[];
 
   private unsubscribe$ = new Subject<void>();
@@ -32,6 +36,7 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private registrationService: RegistrationService,
     private activityService: ActivityService,
+    private snackbarService: SnackBarService,
     public dialog: MatDialog
   ) { }
 
@@ -41,6 +46,7 @@ export class ProfileComponent implements OnInit {
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe((user) => {
       this.currentUser = user;
+      this.profileLink = `${environment.hostUrl}profile/${btoa(user.email)}`;
       this.userService
         .getNotifications()
         .subscribe((resp) => {
@@ -68,5 +74,9 @@ export class ProfileComponent implements OnInit {
     dialogConfig.data = this.currentUser.id;
 
     const dialogRef = this.dialog.open(SubscriptionDialogComponent, dialogConfig);
+  }
+
+  openSnackbar() {
+    this.snackbarService.openSnackBar('The link to your profile has been copied!');
   }
 }
