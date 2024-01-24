@@ -1,0 +1,124 @@
+<div class="team-page-container">
+    <div class="team-info-container">
+        <div class="team-name-container">
+            <div class="img-container">
+                <img
+                    src="../../../../assets/img/team.png"
+                    class="team-logo-img"
+                >
+            </div>
+
+            <p class="team-name-text">{{team.name}}</p>
+        </div>
+
+        <div class="team-point">
+            <img
+                src="../../../../assets/img/subscribers.svg"
+                class="team-img"
+            >
+
+            <p class="team-header">Users</p>
+        </div>
+        
+        <div class="team-users-list">
+            <div
+                *ngFor="let user of team.users"
+                class="team-user-container"
+            >
+                <p class="team-user-name">{{user.name}}</p>
+
+                <img
+                    *ngIf="user.id === team.authorId"
+                    src="../../../../assets/img/owner.png"
+                    class="team-user-icon"
+                >
+
+                <img
+                    *ngIf="user.id !== team.authorId"
+                    src="../../../../assets/img/admin.png"
+                    class="team-user-icon"
+                >
+            </div>
+        </div>
+
+        <div class="team-point">
+            <img
+                src="../../../../assets/img/tasks.svg"
+                class="team-img"
+            >
+
+            <p class="team-header">Team tags</p>
+        </div>
+
+        <div class="team-users-list">
+            <div
+                class="tag-container"
+                *ngFor="let tag of team.tags"
+            >
+                <p class="team-user-name">{{tag.name}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="schedule-container">
+        <p class="date-text">{{date}}</p>
+        <div class="schedule">
+            <div class="first-half-schedule">
+                <span
+                    *ngFor="let hour of firstHalfHours"
+                    class="time-container"
+                >
+                    <div class="time">
+                        {{hour.hour}}:00
+                    </div>
+                    <div
+                        *ngIf="hour.activity !== null"
+                        [ngClass]="{topBorder:!hour.hasPrevious,
+                            bottomBorder:!hour.hasNext,
+                            scheduledActivity:true,
+                            sideBorders:true,
+                            centralScheduled:hour.hasNext&&hour.hasPrevious}"
+                        [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
+                    >
+                        <div>
+                            <p
+                                class="activity-name"
+                                *ngIf="!hour.hasPrevious && hour.activity"
+                            >
+                                {{hour.activity.name}}
+                            </p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <div class="first-half-schedule">
+                <span
+                    *ngFor="let hour of secondHalfHours"
+                    class="time-container"
+                >
+                    <div class="time">
+                        {{hour.hour}}:00
+                    </div>
+                    <div
+                        *ngIf="hour.activity !== null"
+                        [ngClass]="{topBorder:!hour.hasPrevious,
+                            bottomBorder:!hour.hasNext,
+                            scheduledActivity:true,
+                            sideBorders:true,
+                            centralScheduled:hour.hasNext&&hour.hasPrevious}"
+                        [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
+                    >
+                        <div>
+                            <p
+                                class="activity-name"
+                                *ngIf="!hour.hasPrevious && hour.activity"
+                            >
+                                {{hour.activity.name}}
+                            </p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,5 +10,6 @@ namespace NoPressure.Common.Models.Activity
         public string? Tag { get; set; }
         public string Color { get; set; }
         public bool IsRepeatable { get; set; }
+        public int? TeamId { get; set; }
     }
 }

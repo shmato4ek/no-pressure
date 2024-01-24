@@ -8,6 +8,7 @@ import { TagService } from 'src/app/services/tag.service';
 import { TagInfo } from 'src/app/models/tag/tag-info';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { NewActivityInfo } from 'src/app/models/activity/new-activity-info';
 
 @Component({
   selector: 'task-add-dialog',
@@ -22,6 +23,7 @@ export class TaskAddDialogComponent implements OnInit{
 
   public userTags = [] as TagInfo[];
   public userId: number;
+  public teamId: number;
 
   colorInput: HTMLInputElement;
   public color = "#FFA500";
@@ -31,9 +33,11 @@ export class TaskAddDialogComponent implements OnInit{
     private formBuilder: FormBuilder,
     private tagService: TagService,
     private dialogRef: MatDialogRef<ScheduleComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: number) {
+    @Inject(MAT_DIALOG_DATA) public data: NewActivityInfo) {
       this.colorInput = document.getElementById('colorpicker') as HTMLInputElement;
-      this.userId = data;
+      this.userId = data.userId;
+      this.teamId = data.teamId;
+
       this.tagService.getAllTagsInfo(this.userId)
         .subscribe((tags) => {
           this.userTags = tags;
@@ -69,7 +73,8 @@ export class TaskAddDialogComponent implements OnInit{
         description: this.dialogForm.value.activityDescription,
         tag: this.dialogForm.value.activityTag,
         isRepeatable: this.isRepeatable,
-        color: (<HTMLInputElement>document.getElementById("colorpicker")).value
+        color: (<HTMLInputElement>document.getElementById("colorpicker")).value,
+        teamId: this.teamId,
       }
       this.dialogRef.close(activity);
     }

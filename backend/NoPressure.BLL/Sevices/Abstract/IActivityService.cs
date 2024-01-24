@@ -8,6 +8,7 @@ namespace NoPressure.BLL.Sevices.Abstract
     {
         Task CreateActivity(NewActivity newActivity);
         Task<List<ActivityDTO>> GetAllUserActivity(int userId);
+        Task<List<ActivityDTO>> GetAllTeamActivities(int teamId);
         Task<ActivityDTO> UpdateActivity(UpdateActivity updatedActivity);
         Task DeleteActivity(int activityId);
         Task<ActivityDTO> GetActivityById(int activityId);

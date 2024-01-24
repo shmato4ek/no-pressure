@@ -7,5 +7,6 @@ namespace NoPressure.DAL.Repositories.Abstract
         Task<List<Activity>> FindAllUserActivitiesAsync(int userId);
         Task<List<Activity>> GetActivitiesByDate(DateTime date);
         Task BulkInsert(List<Activity> activities);
+        Task<List<Activity>> GetAllTeamActivities(int teamId);
     }
 }

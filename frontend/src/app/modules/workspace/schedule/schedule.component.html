@@ -12,7 +12,6 @@
                     </div>
                     <div
                         *ngIf="hour.activity !== null"
-                        class="scheduled-activity side-borders"
                         [ngClass]="{topBorder:!hour.hasPrevious,
                             bottomBorder:!hour.hasNext,
                             scheduledActivity:true,

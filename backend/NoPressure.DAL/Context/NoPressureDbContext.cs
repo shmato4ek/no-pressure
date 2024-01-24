@@ -17,6 +17,8 @@ namespace NoPressure.DAL.Context
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Settings> Settings { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<TeamRequest> TeamRequests { get; set; }
 
         public NoPressureDbContext()
         {

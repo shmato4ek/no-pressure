@@ -1,0 +1,176 @@
+.team-page-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.team-info-container{
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-left: 7rem;
+  padding-top: 2.5rem;
+}
+
+.team-name-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.img-container{
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  border: 3px solid #FFA500;
+}
+
+.team-logo-img{
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.team-name-text{
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.team-point{
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.team-img{
+  height: 2rem;
+  width: 2rem;
+}
+
+.team-header{
+  margin-left: 0.5rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.team-users-list{
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 8rem;
+}
+
+.team-user-container{
+  height: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.team-user-name{
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.team-user-icon{
+  margin-left: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+/*schedule*/
+
+.schedule-container {
+  border: 3px solid #FFA500;
+  width: 55%;
+  height: fit-content;
+}
+
+.date-text {
+  text-align: center;
+  font-size: 2rem;
+  margin-block-start: 1rem;
+  margin-block-end: 1rem;
+  margin-bottom: 3rem;
+}
+
+.schedule {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1.3rem;
+}
+
+.first-half-schedule {
+  width: 45%;
+  margin-right: 2rem;
+}
+
+.time-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 2rem;
+  height: 2.65rem;
+  align-items: center;
+  position: relative;
+}
+
+.time {
+  font-size: 1rem;
+  margin-right: 1rem;
+  font-weight: 550;
+}
+
+.sideBorders {
+  border-left: 2px solid #FFA500;
+  border-right: 2px solid #FFA500;
+}
+
+.topBorder {
+  border-top: 2px solid #FFA500;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 85%;
+  bottom: 0;
+}
+
+.bottomBorder {
+  border-bottom: 2px solid #FFA500;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 85%;
+  top:0
+}
+
+.scheduledActivity {
+  width: 80%;
+  position: absolute;
+  left: 4rem;
+}
+
+.centralScheduled {
+  height: 100%;
+}
+
+.activity-name {
+  margin-block-start: 0.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-family: 'Handwriting', sans-serif;
+  font-weight: 1000;
+  color: #000F55;
+}
+

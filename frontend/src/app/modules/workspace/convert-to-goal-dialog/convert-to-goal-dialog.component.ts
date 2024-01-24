@@ -101,7 +101,8 @@ export class ConvertToGoalDialog implements OnInit{
           description: activity.description,
           tag: newTag.name,
           color: newTag.color,
-          isRepeatable: false
+          isRepeatable: false,
+          teamId: 0,
         }
 
         newActivities.push(newActivity);

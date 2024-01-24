@@ -12,5 +12,7 @@
         public List<Plan> Plans { get; set; }
         public List<Subscription> Followers { get; set; }
         public List<Subscription> Followings { get; set; }
+        public List<Team> CreatedTeams { get; set; }
+        public List<Team>? Teams { get; set; }
     }
 }

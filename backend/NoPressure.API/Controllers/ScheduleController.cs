@@ -36,5 +36,11 @@ namespace NoPressure.API.Controllers
             await _activityService.RemoveFromSchedule(activityId);
             return NoContent();
         }
+
+        [HttpGet("team/{teamId}")]
+        public async Task<ActionResult> GetTeamSchedule(int teamId)
+        {
+            return Ok(await _scheduleService.GetTeamSchedule(teamId));
+        }
     }
 }

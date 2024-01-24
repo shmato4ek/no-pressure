@@ -9,9 +9,7 @@ namespace NoPressure.DAL.Entities.Configuration
         {
             builder.HasKey(a => a.Id);
             builder.OwnsOne(
-                data => data.Data, ownsNavigationBuilder => {
-                    ownsNavigationBuilder.ToJson();
-                }
+                data => data.Data
             );
         }
     }

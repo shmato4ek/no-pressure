@@ -6,6 +6,7 @@ import { map } from "rxjs";
 import { PlanDTO } from "../models/plan/plan-dto";
 import { Schedule } from "../models/schedule/schedule";
 import { AddTaskToSchedule } from "../models/schedule/add-task-to-schedule";
+import { TeamSchedule } from "../models/schedule/team-schedule";
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +28,15 @@ export class ScheduleService extends ResourceService<Schedule> {
             .pipe(
                 map((resp) => {
                     return resp.body as Schedule;
+                })
+            );
+    }
+
+    public getTeamSchedule(teamId: number) {
+        return this.getFullRequest<TeamSchedule>(`schedule/team/${teamId}`)
+            .pipe(
+                map((resp) => {
+                    return resp.body as TeamSchedule;
                 })
             );
     }

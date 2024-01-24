@@ -26,6 +26,8 @@ namespace NoPressure.API.Extentions
             services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
             services.AddTransient<ISettingsRepository, SettingsRepository>();
             services.AddTransient<INotificationRepository, NotificationRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<ITeamRequestRepository, TeamRequestRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
@@ -35,6 +37,8 @@ namespace NoPressure.API.Extentions
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IStatisticService, StatisticService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<ITeamRequestService, TeamRequestService>();
 
             services.AddScoped<JwtFactory>();
         }

@@ -83,9 +83,6 @@ namespace NoPressure.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DataId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
@@ -100,31 +97,7 @@ namespace NoPressure.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DataId");
-
                     b.ToTable("Notifications");
-                });
-
-            modelBuilder.Entity("NoPressure.DAL.Entities.NotificationData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("GoalName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Link")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SecondUserName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NotificationData");
                 });
 
             modelBuilder.Entity("NoPressure.DAL.Entities.Plan", b =>
@@ -215,12 +188,77 @@ namespace NoPressure.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TeamId");
+
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("NoPressure.DAL.Entities.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UniqId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("NoPressure.DAL.Entities.TeamRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("InvitedUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TeamRequests");
                 });
 
             modelBuilder.Entity("NoPressure.DAL.Entities.User", b =>
@@ -255,6 +293,21 @@ namespace NoPressure.DAL.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TeamUser", b =>
+                {
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("TeamsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("TeamUser");
+                });
+
             modelBuilder.Entity("NoPressure.DAL.Entities.Activity", b =>
                 {
                     b.HasOne("NoPressure.DAL.Entities.Plan", null)
@@ -278,13 +331,33 @@ namespace NoPressure.DAL.Migrations
 
             modelBuilder.Entity("NoPressure.DAL.Entities.Notification", b =>
                 {
-                    b.HasOne("NoPressure.DAL.Entities.NotificationData", "Data")
-                        .WithMany()
-                        .HasForeignKey("DataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.OwnsOne("NoPressure.DAL.Entities.NotificationData", "Data", b1 =>
+                        {
+                            b1.Property<int>("NotificationId")
+                                .HasColumnType("integer");
 
-                    b.Navigation("Data");
+                            b1.Property<string>("GoalName")
+                                .HasColumnType("text");
+
+                            b1.Property<int>("Id")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("Link")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("SecondUserName")
+                                .HasColumnType("text");
+
+                            b1.HasKey("NotificationId");
+
+                            b1.ToTable("Notifications");
+
+                            b1.WithOwner()
+                                .HasForeignKey("NotificationId");
+                        });
+
+                    b.Navigation("Data")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NoPressure.DAL.Entities.Plan", b =>
@@ -317,6 +390,41 @@ namespace NoPressure.DAL.Migrations
                     b.Navigation("Following");
                 });
 
+            modelBuilder.Entity("NoPressure.DAL.Entities.Tag", b =>
+                {
+                    b.HasOne("NoPressure.DAL.Entities.Team", "Team")
+                        .WithMany("Tags")
+                        .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("NoPressure.DAL.Entities.Team", b =>
+                {
+                    b.HasOne("NoPressure.DAL.Entities.User", "Author")
+                        .WithMany("CreatedTeams")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("TeamUser", b =>
+                {
+                    b.HasOne("NoPressure.DAL.Entities.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NoPressure.DAL.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("NoPressure.DAL.Entities.Plan", b =>
                 {
                     b.Navigation("Activities");
@@ -327,9 +435,16 @@ namespace NoPressure.DAL.Migrations
                     b.Navigation("Activities");
                 });
 
+            modelBuilder.Entity("NoPressure.DAL.Entities.Team", b =>
+                {
+                    b.Navigation("Tags");
+                });
+
             modelBuilder.Entity("NoPressure.DAL.Entities.User", b =>
                 {
                     b.Navigation("Activities");
+
+                    b.Navigation("CreatedTeams");
 
                     b.Navigation("Followers");
 

@@ -25,6 +25,7 @@ namespace NoPressure.BLL.Sevices.Impl
                 UserId = newActivity.UserId,
                 StartTime = ScheduleHour.Undefined,
                 EndTime = ScheduleHour.Undefined,
+                Date = DateTime.UtcNow,
                 Name = newActivity.Name,
                 Description = newActivity.Description,
                 IsRepeatable = newActivity.IsRepeatable
@@ -35,19 +36,29 @@ namespace NoPressure.BLL.Sevices.Impl
                 newActivity.Tag = "Other";
             }
 
-            var tagEntity = await _uow.TagRepository.FindByNameAsync(newActivity.Tag);
+            var tagEntity = await _uow.TagRepository.FindByNameAsync(newActivity.Tag, newActivity.UserId);
 
             if(tagEntity is null)
             {
-                var newTag = new NewTag() {
-                    UserId = activityEntity.UserId,
+                
+                var newTagEntity = new Tag() {
                     Name = newActivity.Tag,
-                    Color = newActivity.Color
+                    UserId = activityEntity.UserId,
+                    Color = newActivity.Color,
+                    Activities = new List<Activity>(),
                 };
 
-                await CreateTag(newTag);
+                if(newActivity.TeamId != 0)
+                {
+                    var team = await _uow.TeamRepository.FindAsync((int)newActivity.TeamId);
+                    newTagEntity.Team = team;
+                }
 
-                var createdTag = await _uow.TagRepository.FindByNameAsync(newActivity.Tag);
+                _uow.TagRepository.Create(newTagEntity);
+                
+                await _uow.SaveAsync();
+
+                var createdTag = await _uow.TagRepository.FindByNameAsync(newActivity.Tag, newActivity.UserId);
 
                 activityEntity.TagId = createdTag.Id;
             }
@@ -121,14 +132,14 @@ namespace NoPressure.BLL.Sevices.Impl
               Name = newTag.Name,
               UserId = newTag.UserId,
               Color = newTag.Color,
-              Activities = new List<Activity>()  
+              Activities = new List<Activity>(),
             };
 
             _uow.TagRepository.Create(newTagEntity);
             
             await _uow.SaveAsync();
 
-            var tagId = _uow.TagRepository.FindByNameAsync(newTag.Name).Result.Id;
+            var tagId = _uow.TagRepository.FindByNameAsync(newTag.Name, newTag.UserId).Result.Id;
             return tagId;
         }
 
@@ -200,6 +211,22 @@ namespace NoPressure.BLL.Sevices.Impl
             }
             await _uow.ActivityRepository.BulkInsert(activitiesEntity);
             await _uow.SaveAsync();
+        }
+
+        public async Task<List<ActivityDTO>> GetAllTeamActivities(int teamId)
+        {
+            var teamEntity = await _uow.TeamRepository.FindAsync(teamId);
+            
+            if (teamEntity is null)
+            {
+                throw new Exception($"There is no user with id {teamId}");
+            }
+
+            var activitiesEntity = await _uow.ActivityRepository.GetAllTeamActivities(teamId);
+
+            var activities = _mapper.Map<List<ActivityDTO>>(activitiesEntity);
+
+            return activities;
         }
     }
 }

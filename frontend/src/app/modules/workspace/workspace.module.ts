@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { PlansComponent } from './plans/plans.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { TaskScheduleDialogComponent } from './task-schedule-dialog.ts/task-schedule-dialog-component';
+import { TaskScheduleDialogComponent } from './task-schedule-dialog/task-schedule-dialog-component';
 import { ScheduledTaskDialogComponent } from './scheduled-task-dialog/scheduled-task-dialog.component';
 import { TagEditDialogComponent } from './tag-edit-dialog/tag-edit-dialog.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -23,6 +23,8 @@ import { SubscriptionDialogComponent } from './subscriptions-dialog/subscription
 import { SharedProfileComponent } from './shared-profile/shared-profile.component';
 import { SettingsComponent } from './settings-page/settings.component';
 import { NotificationsDialogComponent } from './notifications-dialog/notifications-dialog.component';
+import { TeamsComponent } from './teams-page/teams.component';
+import { TeamComponent } from './team/team.component';
 
 @NgModule({
     declarations: [
@@ -43,7 +45,9 @@ import { NotificationsDialogComponent } from './notifications-dialog/notificatio
         SubscriptionDialogComponent,
         SharedProfileComponent,
         SettingsComponent,
-        NotificationsDialogComponent
+        NotificationsDialogComponent,
+        TeamsComponent,
+        TeamComponent
     ],
     imports: [
         WorkspaceRoutingModule,

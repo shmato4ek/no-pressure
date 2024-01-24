@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using NoPressure.DAL.Context;
 using NoPressure.DAL.Entities;
 using NoPressure.DAL.Repositories.Abstract;
@@ -20,12 +19,12 @@ namespace NoPressure.DAL.Repositories.Impl
             return tags;
         }
 
-        public async Task<Tag> FindByNameAsync(string tagName)
+        public async Task<Tag> FindByNameAsync(string tagName, int userId)
         {
             var tag = await _context
                 .Tags
                 .Where(t => t.Name == tagName)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(t => t.UserId == userId);
 
             return tag;
         }

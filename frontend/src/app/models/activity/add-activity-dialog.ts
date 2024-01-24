@@ -4,4 +4,5 @@ export interface ActivityAddDialog {
     tag: string;
     isRepeatable: boolean;
     color: string;
+    teamId: number;
 }

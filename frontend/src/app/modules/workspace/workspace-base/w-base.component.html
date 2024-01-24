@@ -62,6 +62,22 @@
           class="nav-text"
         >Plans</span>
         </mat-list-item>
+
+        <mat-list-item
+          style="cursor: pointer"
+          routerLink="/teams"
+          [routerLinkActive]="['is-active']"
+          class="nav-item"
+        >
+            <img
+                src="../../../../assets/img/team.png"
+                class="sidenav-img"
+        >
+            <span
+              *ngIf="isExpanded"
+              class="nav-text"
+            >Teams</span>
+        </mat-list-item>
   
       </mat-nav-list>
     </mat-drawer>

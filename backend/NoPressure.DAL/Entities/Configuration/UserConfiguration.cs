@@ -16,6 +16,10 @@ namespace NoPressure.DAL.Entities.Configuration
             builder.Property(u => u.Email).IsRequired();
             builder.Property(u => u.Name).IsRequired();
             builder.Property(u => u.Password).IsRequired();
+
+            builder.HasMany(u => u.Teams).WithMany(t => t.Users);
+
+            builder.HasMany(u => u.CreatedTeams).WithOne(t => t.Author);
         }
     }
 }

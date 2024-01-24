@@ -139,5 +139,25 @@ namespace NoPressure.BLL.Sevices.Impl
             return schedule;
         }
 
+        public async Task<TeamSchedule> GetTeamSchedule(int teamId)
+        {
+            var activities = await _activityService.GetAllTeamActivities(teamId);
+
+            var now = DateTime.UtcNow;
+            
+            var todayActivities = activities.Where(activity => activity.Date.Date == now.Date).ToList();
+
+            var hours = CreateSchedule(todayActivities);
+
+            var dateTime = DateTime.UtcNow;
+            string date = $"{dateTime.DayOfWeek}, {dateTime.Day} {dateTime.ToString("MMMM", CultureInfo.InvariantCulture)} {dateTime.Year}";
+
+            var schedule = new TeamSchedule() {
+                Hours = hours,
+                Date = date
+            };
+
+            return schedule;
+        }
     }
 }

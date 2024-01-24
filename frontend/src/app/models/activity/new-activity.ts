@@ -5,4 +5,5 @@ export interface NewActivity {
     tag: string;
     isRepeatable: boolean;
     color: string;
+    teamId: number;
 }

@@ -15,11 +15,12 @@ import { ScheduleTime } from 'src/app/models/schedule/schedule-time';
 import { Tag } from 'src/app/models/tag/tag';
 import { ColorService } from 'src/app/services/color.service';
 import { ScheduledTaskDialogComponent } from '../scheduled-task-dialog/scheduled-task-dialog.component';
-import { TaskScheduleDialogComponent } from '../task-schedule-dialog.ts/task-schedule-dialog-component';
+import { TaskScheduleDialogComponent } from '../task-schedule-dialog/task-schedule-dialog-component';
 import { AddTaskToSchedule } from 'src/app/models/schedule/add-task-to-schedule';
 import { TagEditDialogComponent } from '../tag-edit-dialog/tag-edit-dialog.component';
 import { UpdateTag } from 'src/app/models/tag/update-tag';
 import { TagService } from 'src/app/services/tag.service';
+import { NewActivityInfo } from 'src/app/models/activity/new-activity-info';
 
 @Component({
   selector: 'app-schedule',
@@ -72,7 +73,13 @@ export class ScheduleComponent implements OnInit{
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
-    dialogConfig.data = this.userId;
+
+    const newActivityInfo: NewActivityInfo = {
+      userId: this.userId,
+      teamId: 0,
+    }
+    
+    dialogConfig.data = newActivityInfo;
 
     const dialogRef = this.dialog.open(TaskAddDialogComponent, dialogConfig);
 
@@ -83,7 +90,8 @@ export class ScheduleComponent implements OnInit{
         description: activity.description,
         tag: activity.tag,
         isRepeatable: activity.isRepeatable,
-        color: activity.color
+        color: activity.color,
+        teamId: activity.teamId,
       };
       this.createActivity(newActivity);
     })

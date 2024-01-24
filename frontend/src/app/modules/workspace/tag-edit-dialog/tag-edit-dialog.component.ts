@@ -5,7 +5,7 @@ import { ScheduleComponent } from '../schedule/schedule.component';
 import { ActivityAddDialog } from 'src/app/models/activity/add-activity-dialog';
 import { UpdateActivity } from 'src/app/models/activity/update-activity';
 import { ActivityService } from 'src/app/services/activity.service';
-import { TaskScheduleDialogComponent } from '../task-schedule-dialog.ts/task-schedule-dialog-component';
+import { TaskScheduleDialogComponent } from '../task-schedule-dialog/task-schedule-dialog-component';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { AddTaskToSchedule } from 'src/app/models/schedule/add-task-to-schedule';
 import { UpdateActivityDialog } from 'src/app/models/activity/update-activity-dialog';
