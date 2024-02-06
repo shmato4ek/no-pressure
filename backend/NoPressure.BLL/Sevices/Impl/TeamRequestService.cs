@@ -1,4 +1,5 @@
 using AutoMapper;
+using NoPressure.BLL.Helpers;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
 using NoPressure.Common.Enums;
@@ -20,6 +21,67 @@ namespace NoPressure.BLL.Sevices.Impl
             _teamService = teamService;
         }
 
+        public async Task AddUsersToTeam(AddUsersToTeam users, int userId)
+        {
+            var teamEntity = await _uow
+                .TeamRepository
+                .FindAsync(users.TeamId);
+
+            if (teamEntity is null)
+            {
+                throw new Exception();
+            }
+
+            var userEntity = await _uow
+                .UserRepository
+                .FindAsync(userId);
+
+            if (userEntity is null)
+            {
+                throw new Exception();
+            }
+
+            var newUsers = new List<TeamRequest>();
+            var newNotifications = new List<Notification>();
+
+            foreach(var email in users.Users)
+            {
+                var user = await _uow.UserRepository.FindUserByEmail(email);
+                var addUserId = user.Id;
+                
+                var requestEntity = new TeamRequest() {
+                    AuthorId = userId,
+                    InvitedUserId = addUserId,
+                    TeamId = users.TeamId,
+                    
+                    Status = TeamRequestStatus.InPending,
+                    Date = DateTime.UtcNow
+                };
+
+                newUsers.Add(requestEntity);
+
+                var newNotification = new Notification()
+                {
+                    UserId = addUserId,
+                    Title = NotificationTitle.NewTeamInvitation,
+                    Data = new NotificationData()
+                    {
+                        SecondUserName = userEntity.Name,
+                        TeamName = teamEntity.Name,
+                        Link = NotificationLinkHelper.GetNewTeamRequestLink(teamEntity.UniqId),
+                    },
+                    Date = DateTime.UtcNow
+                };
+
+                newNotifications.Add(newNotification);
+            }
+
+            await _uow.TeamRequestRepository.BulkInsert(newUsers);
+            await _uow.NotificationRepository.BulkInsert(newNotifications);
+
+            await _uow.SaveAsync();
+        }
+
         public async Task ChangeRequestStatus(int id, TeamRequestStatus status)
         {
             var requestEntity = await _uow
@@ -33,7 +95,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(status == TeamRequestStatus.Accepted)
             {
-                await _teamService.AddUserToTeam(requestEntity.Id, requestEntity.InvitedUserId);
+                await _teamService.AddUserToTeam(requestEntity.TeamId, requestEntity.InvitedUserId);
             }
 
             requestEntity.Status = status;
@@ -43,11 +105,12 @@ namespace NoPressure.BLL.Sevices.Impl
             await _uow.SaveAsync();
         }
 
-        public async Task CreateTeamRequest(NewTeamRequest request, int authorId)
+        public async Task CreateTeamRequest(int teamId, int invitedUserId, int authorId)
         {
             var requestEntity = new TeamRequest() {
                 AuthorId = authorId,
-                InvitedUserId = request.InvitedUserId,
+                InvitedUserId = invitedUserId,
+                TeamId = teamId,
                 
                 Status = TeamRequestStatus.InPending,
                 Date = DateTime.UtcNow

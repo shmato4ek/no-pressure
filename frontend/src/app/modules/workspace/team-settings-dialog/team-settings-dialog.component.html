@@ -1,0 +1,162 @@
+<h2
+  mat-dialog-title
+  class="info-text-black"
+>
+  Team Settings
+</h2>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="settings-dialog-container"
+>
+  <div class="name-field">
+    <p class="field-text">Team name:</p>
+
+    <mat-form-field class="form-field">
+      <input
+        matInput
+        placeholder="Team name"
+        formControlName="teamName"
+        class="handwitten-field"
+        (keypress)="inputValidation($event, 'Activity name')"
+      >
+    </mat-form-field>
+  </div>
+
+  <div class="colorpick-container">
+    <p class="colorpick-text">Team color: </p>
+
+    <input
+      type="color"
+      id="colorpicker"
+      value={{color}}
+      class="color-picker"
+    >
+  </div>
+
+  <div class="team-state">
+    <p class="team-state-text">Team state: </p>
+
+    <div class="activity-form-row">
+      <div class="checkbox-wrapper">
+        <input
+            id="t1"
+            type="checkbox"
+            class="promoted-input-checkbox"
+            formControlName="teamState1"
+            (click)="selectStateCheckBox(0)"
+        />
+        <svg><use xlink:href="#checkmark-28" /></svg>
+        <label for="t1">
+        Private   
+        </label>
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+        <symbol id="checkmark-28" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+            </path>
+        </symbol>
+        </svg>
+    </div>
+
+    <div class="checkbox-wrapper">
+      <input
+        id="t2"
+        type="checkbox"
+        class="promoted-input-checkbox"
+        formControlName="teamState2"
+        (click)="selectStateCheckBox(1)"
+      />
+      <svg><use xlink:href="#checkmark-28" /></svg>
+      <label for="t2">
+      Public  
+      </label>
+      <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="checkmark-28" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+          </path>
+      </symbol>
+      </svg>
+      </div>
+    </div>
+  </div>
+
+  <div
+    formArrayName="settings"
+    *ngFor="let settingsForm of settings.controls; let i=index"
+    class="activities-container"
+    >
+    <div class="user-settings-container">
+      <div class="user-name-container">
+        <p class="user-name-text">{{team.settings[i].userName}}</p>
+        <img
+          src="../../../../assets/img/owner.png"
+          *ngIf="ownerIndex === i"
+          class="admin-logo"
+        >
+        <img
+          src="../../../../assets/img/cross.png"
+          *ngIf="ownerIndex !== i"
+          class="admin-logo"
+        >
+      </div>
+
+      <div class="activity-form-row" [formGroupName]="i">
+        <div class="checkbox-wrapper">
+          <input
+              id="{{i}}1"
+              type="checkbox"
+              class="promoted-input-checkbox"
+              formControlName="users"
+          />
+          <svg><use xlink:href="#checkmark-28" /></svg>
+          <label for="{{i}}1">
+          Add new users   
+          </label>
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+          <symbol id="checkmark-28" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+              </path>
+          </symbol>
+          </svg>
+      </div>
+
+      <div class="checkbox-wrapper">
+        <input
+          id="{{i}}2"
+          type="checkbox"
+          class="promoted-input-checkbox"
+          formControlName="activities"
+        />
+        <svg><use xlink:href="#checkmark-28" /></svg>
+        <label for="{{i}}2">
+        Add new activities   
+        </label>
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+        <symbol id="checkmark-28" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+            </path>
+        </symbol>
+        </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="buttons-container">
+  <button
+    class="delete-button"
+    (click)="delete()"
+  >
+    Delete
+  </button>
+
+  <button
+    class="add-button"
+    (click)="save()"
+    [disabled]="!dialogForm.valid"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

@@ -29,7 +29,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50px;
-  border: 3px solid #FFA500;
+  border: 3px solid white;
 }
 
 .team-logo-img{
@@ -55,6 +55,12 @@
 .team-img{
   height: 2rem;
   width: 2rem;
+}
+
+.settings-img{
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-left: 0.5rem;
 }
 
 .team-header{
@@ -174,3 +180,34 @@
   color: #000F55;
 }
 
+.private-team{
+  width: fit-content;
+  height: fit-content;
+}
+
+.private-team-img{
+  width: 25rem;
+}
+
+.invite-btn{
+  width: fit-content;
+  height: fit-content;
+  border-radius: 82px;
+  margin-left: 0.5rem;
+}
+
+.invite-btn-img{
+  height: 2rem;
+}
+
+.team-invite-buttons{
+  margin-left: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.invite-text{
+  color: black;
+  font-size: 1.5rem;
+}

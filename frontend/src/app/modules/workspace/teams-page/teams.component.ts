@@ -18,6 +18,9 @@ import { TeamService } from 'src/app/services/team.service';
 import { UserDTO } from 'src/app/models/user/user-dto';
 import { Team } from 'src/app/models/team/team';
 import { Router } from '@angular/router';
+import { AddTeamDilogComponent } from '../add-team-dialog/add-team-dialog.component';
+import { NewTeam } from 'src/app/models/team/new-team';
+import { CacheResourceService } from 'src/app/services/cache.resource.service';
 
 @Component({
   selector: 'app-teams',
@@ -31,24 +34,32 @@ export class TeamsComponent implements OnInit{
   constructor(
     private registrationService: RegistrationService,
     private teamService: TeamService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
+    public cacheResourceService: CacheResourceService
   ) { }
 
-  ngOnInit(): void {
-    this.registrationService
+  async ngOnInit(): Promise<void> {
+    console.log(`Teams component before getUser()`)
+    await this.cacheResourceService
       .getUser()
-      .subscribe((user) => {
-        this.currentUser = user;
-        this.teamService
-          .getUsersTeams()
-          .subscribe((teams) => {
-            this.teams = teams;
-          })
-      })
+      .then(resp => {
+        this.currentUser = resp as UserDTO;
+      });
+    console.log(`Teams component after getUser(). User: ${this.currentUser.name}`)
+    this.teamService
+      .getUsersTeams()
+      .subscribe((teams) => {
+        this.teams = teams;
+      });
   }
 
   setUsersLine(team: Team) {
     let usersLine = ''
+    
+    if (!team.users) {
+      return;
+    }
     
     if(team?.users.length == 0) {
       return '';
@@ -71,8 +82,31 @@ export class TeamsComponent implements OnInit{
     return usersLine;
   }
 
+  public showCreateTeamDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    
+    dialogConfig.data = this.currentUser.id;
+
+    const dialogRef = this.dialog.open(AddTeamDilogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((team) => {
+      this.createTeam(team);
+    })
+  }
+
+  createTeam(team: NewTeam) {
+    this.teamService.createTeam(team);
+    window.location.reload();
+  }
+
   getTeamTags(team: Team) {
-    return team.tags.length > 3 ? team.tags.slice(0,3) : team.tags;
+    if (team.tags) {
+      return team.tags.length > 3 ? team.tags.slice(0,3) : team.tags;
+    } else {
+      return null;
+    }
   }
 
   redirectToTeam(team: Team) {

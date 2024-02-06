@@ -1,4 +1,5 @@
 ﻿using NoPressure.Common.DTO;
+using NoPressure.Common.Models.Team;
 
 namespace NoPressure.Common.Models.User
 {
@@ -10,5 +11,6 @@ namespace NoPressure.Common.Models.User
         public string RegistrationDate { get; set; }
         public bool IsNotificationsChecked { get; set; }
         public List<ActivityDTO> Activities { get; set; }
+        public List<TeamInfo>? Teams { get; set; }
     }
 }

@@ -26,6 +26,7 @@
     "@truffle/hdwallet-provider": "^1.0.41-1",
     "mat-select-search": "^1.2.21",
     "ng-angular-popup": "^0.5.2",
+    "primeng": "^17.5.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

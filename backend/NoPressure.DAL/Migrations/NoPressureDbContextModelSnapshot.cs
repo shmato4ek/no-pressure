@@ -212,12 +212,19 @@ namespace NoPressure.DAL.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("PrivacyState")
+                        .HasColumnType("integer");
 
                     b.Property<int>("State")
                         .HasColumnType("integer");
@@ -348,6 +355,9 @@ namespace NoPressure.DAL.Migrations
                             b1.Property<string>("SecondUserName")
                                 .HasColumnType("text");
 
+                            b1.Property<string>("TeamName")
+                                .HasColumnType("text");
+
                             b1.HasKey("NotificationId");
 
                             b1.ToTable("Notifications");
@@ -407,7 +417,41 @@ namespace NoPressure.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsMany("NoPressure.DAL.Entities.TeamSettings", "Settings", b1 =>
+                        {
+                            b1.Property<int>("TeamId")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<int>("AddingActivities")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("AddingUsers")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("UserId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("UserName")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("TeamId", "Id");
+
+                            b1.ToTable("TeamSettings");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TeamId");
+                        });
+
                     b.Navigation("Author");
+
+                    b.Navigation("Settings");
                 });
 
             modelBuilder.Entity("TeamUser", b =>

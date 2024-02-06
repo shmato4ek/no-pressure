@@ -10,6 +10,7 @@ namespace NoPressure.BLL.Sevices.Abstract
     public interface ITeamRequestService
     {
         Task ChangeRequestStatus(int id, TeamRequestStatus status);
-        Task CreateTeamRequest(NewTeamRequest request, int authorId);
+        Task CreateTeamRequest(int teamId, int invitedUserId, int authorId);
+        Task AddUsersToTeam(AddUsersToTeam users, int userId);
     }
 }

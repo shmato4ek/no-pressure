@@ -44,6 +44,22 @@ namespace NoPressure.BLL.Helpers
                     newNotification.Link = notification.Data.Link;
                 }
                 break;
+
+                case NotificationTitle.NewTeamInvitation:
+                {
+                    newNotification.Title = "New team invitation!";
+                    newNotification.Text = $"{notification.Data.SecondUserName} has just invited you to join {notification.Data.TeamName}!";
+                    newNotification.Link = notification.Data.Link;
+                }
+                break;
+
+                case NotificationTitle.NewTeamJoin:
+                {
+                    newNotification.Title = "New team invitation!";
+                    newNotification.Text = $"{notification.Data.SecondUserName} has just approved your invitation to join {notification.Data.TeamName}!";
+                    newNotification.Link = notification.Data.Link;
+                }
+                break;
             }
 
             return newNotification;

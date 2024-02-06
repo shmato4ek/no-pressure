@@ -44,6 +44,7 @@ namespace NoPressure.BLL.Sevices.Impl
         public async Task<List<NotificationDTO>> GetUserNotifications(int userId)
         {
             var notificationsEntity = await _uow.NotificationRepository.GetAllUserNotifications(userId);
+            notificationsEntity.Sort((x, y) => DateTime.Compare(y.Date, x.Date));
             
             var notifications = new List<NotificationDTO>();
 
@@ -55,7 +56,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
                     newNotification.IsRead = notification.IsRead;
 
-                    newNotification.Date = notification.Date.ToString("dd/MM/yy H:mm:ss");
+                    newNotification.Date = notification.Date.ToLocalTime().ToString("dd/MM/yy H:mm:ss");
 
                     notifications.Add(newNotification);
                 }
@@ -63,7 +64,5 @@ namespace NoPressure.BLL.Sevices.Impl
 
             return notifications;
         }
-
-        
     }
 }

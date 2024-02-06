@@ -76,10 +76,6 @@ export class ConvertToGoalDialog implements OnInit{
         color: (<HTMLInputElement>document.getElementById("colorpicker")).value
       }
 
-      console.log(newTag);
-
-      console.log(<FormArray>this.dialogForm.controls['activities'].value[0].name);
-
       var createdActivities = [] as ActivityForm[];
 
       for(let activity of this.activities.value)

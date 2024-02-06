@@ -6,5 +6,6 @@ namespace NoPressure.DAL.Repositories.Abstract
     {
         Task<List<Notification>> GetAllUserNotifications(int userId);
         Task<bool> CheckNotifications(int userId);
+        Task BulkInsert(List<Notification> notifications);
     }
 }

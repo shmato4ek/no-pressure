@@ -26,6 +26,7 @@
                     matInput
                     formControlName="username"
                     id="username"
+                    (keypress)="inputValidation($event, 'User name')"
                 >
             </mat-form-field>
             <div class="errors">

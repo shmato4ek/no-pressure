@@ -1,3 +1,4 @@
+using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NoPressure.DAL.Context;
@@ -9,6 +10,11 @@ namespace NoPressure.DAL.Repositories.Impl
     public class NotificationRepository : Repository<Notification, int>, INotificationRepository
     {
         public NotificationRepository(NoPressureDbContext context) : base(context) { }
+
+        public async Task BulkInsert(List<Notification> notifications)
+        {
+            await _context.BulkInsertAsync(notifications);
+        }
 
         public async Task<bool> CheckNotifications(int userId)
         {

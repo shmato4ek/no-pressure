@@ -71,7 +71,23 @@ namespace NoPressure.BLL.Sevices.Impl
                 throw new Exception();
             }
 
+            var userTeams = await _uow.TeamRepository.GetUsersTeams(id);
+            foundUser.Teams = userTeams;
+
             var userInfo = _mapper.Map<UserInfo>(foundUser);
+
+            if (userInfo.Teams != null)
+            {
+                foreach(var team in userInfo.Teams)
+                {
+                    var userSettings = userTeams
+                        .FirstOrDefault(t => t.Id == team.Id)
+                        .Settings
+                        .FirstOrDefault(s => s.UserId == id);
+                    
+                    team.AddingActivities = userSettings.AddingActivities;
+                }
+            }
 
             userInfo.RegistrationDate = foundUser.RegistrationDate.ToString("dd/MM/yy");
 
@@ -133,7 +149,7 @@ namespace NoPressure.BLL.Sevices.Impl
                 subscriptions.Followers.Add(new UserSubscription()
                 {
                     User = _mapper.Map<UserInfo>(follower.Follower),
-                    Date = follower.Date.ToString("MM/dd/yyyy")
+                    Date = follower.Date.ToLocalTime().ToString("MM/dd/yyyy")
                 });
             }
 
@@ -142,7 +158,7 @@ namespace NoPressure.BLL.Sevices.Impl
                 subscriptions.Followings.Add(new UserSubscription()
                 {
                     User = _mapper.Map<UserInfo>(following.Following),
-                    Date = following.Date.ToString("MM/dd/yyyy")
+                    Date = following.Date.ToLocalTime().ToString("MM/dd/yyyy")
                 });
             }
 
@@ -162,13 +178,14 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if (following is null)
             {
-                throw new Exception($"There is no user with id {following}");
+                throw new Exception($"There is no user with id {followingId}");
             }
 
             var subscription = new Subscription()
             {
                 FollowerId = followerId,
-                FollowingId = followingId
+                FollowingId = followingId,
+                Date = DateTime.UtcNow
             };
 
             _uow.SubscriptionRepository.Create(subscription);

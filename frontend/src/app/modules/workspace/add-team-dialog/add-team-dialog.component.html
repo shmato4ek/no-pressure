@@ -1,0 +1,43 @@
+<h2
+  mat-dialog-title
+  class="info-text-black"
+>
+  Create new team
+</h2>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="add-dialog-container"
+>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Team name"
+      formControlName="teamName"
+      class="handwitten-field"
+      (keypress)="inputValidation($event, 'Activity name')"
+    >
+  </mat-form-field>
+
+  <div class="colorpick-container">
+    <p class="colorpick-text">Team color: </p>
+
+    <input
+      type="color"
+      id="colorpicker"
+      value={{color}}
+      class="color-picker"
+    >
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="add-button-container">
+  <button
+    class="add-button"
+    (click)="save()"
+    [disabled]="!dialogForm.valid"
+  >
+    Create
+  </button>
+</mat-dialog-actions>

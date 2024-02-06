@@ -83,7 +83,8 @@
     </mat-drawer>
   
     <mat-drawer-content class="content">
-      <router-outlet *ngIf="!isShared"></router-outlet>
+      <router-outlet *ngIf="!isShared">
+      </router-outlet>
       <app-shared-profile *ngIf="isShared"></app-shared-profile>
     </mat-drawer-content>
   

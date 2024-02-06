@@ -1,6 +1,25 @@
 <div class="schedule-page-container">
     <div class="schedule-container">
-        <p class="date-text">{{date}}</p>
+        <div class="schedule-header-container">
+            <p class="date-text">{{date}}</p>
+
+            <div class="schedule-dropdown">
+                <p
+                    class="team-schedule-text"
+                    *ngIf="teams.length === 0 || teams === null"
+                >
+                    Personal
+                </p>
+
+                <p-dropdown
+                    *ngIf="teams.length !== 0 && teams !== null"
+                    [options]="teamsOptions"
+                    [(ngModel)]="selectedSchedule"
+                    placeholder="{{selectedSchedule}}"
+                >
+                </p-dropdown>
+            </div>
+        </div>
         <div class="schedule">
             <div class="first-half-schedule">
                 <span
@@ -71,6 +90,7 @@
         </div>
         <div class="tasks-list">
             <button
+                *ngIf="tags.length > 0"
                 class="edit-icon"
                 (click)="changeIsEditingState()">
                 <img
@@ -104,8 +124,13 @@
                         class="activity"
                         *ngFor="let activity of tag.activities"
                     >
-                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="bullet">
-                            <circle class="svg-circle" [ngStyle]="{'filter': setSvgColor(tag)}"/>
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="bullet">
+                            <circle
+                                class="svg-circle"
+                                cx="100"
+                                cy="100"
+                                r="50"
+                                [ngStyle]="{'filter': setSvgColor(tag)}"/>
                         </svg>
                         <button
                             type="button"

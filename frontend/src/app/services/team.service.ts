@@ -11,6 +11,9 @@ import { Team } from "../models/team/team";
 import { NewTeam } from "../models/team/new-team";
 import { TeamInvitation } from "../models/team/team-invitation";
 import { ChangeStatus } from "../models/team/change-status";
+import { TeamWithSettings } from "../models/team/team-with-settings";
+import { UpdateTeamSettings } from "../models/team/update-team-settings";
+import { AddUsersToTeam } from "../models/team/add-users-to-team";
 
 @Injectable({
     providedIn: 'root',
@@ -35,6 +38,10 @@ export class TeamService extends ResourceService<Team> {
                     return resp.body as Team;
                 })
             );
+    }
+
+    deleteTeam(id: number) {
+        this.delete(id).subscribe();
     }
 
     public getUsersTeams() {
@@ -62,6 +69,26 @@ export class TeamService extends ResourceService<Team> {
 
     public changeTeamRequestStatus(request: ChangeStatus) {
         return this.httpClient
-            .put(`${environment.apiUrl}/activity/tag`, request, {observe: 'response' })
+            .put(`${environment.apiUrl}/team/invitation`, request, {observe: 'response' })
+    }
+
+    public getTeamWithSettings(teamId: number) {
+        return this.httpClient
+            .get<TeamWithSettings>(`${environment.apiUrl}/team/settings/${teamId}`, { observe: 'response' })
+            .pipe(
+                map((resp) => {
+                    return resp.body as TeamWithSettings;
+                })
+            );
+    }
+
+    public updateSettings(request: UpdateTeamSettings) {
+        return this.httpClient
+            .put(`${environment.apiUrl}/team/settings`, request, {observe: 'response' })
+    }
+
+    public addUsersToTeam(users: AddUsersToTeam) {
+        return this.httpClient
+            .post(`${environment.apiUrl}/team/invitation`, users, { observe: 'response' });
     }
 }

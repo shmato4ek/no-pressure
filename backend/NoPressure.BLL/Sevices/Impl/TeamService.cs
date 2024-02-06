@@ -5,6 +5,7 @@ using NoPressure.Common.Enums;
 using NoPressure.Common.Models.Activity;
 using NoPressure.Common.Models.Tag;
 using NoPressure.Common.Models.Team;
+using NoPressure.Common.Models.User;
 using NoPressure.DAL.Entities;
 using NoPressure.DAL.Unit.Abstract;
 
@@ -49,6 +50,16 @@ namespace NoPressure.BLL.Sevices.Impl
 
             teamEntity.Users.Add(userEntity);
 
+            var settings = new TeamSettings()
+            {
+                UserId = userId,
+                UserName = userEntity.Name,
+                AddingActivities = TeamAccess.Deny,
+                AddingUsers = TeamAccess.Deny
+            };
+
+            teamEntity.Settings.Add(settings);
+
             _uow.TeamRepository.Update(teamEntity);
 
             await _uow.SaveAsync();
@@ -70,12 +81,24 @@ namespace NoPressure.BLL.Sevices.Impl
                 Tags = new List<Tag>(),
                 Users = new List<User>(),
                 Date = DateTime.UtcNow,
-                State = EntityState.Active
+                State = EntityState.Active,
+                Color = newTeam.Color,
+                UniqId = CreateUniqId(),
+                PrivacyState = TeamPrivacyState.Public,
+                Settings = new List<TeamSettings>()
             };
 
-            teamEntity.UniqId = CreateUniqId();
-
             teamEntity.Users.Add(userEntity);
+
+            var settings = new TeamSettings()
+            {
+                UserId = userEntity.Id,
+                UserName = userEntity.Name,
+                AddingUsers = TeamAccess.Allow,
+                AddingActivities = TeamAccess.Allow
+            };
+
+            teamEntity.Settings.Add(settings);
 
             _uow.TeamRepository.Create(teamEntity);
 
@@ -123,47 +146,117 @@ namespace NoPressure.BLL.Sevices.Impl
 
         public async Task RemoveUserFromTeam(int teamId, int userId)
         {
-            var userEntity = await _uow
-                .UserRepository
-                .FindAsync(userId);
-            
-            if (userEntity is null)
-            {
-                throw new Exception($"User with id {userId} was not found");
-            }
-
-            var teamEntity = await _uow
-                .TeamRepository
-                .FindAsync(teamId);
-
-            if (teamEntity is null)
-            {
-                throw new Exception($"Team with id {teamId} was not found");
-            }
-
-            if (teamEntity.Users.FirstOrDefault(u => u.Id == userId) is null)
-            {
-                throw new Exception($"There is no user with id {userId} in team {teamId}");
-            }
-
-            teamEntity.Users.Remove(userEntity);
-
-            _uow.TeamRepository.Update(teamEntity);
-
+            await _uow.TeamRepository.RemoveUserFromTeam(teamId, userId);
             await _uow.SaveAsync();
         }
 
-        public async Task<TeamDTO> GetTeamByUniqId(string id)
+        public async Task<TeamDTO> GetTeamByUniqId(string id, int userId)
         {
             var teamEntity = await _uow.TeamRepository.GetTeamByUniqId(id);
+            
+            var team = new TeamDTO()
+            {
+                Id = teamEntity.Id,
+                Name = teamEntity.Name,
+                Date = teamEntity.Date,
+                UniqId = teamEntity.UniqId,
+                Color = teamEntity.Color,
+                AuthorId = teamEntity.AuthorId,
+            };
+            
+            if (teamEntity.AuthorId == userId)
+            {
+                team.Role = TeamRole.Owner;
+                team.Users = _mapper.Map<List<UserInfo>>(teamEntity.Users);
+                team.Tags = _mapper.Map<List<TeamTag>>(teamEntity.Tags);
+                var userSettings = teamEntity.Settings.FirstOrDefault(user => user.UserId == userId);
+                team.AddingUsers = userSettings.AddingUsers;
+            }
 
-            return _mapper.Map<TeamDTO>(teamEntity);
+            else if (teamEntity.Users.FirstOrDefault(user => user.Id == userId) != null)
+            {
+                team.Role = TeamRole.Member;
+                team.Users = _mapper.Map<List<UserInfo>>(teamEntity.Users);
+                team.Tags = _mapper.Map<List<TeamTag>>(teamEntity.Tags);
+                
+                var userSettings = teamEntity.Settings.FirstOrDefault(user => user.UserId == userId);
+                team.AddingUsers = userSettings.AddingUsers;
+            }
+
+            else
+            {
+                team.Role = TeamRole.Visitor;
+                if (teamEntity.PrivacyState == TeamPrivacyState.Public)
+                {
+                    team.Users = _mapper.Map<List<UserInfo>>(teamEntity.Users);
+                    team.Tags = _mapper.Map<List<TeamTag>>(teamEntity.Tags);
+                }
+            }
+
+            team.TeamRequestId = await _uow.TeamRequestRepository.CheckTeamRequest(teamEntity.Id, userId);
+
+            return team;
         }
 
         public async Task RemoveTeam(int teamId)
         {
             await _uow.TeamRepository.RemoveTeam(teamId);
             
+            await _uow.SaveAsync();
+        }
+
+        public async Task<TeamWithSettingsDTO> GetSettings(int teamId)
+        {
+            var team = await _uow.TeamRepository.GetTeamWithSettings(teamId);
+
+            if(team is null)
+            {
+                throw new Exception();
+            }
+
+            var teamWithSettings = new TeamWithSettingsDTO()
+            {
+                Id = team.Id,
+                Color = team.Color,
+                State = team.PrivacyState,
+                Settings = new List<TeamSettingsDTO>()
+            };
+
+            foreach(var settings in team.Settings)
+            {
+                teamWithSettings.Settings.Add(_mapper.Map<TeamSettingsDTO>(settings));                
+            }
+
+            return teamWithSettings;
+        }
+
+        public async Task UpdateTeamSettings(UpdateTeamSettings settings)
+        {
+            var team = await _uow.TeamRepository.FindAsync(settings.TeamId);
+
+            if(team is null)
+            {
+                throw new Exception();
+            }
+
+            team.PrivacyState = settings.State;
+            team.Color = settings.Color;
+
+            foreach(var setting in settings.Settings)
+            {
+                var userSettings = team.Settings.FirstOrDefault(s => s.Id == setting.Id);
+
+                if(userSettings is null)
+                {
+                    throw new Exception();
+                }
+
+                userSettings.AddingActivities = setting.AddingActivities;
+                userSettings.AddingUsers = setting.AddingUsers;
+            }
+
+            _uow.TeamRepository.Update(team);
+
             await _uow.SaveAsync();
         }
     }

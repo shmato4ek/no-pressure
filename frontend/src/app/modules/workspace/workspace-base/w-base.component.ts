@@ -3,6 +3,7 @@ import { UserDTO } from 'src/app/models/user/user-dto';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { map, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { CacheResourceService } from 'src/app/services/cache.resource.service';
 
 @Component({
   selector: 'app-w-base',
@@ -20,10 +21,15 @@ export class WorkspaceBaseComponent {
 
   constructor(
     private registrationService: RegistrationService,
+    private cacheResourceService: CacheResourceService,
     private route: ActivatedRoute
   ) {
-    this.route.params.subscribe((params) => {
-      this.getAutorithedUser();
+    this.route.params.subscribe(async (params) => {
+      console.log(`Base component before getUser()`);
+      await this.cacheResourceService.getUser().then(resp => {
+        this.currentUser = resp as UserDTO
+      });
+      console.log(`Base component after getUser(). User: ${this.currentUser.name}`)
       if(params['id']) {
         this.isShared = true;
       } else {
@@ -33,12 +39,8 @@ export class WorkspaceBaseComponent {
   }
 
   private getAutorithedUser() {
-    return this.registrationService
-      .getUser()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((user) => {
-        this.currentUser = user;
-      });
+    return this.cacheResourceService
+      .getUser();
   }
 
   public openSidenav() {

@@ -11,6 +11,7 @@ import { TokenInterceptor } from './services/interceptor';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
 import { IonicModule } from '@ionic/angular';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CacheService } from './services/cache.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-  },
+    },
+    CacheService,
   ],
   bootstrap: [AppComponent]
 })

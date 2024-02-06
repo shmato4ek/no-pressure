@@ -6,6 +6,7 @@ import { UserRegister } from 'src/app/models/user/user-register';
 import { LoginService } from 'src/app/services/login.service';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { CustomValidators } from '../../validators/custom-validators';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'app-register',
@@ -31,6 +32,7 @@ export class RegisterComponent implements OnInit{
     private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
     private loginService: LoginService,
+    private snackBarService: SnackBarService,
   ) {}
 
   ngOnInit() {
@@ -127,5 +129,19 @@ export class RegisterComponent implements OnInit{
 
   public switchToLogin() {
     this.router.navigate(['login']);
+  }
+
+  inputValidation(event: any, target: string) {   
+    var k;  
+    k = event.charCode;
+    var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    if (!isValid) {
+      this.openSnackBar(target);
+    }
+    return isValid; 
+  }
+
+  openSnackBar(target: string) {
+    this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
   }
 }

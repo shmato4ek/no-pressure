@@ -7,7 +7,12 @@ namespace NoPressure.BLL.Helpers
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(email);
             var id = System.Convert.ToBase64String(plainTextBytes);
-            return apiUrl + id;
+            return "/profile/" + id;
+        }
+
+        public static string GetNewTeamRequestLink(string teamUniqId)
+        {
+            return "/teams/" + teamUniqId;
         }
     }
 }

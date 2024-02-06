@@ -71,10 +71,14 @@ export class TaskAddDialogComponent implements OnInit{
       let activity: ActivityAddDialog = {
         name: this.dialogForm.value.activityName,
         description: this.dialogForm.value.activityDescription,
-        tag: this.dialogForm.value.activityTag,
         isRepeatable: this.isRepeatable,
-        color: (<HTMLInputElement>document.getElementById("colorpicker")).value,
+        color: this.color,
         teamId: this.teamId,
+      }
+
+      if (this.isTagActive) {
+        activity.tag = this.dialogForm.value.activityTag;
+        activity.color = (<HTMLInputElement>document.getElementById("colorpicker")).value;
       }
       this.dialogRef.close(activity);
     }

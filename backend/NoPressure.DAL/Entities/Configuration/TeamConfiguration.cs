@@ -14,6 +14,8 @@ namespace NoPressure.DAL.Entities.Configuration
             builder.HasMany(t => t.Users).WithMany(u => u.Teams);
 
             builder.HasOne(t => t.Author).WithMany(u => u.CreatedTeams).HasForeignKey(t => t.AuthorId);
+
+            builder.OwnsMany(t => t.Settings);
         }
     }
 }

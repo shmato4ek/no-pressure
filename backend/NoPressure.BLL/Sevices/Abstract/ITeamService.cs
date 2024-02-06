@@ -14,7 +14,9 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task CreateTeam(NewTeam newTeam);
         Task AddUserToTeam(int teamId, int userId);
         Task RemoveUserFromTeam(int teamId, int userId);
-        Task<TeamDTO> GetTeamByUniqId(string id);
+        Task<TeamDTO> GetTeamByUniqId(string id, int userId);
+        Task<TeamWithSettingsDTO> GetSettings(int teamId);
+        Task UpdateTeamSettings(UpdateTeamSettings settings);
         Task RemoveTeam(int teamId);
     }
 }

@@ -6,5 +6,7 @@ namespace NoPressure.Common.Enums
         NewJointRequest,
         NewJointInvitation,
         ApprovedJointRequest,
+        NewTeamInvitation,
+        NewTeamJoin,
     }  
 }

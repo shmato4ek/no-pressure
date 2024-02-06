@@ -1,0 +1,55 @@
+<h2
+  mat-dialog-title
+  class="info-text-black"
+>
+  Add users to team
+</h2>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="users-add-dialog-container"
+>
+  <mat-form-field class="form-field">
+    <input
+      matInput
+      formControlName="user"
+      placeholder="User email"
+      class="handwritten-field"
+    >
+  </mat-form-field>
+
+  <div class="add-users-container">
+    <div
+      formArrayName="users"
+      *ngFor="let userForm of users.controls; let i=index"
+      class="users-container"
+      >
+      <div class="user-form-row" [formGroupName]="i">
+          <mat-form-field class="form-field">
+              <input
+                matInput
+                formControlName="name"
+                placeholder="User email"
+                class="handwritten-field"
+              >
+          </mat-form-field>
+          <img src="../../../../assets/img/delete.png" class="delete-btn" (click)="deleteUser(i)">
+      </div>
+    </div>
+  </div>
+
+  <button mat-mini-fab (click)="addUser()">
+    <mat-icon class="add-course-btn">add</mat-icon>
+  </button>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="add-button-container">
+  <button
+    class="add-button"
+    (click)="save()"
+    [disabled]="!dialogForm.valid"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

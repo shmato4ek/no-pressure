@@ -27,10 +27,10 @@ export class RegistrationService extends ResourceService<UserRegister> {
     }
 
     public getUser() {
-      return this.getUserFromToken().pipe(
+      return this.getFullRequest<UserDTO>('me').pipe(
         map((resp) => {
-          this.user = resp.body as UserDTO;
-          return this.user;
+          console.log(`registrationService.getUser(). User: ${resp.body?.name}`)
+          return resp.body as UserDTO;
         })
       );
     }
@@ -42,10 +42,6 @@ export class RegistrationService extends ResourceService<UserRegister> {
         })
       );
   }
-
-    private getUserFromToken() {
-      return this.getFullRequest<UserDTO>('me');
-    }
     
     private handleAuthResponse(
       observable: Observable<HttpResponse<AuthUser>>

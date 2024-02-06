@@ -25,6 +25,10 @@ import { SettingsComponent } from './settings-page/settings.component';
 import { NotificationsDialogComponent } from './notifications-dialog/notifications-dialog.component';
 import { TeamsComponent } from './teams-page/teams.component';
 import { TeamComponent } from './team/team.component';
+import { AddTeamDilogComponent } from './add-team-dialog/add-team-dialog.component';
+import { TeamSettingDialog } from './team-settings-dialog/team-settings-dialog.component';
+import { AddUsersToTeamDialog } from './add-users-to-team-dialog/add-users-to-team-dialog.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
     declarations: [
@@ -47,14 +51,18 @@ import { TeamComponent } from './team/team.component';
         SettingsComponent,
         NotificationsDialogComponent,
         TeamsComponent,
-        TeamComponent
+        TeamComponent,
+        AddTeamDilogComponent,
+        TeamSettingDialog,
+        AddUsersToTeamDialog,
     ],
     imports: [
         WorkspaceRoutingModule,
         MaterialModule,
         CommonModule,
-        ReactiveFormsModule
-    ]
+        ReactiveFormsModule,
+        DropdownModule
+    ],
 })
 
 export class WorkspaceModule {}

@@ -21,6 +21,10 @@ import { TagEditDialogComponent } from '../tag-edit-dialog/tag-edit-dialog.compo
 import { UpdateTag } from 'src/app/models/tag/update-tag';
 import { TagService } from 'src/app/services/tag.service';
 import { NewActivityInfo } from 'src/app/models/activity/new-activity-info';
+import { TeamInfo } from 'src/app/models/team/team-info';
+import { TeamAccess } from 'src/app/models/enums/TeamAccess';
+import { CacheResourceService } from 'src/app/services/cache.resource.service';
+import { UserDTO } from 'src/app/models/user/user-dto';
 
 @Component({
   selector: 'app-schedule',
@@ -28,11 +32,14 @@ import { NewActivityInfo } from 'src/app/models/activity/new-activity-info';
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit{
-  public userId = {} as number;
+  public currentUser = {} as UserDTO;
   public tags = [] as Tag[];
   public firstHalfHours = [] as ScheduleTime[];
   public secondHalfHours = [] as ScheduleTime[];
   public date = {} as string;
+  public teams = [] as TeamInfo[];
+  public selectedSchedule = "Personal";
+  public teamsOptions = [] as string[];
 
   public separator = 14 as number;
   public isEditing = false as boolean;
@@ -45,28 +52,47 @@ export class ScheduleComponent implements OnInit{
     private shceduleService: ScheduleService,
     private colorService: ColorService,
     private scheduleService: ScheduleService,
+    private cacheResourceService: CacheResourceService,
     private tagService: TagService,
     public dialog: MatDialog
   ) { }
 
-  ngOnInit(): void {
-      this.getUserId();
+  async ngOnInit(): Promise<void> {
+      await this.getUserId();
   }
 
-  public getUserId() {
-    this.registrationService
+  public async getUserId() {
+    console.log(`Schedule component before getUser()`)
+    await this.cacheResourceService
       .getUser()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((user) => {
-        this.userId = user.id;
-        this.shceduleService.getSchedule(user.id)
+      .then(resp => {
+        this.currentUser = resp as UserDTO;
+      });
+    console.log(`Schedule component after getUser(). User: ${this.currentUser.name}`)
+        if (this.currentUser.teams) {
+          this.teams = this.setTeams(this.currentUser.teams);
+          this.teamsOptions.push("Personal");
+          this.teams.forEach(team => {
+            this.teamsOptions.push(team.name);
+          });
+        };
+        this.shceduleService.getSchedule(this.currentUser.id)
           .subscribe((schedule) => {
             this.tags = schedule.tags,
             this.firstHalfHours = schedule.hours.slice(0, 9),
             this.secondHalfHours = schedule.hours.slice(9, 18),
             this.date = schedule.date
           })
-      });
+  }
+
+  setTeams(teams: TeamInfo[]) {
+    let userTeams = [] as TeamInfo[];
+    teams.forEach(team => {
+      if (team.addingActivities == TeamAccess.Allow) {
+        userTeams.push(team);
+      }
+    });
+    return userTeams;
   }
 
   public showAddActivityDialog() {
@@ -75,7 +101,7 @@ export class ScheduleComponent implements OnInit{
     dialogConfig.autoFocus = true;
 
     const newActivityInfo: NewActivityInfo = {
-      userId: this.userId,
+      userId: this.currentUser.id,
       teamId: 0,
     }
     
@@ -85,7 +111,7 @@ export class ScheduleComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe((activity) => {
       let newActivity: NewActivity = {
-        userId: this.userId,
+        userId: this.currentUser.id,
         name: activity.name,
         description: activity.description,
         tag: activity.tag,

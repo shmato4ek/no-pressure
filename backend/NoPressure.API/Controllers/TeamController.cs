@@ -35,7 +35,11 @@ namespace NoPressure.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetTeamById(string id)
         {
-            return Ok(await _teamService.GetTeamByUniqId(id));
+            var request = Request.Headers["auth-token"].ToString();
+            var token = request[10..(request.Length-2)];
+            var userId = _jwtFactory.GetValueFromToken(token);
+
+            return Ok(await _teamService.GetTeamByUniqId(id, userId));
         }
 
         [HttpPost]
@@ -46,13 +50,13 @@ namespace NoPressure.API.Controllers
         }
 
         [HttpPost("invitation")]
-        public async Task<ActionResult> InviteUserToTeam(NewTeamRequest newRequest)
+        public async Task<ActionResult> InviteUsersToTeam(AddUsersToTeam users)
         {
             var request = Request.Headers["auth-token"].ToString();
             var token = request[10..(request.Length-2)];
             var userId = _jwtFactory.GetValueFromToken(token);
 
-            await _teamRequestService.CreateTeamRequest(newRequest, userId);
+            await _teamRequestService.AddUsersToTeam(users, userId);
             return Ok();
         }
 
@@ -69,6 +73,19 @@ namespace NoPressure.API.Controllers
             await _teamService.RemoveTeam(id);
 
             return NoContent();
+        }
+
+        [HttpGet("settings/{teamId}")]
+        public async Task<ActionResult> GetTeamSettings(int teamId)
+        {
+            return Ok(await _teamService.GetSettings(teamId));
+        }
+
+        [HttpPut("settings")]
+        public async Task<ActionResult> UpdateSettings(UpdateTeamSettings settings)
+        {
+            await _teamService.UpdateTeamSettings(settings);
+            return Ok();
         }
     }
 }

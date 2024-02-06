@@ -1,4 +1,5 @@
 import { ActivityDTO } from "../activity/activity-dto";
+import { TeamInfo } from "../team/team-info";
 
 export interface UserDTO {
     id: number;
@@ -7,4 +8,5 @@ export interface UserDTO {
     isNotificationsChecked: boolean;
     registrationDate: string;
     activities: ActivityDTO[];
+    teams?: TeamInfo[];
 }

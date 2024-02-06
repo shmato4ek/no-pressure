@@ -23,7 +23,7 @@
 
                 <div class="team-activities-container">
                     <div
-                        *ngIf="team.tags.length === 0"
+                        *ngIf="team.tags && team.tags.length === 0"
                         
                     >
                     </div>
@@ -50,6 +50,16 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="add-team-container">
+            <p class="add-team-txt">Create new team</p>
+
+            <img
+                class="add-team-img"
+                src="../../../../assets/img/ad-icon.png"
+                (click)="showCreateTeamDialog()"
+            >
         </div>
     </div>
 </div>

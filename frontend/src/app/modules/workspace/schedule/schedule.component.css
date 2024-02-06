@@ -176,11 +176,10 @@
 
 .svg-circle {
     fill: none;
-    stroke-width: 10;
-    r: 40;
-    cy: 50;
-    cx: 50;
+    stroke-width: 100;
     stroke: black;
+    height: 1rem;
+    width: 1rem;
 }
 
 .schedule {
@@ -264,6 +263,16 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.schedule-header-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    position: relative;
+}
+
+/*scrollbar*/
 
 ::-webkit-scrollbar {
     width: 10px;
