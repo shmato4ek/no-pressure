@@ -8,6 +8,7 @@ namespace NoPressure.BLL.Sevices.Abstract
     public interface ITagService
     {
         Task<List<TagInfoDTO>> GetUsersTagInfo(int userId);
+        Task<List<TagInfoDTO>> GetTeamTagInfo(int teamId);
         Task UpdateTag(UpdateTagDTO updateTag);
         Task<List<TagDTO>> GetBestUserTags(int userId);
     }

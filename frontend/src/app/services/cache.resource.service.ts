@@ -13,6 +13,8 @@ import { CacheService } from './cache.service';
 import { ResourceService } from './resource.service';
 import { RegistrationService } from './registration.service';
 import { UserDTO } from '../models/user/user-dto';
+import { Schedule } from '../models/schedule/schedule';
+import { ScheduleService } from './schedule.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,19 +23,22 @@ export class CacheResourceService {
     private unsubscribe$ = new Subject<void>();
 
     constructor(private cacheService: CacheService,
-                private registrationService: RegistrationService) { }
+                private registrationService: RegistrationService,
+                private scheduleService: ScheduleService) { }
     
     private me_key = "me";
     private currentUser = {} as UserDTO | undefined;
+    private currentSchedule = {} as Schedule | undefined;
+
+    private getScheduleKey(id: number) {
+        return "schedule_" + id.toString();
+    }
     
     public async getUser() {
-        console.log(`Start of getUser()`)
         const cache = this.cacheService.get(this.me_key);
         if (cache != undefined) {
-            console.log(`Cache is not empty. Cache: ${cache[0].name}`)
             this.currentUser = cache[0] as UserDTO;
         } else {
-            console.log(`Cache is empty`)
             this.currentUser = await this.registrationService
                 .getUser().toPromise();
 
@@ -42,7 +47,24 @@ export class CacheResourceService {
             this.cacheService.set(this.me_key, dataArray);
         }
 
-        console.log(`End of getUser(). User: ${this.currentUser?.name}`)
         return this.currentUser;
+    }
+
+    public async getSchedule(id: number) {
+        let key = this.getScheduleKey(id);
+        const cache = this.cacheService.get(key);
+        if(cache != undefined) {
+            this.currentSchedule = cache[0] as Schedule;
+        } else {
+            this.currentSchedule = await this.scheduleService
+                .getTeamScheduleWithActivities(id)
+                .toPromise();
+
+            let dataArray = [] as any[];
+            dataArray.push(this.currentSchedule);
+            this.cacheService.set(key, dataArray);
+        }
+
+        return this.currentSchedule;
     }
 }

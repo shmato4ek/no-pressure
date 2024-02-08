@@ -40,7 +40,9 @@ namespace NoPressure.DAL.Repositories.Impl
             var team = await _context
                 .Teams
                 .Include(t => t.Tags)
+                .ThenInclude(t => t.Activities)
                 .Include(t => t.Users)
+                .Include(t => t.Settings)
                 .Where(t => t.State == EntityState.Active)
                 .FirstOrDefaultAsync(t => t.Id == id);
 

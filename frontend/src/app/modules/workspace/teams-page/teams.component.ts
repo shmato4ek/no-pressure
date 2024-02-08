@@ -40,13 +40,11 @@ export class TeamsComponent implements OnInit{
   ) { }
 
   async ngOnInit(): Promise<void> {
-    console.log(`Teams component before getUser()`)
     await this.cacheResourceService
       .getUser()
       .then(resp => {
         this.currentUser = resp as UserDTO;
       });
-    console.log(`Teams component after getUser(). User: ${this.currentUser.name}`)
     this.teamService
       .getUsersTeams()
       .subscribe((teams) => {

@@ -29,7 +29,6 @@ export class RegistrationService extends ResourceService<UserRegister> {
     public getUser() {
       return this.getFullRequest<UserDTO>('me').pipe(
         map((resp) => {
-          console.log(`registrationService.getUser(). User: ${resp.body?.name}`)
           return resp.body as UserDTO;
         })
       );

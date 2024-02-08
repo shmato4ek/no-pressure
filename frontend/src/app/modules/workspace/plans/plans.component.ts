@@ -13,6 +13,7 @@ import { UpdatePlanDTO } from 'src/app/models/plan/plan-update';
 import { ConvertToGoalDialog } from '../convert-to-goal-dialog/convert-to-goal-dialog.component';
 import { GoalDTO } from 'src/app/models/plan/goal-dto';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { CacheResourceService } from 'src/app/services/cache.resource.service';
 
 @Component({
   selector: 'app-plans',
@@ -32,6 +33,7 @@ export class PlansComponent implements OnInit{
     private planService: PlanService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
+    private cacheResourceService: CacheResourceService
   ) { }
 
   ngOnInit(): void {
@@ -47,18 +49,19 @@ export class PlansComponent implements OnInit{
       });
   }
 
-  public getUserId() {
-    this.registrationService
-      .getUser()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((user) => {
+  async getUserId() {
+    await this.cacheResourceService
+    .getUser()
+    .then(user => {
+      if (user != undefined) {
         this.userId = user.id;
         this.planService
           .getAllNoGoalActivities(user.id)
           .subscribe((plans) => {
             this.plans = plans;
           });
-      });
+      }
+    });
   }
 
   public switchEditMode() {

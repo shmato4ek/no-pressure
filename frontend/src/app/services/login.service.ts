@@ -7,6 +7,7 @@ import { UserLogin } from '../models/user/user-login';
 import { Token } from '../models/token/token';
 import { UserDTO } from '../models/user/user-dto';
 import { ResourceService } from './resource.service';
+import { CacheService } from './cache.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +16,7 @@ import { ResourceService } from './resource.service';
 export class LoginService extends ResourceService<UserLogin> {
     private user: UserDTO = {} as UserDTO;
 
-    constructor(override httpClient: HttpClient, private router: Router) {
+    constructor(override httpClient: HttpClient, private router: Router, private cacheService: CacheService) {
         super(httpClient);
       }
 
@@ -35,6 +36,7 @@ export class LoginService extends ResourceService<UserLogin> {
     
     public logOut() {
         localStorage.removeItem('accessToken');
+        this.cacheService.clear("me");
         this.router.navigate(['/login']);
     }
 

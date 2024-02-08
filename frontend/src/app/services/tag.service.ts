@@ -33,6 +33,16 @@ export class TagService extends ResourceService<Tag> {
             );
     }
 
+    public getAllTeamTagsInfo(id: number)
+    {
+        return this.getFullRequest<TagInfo[]>(`activity/team/${id}`)
+            .pipe(
+                map((resp) => {
+                    return resp.body as TagInfo[];
+                })
+            );
+    }
+
     public updateTag<TRequest, TResponse>(
         resource: TRequest
       ): Observable<HttpResponse<TResponse>> {

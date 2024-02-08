@@ -41,6 +41,18 @@ namespace NoPressure.BLL.Sevices.Impl
             return bestTags;
         }
 
+        public async Task<List<TagInfoDTO>> GetTeamTagInfo(int teamId)
+        {
+            var tags = await _uow.TagRepository.FindAllTagsByTeamId(teamId);
+            
+            var tagsInfo = tags.Select(tag => new TagInfoDTO {
+                Name = tag.Name,
+                Color = tag.Color
+            }).ToList();
+
+            return tagsInfo;
+        }
+
         public async Task<List<TagInfoDTO>> GetUsersTagInfo(int userId)
         {
             var tags = await _uow.TagRepository.FindAllTagsByUserId(userId);

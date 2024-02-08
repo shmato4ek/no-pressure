@@ -1,7 +1,9 @@
 <div class="schedule-page-container">
     <div class="schedule-container">
         <div class="schedule-header-container">
-            <p class="date-text">{{date}}</p>
+            <div class="date-container">
+                <p class="date-text">{{date}}</p>
+            </div>
 
             <div class="schedule-dropdown">
                 <p
@@ -15,7 +17,9 @@
                     *ngIf="teams.length !== 0 && teams !== null"
                     [options]="teamsOptions"
                     [(ngModel)]="selectedSchedule"
+                    optionLabel="name"
                     placeholder="{{selectedSchedule}}"
+                    (onChange)="dropDownChoose()"
                 >
                 </p-dropdown>
             </div>

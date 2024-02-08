@@ -37,11 +37,17 @@ export class TaskAddDialogComponent implements OnInit{
       this.colorInput = document.getElementById('colorpicker') as HTMLInputElement;
       this.userId = data.userId;
       this.teamId = data.teamId;
-
+      if (this.teamId == 0) {
       this.tagService.getAllTagsInfo(this.userId)
         .subscribe((tags) => {
           this.userTags = tags;
         })
+      } else {
+        this.tagService.getAllTeamTagsInfo(this.teamId)
+          .subscribe((tags) => {
+            this.userTags = tags;
+          })
+      }
     }
 
     ngOnInit(): void {

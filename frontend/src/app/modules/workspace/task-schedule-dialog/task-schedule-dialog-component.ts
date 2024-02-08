@@ -48,7 +48,6 @@ export class TaskScheduleDialogComponent implements OnInit{
         startTime: this.dialogForm.value.startTime,
         endTime: this.dialogForm.value.endTime,
       }
-      console.log(activity.startTime);
       this.dialogRef.close(activity);
     }
 }

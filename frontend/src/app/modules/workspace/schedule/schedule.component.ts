@@ -25,6 +25,7 @@ import { TeamInfo } from 'src/app/models/team/team-info';
 import { TeamAccess } from 'src/app/models/enums/TeamAccess';
 import { CacheResourceService } from 'src/app/services/cache.resource.service';
 import { UserDTO } from 'src/app/models/user/user-dto';
+import { TeamScheduleOption } from 'src/app/models/team/team-schedule-option';
 
 @Component({
   selector: 'app-schedule',
@@ -38,18 +39,19 @@ export class ScheduleComponent implements OnInit{
   public secondHalfHours = [] as ScheduleTime[];
   public date = {} as string;
   public teams = [] as TeamInfo[];
-  public selectedSchedule = "Personal";
-  public teamsOptions = [] as string[];
+  public selectedSchedule = {} as TeamScheduleOption;
+  public teamsOptions = [] as TeamScheduleOption[];
 
   public separator = 14 as number;
   public isEditing = false as boolean;
+
+  public dropdownSize = 5 as number;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(
     private registrationService: RegistrationService,
     private activityService: ActivityService,
-    private shceduleService: ScheduleService,
     private colorService: ColorService,
     private scheduleService: ScheduleService,
     private cacheResourceService: CacheResourceService,
@@ -61,28 +63,66 @@ export class ScheduleComponent implements OnInit{
       await this.getUserId();
   }
 
+  public dropDownChoose() {
+    if (this.selectedSchedule.id == 0)
+    {
+      this.getPersonalSchedule(this.currentUser.id);
+    } else {
+      this.getTeamSchedule(this.selectedSchedule.id);
+    }
+  }
+
   public async getUserId() {
-    console.log(`Schedule component before getUser()`)
     await this.cacheResourceService
       .getUser()
       .then(resp => {
         this.currentUser = resp as UserDTO;
       });
-    console.log(`Schedule component after getUser(). User: ${this.currentUser.name}`)
-        if (this.currentUser.teams) {
-          this.teams = this.setTeams(this.currentUser.teams);
-          this.teamsOptions.push("Personal");
-          this.teams.forEach(team => {
-            this.teamsOptions.push(team.name);
-          });
-        };
-        this.shceduleService.getSchedule(this.currentUser.id)
-          .subscribe((schedule) => {
-            this.tags = schedule.tags,
-            this.firstHalfHours = schedule.hours.slice(0, 9),
-            this.secondHalfHours = schedule.hours.slice(9, 18),
-            this.date = schedule.date
-          })
+      if (this.currentUser.teams) {
+        this.teams = this.setTeams(this.currentUser.teams);
+
+        let personal: TeamScheduleOption = {
+          id: 0,
+          name: "Personal",
+        }
+        
+        this.teamsOptions.push(personal);
+        this.selectedSchedule = personal;
+        this.teams.forEach(team => {
+          let newTeam: TeamScheduleOption = {
+            id: team.id,
+            name: team.name,
+          }
+          this.teamsOptions.push(newTeam);
+        });
+      };
+      this.getPersonalSchedule(this.currentUser.id);
+  }
+
+  async getTeamSchedule(teamId: number) {
+    await this.cacheResourceService.getSchedule(teamId)
+      .then((schedule) => {
+        if (schedule != undefined) {
+          this.tags = schedule.tags,
+          this.firstHalfHours = schedule.hours.slice(0, 9),
+          this.secondHalfHours = schedule.hours.slice(9, 18),
+          this.date = schedule.date
+        }
+      })
+  }
+
+  getPersonalSchedule(userId: number) {
+    this.scheduleService.getSchedule(this.currentUser.id)
+      .subscribe((schedule) => {
+        this.tags = schedule.tags,
+        this.firstHalfHours = schedule.hours.slice(0, 9),
+        this.secondHalfHours = schedule.hours.slice(9, 18),
+        this.date = schedule.date
+      })
+  }
+
+  getTags() {
+    return this.tags;
   }
 
   setTeams(teams: TeamInfo[]) {
@@ -103,6 +143,10 @@ export class ScheduleComponent implements OnInit{
     const newActivityInfo: NewActivityInfo = {
       userId: this.currentUser.id,
       teamId: 0,
+    }
+
+    if(this.selectedSchedule.id != 0) {
+      newActivityInfo.teamId = this.selectedSchedule.id;
     }
     
     dialogConfig.data = newActivityInfo;

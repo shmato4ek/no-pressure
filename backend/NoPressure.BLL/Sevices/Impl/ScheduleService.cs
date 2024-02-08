@@ -51,7 +51,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
         public async Task<Schedule> GetScheduleAndActivities(int userId)
         {
-            var activities = await _activityService.GetAllUserActivity(userId);
+            var activities = await _uow.ActivityRepository.GetAllUserActivitiesWithoutTeam(userId);
 
             var now = DateTime.UtcNow;
             
@@ -59,7 +59,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             var tags = await _uow.TagRepository.GetAllTagsActivitiesAsync(userId);
 
-            var hours = CreateSchedule(todayActivities);
+            var hours = CreateSchedule(_mapper.Map<List<ActivityDTO>>(todayActivities));
 
             var dateTime = DateTime.UtcNow;
             string date = $"{dateTime.DayOfWeek}, {dateTime.Day} {dateTime.ToString("MMMM", CultureInfo.InvariantCulture)} {dateTime.Year}";
@@ -158,6 +158,75 @@ namespace NoPressure.BLL.Sevices.Impl
             };
 
             return schedule;
+        }
+
+        public async Task<Schedule> GetTeamSchedule(int teamId, int userId)
+        {
+            var teamEntity = await _uow.TeamRepository.GetTeamAsync(teamId);
+
+            var userEntity = await _uow.UserRepository.FindAsync(userId);
+
+            if (userEntity is null)
+            {
+                throw new Exception();
+            }
+
+            if (teamEntity.Users.FirstOrDefault(u => u.Id == userId) is null)
+            {
+                throw new Exception();
+            }
+            
+            var userSettings = teamEntity.Settings.FirstOrDefault(user => user.UserId == userId);
+            if (userSettings.AddingUsers != TeamAccess.Allow)
+            {
+                throw new Exception();
+            }
+
+            var activities = new List<Activity>();
+
+            if (teamEntity.Tags != null)
+            {
+                foreach (var tag in teamEntity.Tags)
+                {
+                    foreach (var activity in tag.Activities)
+                    {
+                        activities.Add(activity);
+                    }
+                }
+            }
+
+            var now = DateTime.UtcNow;
+            
+            var todayActivities = activities.Where(activity => activity.Date.Date == now.Date).ToList();
+
+            var tags = new List<Tag>();
+
+            if (teamEntity.Tags != null)
+            {
+                tags = teamEntity.Tags.Select(tag => new Tag
+                    {
+                        Id = tag.Id,
+                        Color = tag.Color,
+                        UserId = tag.UserId,
+                        Name = tag.Name,
+                        Activities = tag.Activities
+                            .Where(activity => !activity.IsScheduled || activity.IsRepeatable)
+                            .ToList()
+                    }).ToList();
+            }
+            var hours = CreateSchedule(_mapper.Map<List<ActivityDTO>>(todayActivities));
+
+            var dateTime = DateTime.UtcNow;
+            string date = $"{dateTime.DayOfWeek}, {dateTime.Day} {dateTime.ToString("MMMM", CultureInfo.InvariantCulture)} {dateTime.Year}";
+
+            var schedule = new Schedule() {
+                Tags = _mapper.Map<List<TagDTO>>(tags),
+                Hours = hours,
+                Date = date
+            };
+
+            return schedule;
+
         }
     }
 }

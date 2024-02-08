@@ -25,11 +25,9 @@ export class WorkspaceBaseComponent {
     private route: ActivatedRoute
   ) {
     this.route.params.subscribe(async (params) => {
-      console.log(`Base component before getUser()`);
       await this.cacheResourceService.getUser().then(resp => {
         this.currentUser = resp as UserDTO
       });
-      console.log(`Base component after getUser(). User: ${this.currentUser.name}`)
       if(params['id']) {
         this.isShared = true;
       } else {

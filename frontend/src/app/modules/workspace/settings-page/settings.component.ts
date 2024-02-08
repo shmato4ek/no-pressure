@@ -20,6 +20,7 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { UpdateUser } from 'src/app/models/user/update-user';
 import { ChangePassword } from 'src/app/models/user/change-password';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { CacheResourceService } from 'src/app/services/cache.resource.service';
 
 @Component({
   selector: 'app-settings',
@@ -54,29 +55,31 @@ export class SettingsComponent implements OnInit {
     private settingsService: SettingsService,
     private userService: UserService,
     private snackBarService: SnackBarService,
+    private cacheResurceService: CacheResourceService,
   ) {}
   
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.passwordType = this.newPasswordType = 'password';
     this.imgSrc = this.newImgSrc = '../../../../assets/img/show-password.svg';
 
     this.validateForm();
     this.validateCheckBox();
     this.validateUpdateForm()
-
-    this.registrationService
+  
+    await this.cacheResurceService
       .getUser()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((user) => {
-        this.currentUser = user;
-        this.setUpdateForm();
-        this.settingsService.getSettings()
-          .subscribe((resp) => {
-            this.currentStatChecked = resp.statistic,
-            this.currentActChecked = resp.activities
-          })
-      });
+      .then((user) => {
+        if (user != undefined) {
+          this.currentUser = user;
+          this.setUpdateForm();
+          this.settingsService.getSettings()
+            .subscribe((resp) => {
+              this.currentStatChecked = resp.statistic,
+              this.currentActChecked = resp.activities
+            })
+        }
+      })
 
       this.setSettingsForm();
   }

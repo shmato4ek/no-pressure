@@ -15,6 +15,7 @@ import { SubscriptionDialogComponent } from '../subscriptions-dialog/subscriptio
 import { Notification } from 'src/app/models/notifications/notification';
 import { environment } from 'src/environments/environment';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { CacheResourceService } from 'src/app/services/cache.resource.service';
 
 @Component({
   selector: 'app-profile',
@@ -37,27 +38,29 @@ export class ProfileComponent implements OnInit {
     private registrationService: RegistrationService,
     private activityService: ActivityService,
     private snackbarService: SnackBarService,
+    private cacheResourceService: CacheResourceService,
     public dialog: MatDialog
   ) { }
 
-  ngOnInit(): void {
-    this.registrationService
-    .getUser()
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((user) => {
-      this.currentUser = user;
-      this.profileLink = `${environment.hostUrl}profile/${btoa(user.email)}`;
-      this.userService
-        .getNotifications()
-        .subscribe((resp) => {
-          this.notifications = resp
-        })
-      this.activityService
-        .getStatistic(this.currentUser.id)
-        .subscribe((resp) => {
-          this.statistic = resp;
-        })
-    });
+  async ngOnInit(): Promise<void> {
+    await this.cacheResourceService
+      .getUser()
+      .then((user) => {
+        if (user != undefined) {
+          this.currentUser = user;
+          this.profileLink = `${environment.hostUrl}profile/${btoa(user.email)}`;
+          this.userService
+            .getNotifications()
+            .subscribe((resp) => {
+              this.notifications = resp
+            })
+          this.activityService
+            .getStatistic(this.currentUser.id)
+            .subscribe((resp) => {
+              this.statistic = resp;
+            })
+        }
+      })
     setTimeout(() => {
       this.showStat();
     }, 100)

@@ -27,7 +27,6 @@ export class NotificationsDialogComponent{
         .getNotifications()
         .subscribe((resp) => {
           this.notifications = resp;
-          console.log(this.notifications[0].date)
         })
     }
 

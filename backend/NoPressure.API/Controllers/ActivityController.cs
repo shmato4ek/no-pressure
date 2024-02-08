@@ -56,6 +56,12 @@ namespace NoPressure.API.Controllers
             return Ok(await _tagService.GetUsersTagInfo(userId));
         }
 
+        [HttpGet("team/{teamId}")]
+        public async Task<ActionResult> GetTeamTagsInfo(int teamId)
+        {
+            return Ok(await _tagService.GetTeamTagInfo(teamId));
+        }
+
         [HttpPut("tag")]
         public async Task<ActionResult> UpdateTag(UpdateTagDTO updateTag)
         {

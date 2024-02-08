@@ -41,6 +41,15 @@ export class ScheduleService extends ResourceService<Schedule> {
             );
     }
 
+    public getTeamScheduleWithActivities(teamId: number) {
+        return this.getFullRequest<Schedule>(`schedule/team/schedule/${teamId}`)
+            .pipe(
+                map((resp) => {
+                    return resp.body as Schedule;
+                })
+            );
+    }
+
     public addActivityToSchedule(activity: AddTaskToSchedule) {
         return this.add(activity)
             .subscribe();

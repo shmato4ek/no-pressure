@@ -16,8 +16,6 @@ export class CustomValidators {
         const checkbox2 = form.get('checkbox12')?.value;
         const checkbox3 = form.get('checkbox13')?.value;
 
-        console.log(`1: ${checkbox1}, 2: ${checkbox2}, 3: ${checkbox3}`)
-
         if(!checkbox1 && !checkbox2 && !checkbox3) {
             form.get('checkbox11')?.setErrors({noChosenCheckbox: true});
         }

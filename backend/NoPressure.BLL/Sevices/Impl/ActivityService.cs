@@ -36,41 +36,70 @@ namespace NoPressure.BLL.Sevices.Impl
                 newActivity.Tag = "Other";
             }
 
-            var tagEntity = await _uow.TagRepository.FindByNameAsync(newActivity.Tag, newActivity.UserId);
-
-            if(tagEntity is null)
+            if (newActivity.TeamId == 0)
             {
-                
-                var newTagEntity = new Tag() {
-                    Name = newActivity.Tag,
-                    UserId = activityEntity.UserId,
-                    Color = newActivity.Color,
-                    Activities = new List<Activity>(),
-                };
+                var tagEntity = await _uow.TagRepository.FindByNameAsync(newActivity.Tag, newActivity.UserId);
 
-                if(newActivity.TeamId != 0)
+                if(tagEntity is null)
                 {
-                    var team = await _uow.TeamRepository.FindAsync((int)newActivity.TeamId);
-                    newTagEntity.Team = team;
+                    var newTagEntity = new Tag() {
+                        Name = newActivity.Tag,
+                        UserId = activityEntity.UserId,
+                        Color = newActivity.Color,
+                        Activities = new List<Activity>(),
+                    };
+
+                    _uow.TagRepository.Create(newTagEntity);
+                    
+                    await _uow.SaveAsync();
+
+                    var createdTag = await _uow.TagRepository.FindByNameAsync(newActivity.Tag, newActivity.UserId);
+
+                    activityEntity.TagId = createdTag.Id;
                 }
 
-                _uow.TagRepository.Create(newTagEntity);
+                else
+                {
+                    activityEntity.TagId = tagEntity.Id;
+                    tagEntity.Color = newActivity.Color;
+                    _uow.TagRepository.Update(tagEntity);
+                }
+
+                _uow.ActivityRepository.Create(activityEntity);
                 
-                await _uow.SaveAsync();
+            } else {
+                var tagEntity = await _uow.TagRepository.FindTeamTag(newActivity.Tag, (int)newActivity.TeamId);
+                var teamEntity = await _uow.TeamRepository.GetTeamAsync((int)newActivity.TeamId);
 
-                var createdTag = await _uow.TagRepository.FindByNameAsync(newActivity.Tag, newActivity.UserId);
+                if(tagEntity is null)
+                {
+                    var newTagEntity = new Tag() {
+                        Name = newActivity.Tag,
+                        UserId = activityEntity.UserId,
+                        Color = newActivity.Color,
+                        Activities = new List<Activity>(),
+                        Team = teamEntity,
+                    };
 
-                activityEntity.TagId = createdTag.Id;
+                    _uow.TagRepository.Create(newTagEntity);
+                    
+                    await _uow.SaveAsync();
+
+                    var createdTag = await _uow.TagRepository.FindByNameAsync(newActivity.Tag, newActivity.UserId);
+
+                    activityEntity.TagId = createdTag.Id;
+                }
+
+                else
+                {
+                    activityEntity.TagId = tagEntity.Id;
+                    tagEntity.Color = newActivity.Color;
+                    _uow.TagRepository.Update(tagEntity);
+                }
+
+                _uow.ActivityRepository.Create(activityEntity);
+
             }
-
-            else
-            {
-                activityEntity.TagId = tagEntity.Id;
-                tagEntity.Color = newActivity.Color;
-                _uow.TagRepository.Update(tagEntity);
-            }
-
-            _uow.ActivityRepository.Create(activityEntity);
 
             await _uow.SaveAsync();
         }

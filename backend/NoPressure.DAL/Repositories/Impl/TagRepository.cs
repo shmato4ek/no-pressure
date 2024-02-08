@@ -9,6 +9,17 @@ namespace NoPressure.DAL.Repositories.Impl
     {
         public TagRepository(NoPressureDbContext context) : base(context) { }
 
+        public async Task<List<Tag>> FindAllTagsByTeamId(int teamId)
+        {
+            var tags = await _context
+                .Tags
+                .Include(t => t.Team)
+                .Where(t => t.Team.Id == teamId)
+                .ToListAsync();
+
+            return tags;
+        }
+
         public async Task<List<Tag>> FindAllTagsByUserId(int userId)
         {
             var tags = await _context
@@ -25,6 +36,18 @@ namespace NoPressure.DAL.Repositories.Impl
                 .Tags
                 .Where(t => t.Name == tagName)
                 .FirstOrDefaultAsync(t => t.UserId == userId);
+
+            return tag;
+        }
+
+        public async Task<Tag> FindTeamTag(string tagName, int teamId)
+        {
+            var tag = await _context
+                .Tags
+                .Include(t => t.Team)
+                .Where(t => t.Name == tagName)
+                .Where(t => t.Team.Id == teamId)
+                .FirstOrDefaultAsync();
 
             return tag;
         }

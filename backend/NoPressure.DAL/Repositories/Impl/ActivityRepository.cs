@@ -47,5 +47,17 @@ namespace NoPressure.DAL.Repositories.Impl
 
             return activities;            
         }
+
+        public async Task<List<Activity>> GetAllUserActivitiesWithoutTeam(int userId)
+        {
+            var activities = await _context
+                .Activities
+                .Include(a => a.Tag)
+                .ThenInclude(t => t.Team)
+                .Where(t => t.Tag.Team == null)
+                .ToListAsync();
+
+            return activities;
+        }
     }
 }

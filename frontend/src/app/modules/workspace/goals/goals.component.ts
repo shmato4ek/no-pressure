@@ -14,6 +14,7 @@ import { ConvertToGoalDialog } from '../convert-to-goal-dialog/convert-to-goal-d
 import { GoalDTO } from 'src/app/models/plan/goal-dto';
 import { GoalInfoDTO } from 'src/app/models/plan/goal-info-dto';
 import { ActivityDTO } from 'src/app/models/activity/activity-dto';
+import { CacheResourceService } from 'src/app/services/cache.resource.service';
 
 @Component({
   selector: 'app-goals',
@@ -31,6 +32,7 @@ export class GoalsComponent implements OnInit{
   constructor(
     private registrationService: RegistrationService,
     private planService: PlanService,
+    private cacheResourceService: CacheResourceService
   ) { }
 
   ngOnInit(): void {
@@ -44,17 +46,19 @@ export class GoalsComponent implements OnInit{
     this.isAppear = true;
   }
 
-  public getUserId() {
-    this.registrationService
-      .getUser()
-      .subscribe((user) => {
+  async getUserId() {
+    await this.cacheResourceService
+    .getUser()
+    .then(user => {
+      if (user != undefined) {
         this.userId = user.id;
         this.planService
           .getAllGoals(user.id)
           .subscribe((goals) => {
             this.goals = goals;
           });
-      });
+      }
+    });
   }
   
   selectCheckBox(goal: GoalInfoDTO) {
