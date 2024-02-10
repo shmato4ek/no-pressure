@@ -36,12 +36,16 @@ export class NotificationsDialogComponent{
       }
       this.checkNotification(id);
       this.router.navigate([`${url}`]);
-      this.dialogRef.close();
+      this.dialogRef.close(true);
     }
 
     checkNotification(id: number) {
       this.userService
         .checkNotification(id)
         .subscribe();
+    }
+
+    close() {
+      this.dialogRef.close();
     }
 }

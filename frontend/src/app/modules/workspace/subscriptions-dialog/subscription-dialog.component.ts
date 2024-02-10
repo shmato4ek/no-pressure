@@ -47,6 +47,10 @@ export class SubscriptionDialogComponent{
     redirect(user: UserSubscription) {
       let path = btoa(user.user.email);
       this.router.navigate([`profile/${path}`]);
+      this.dialogRef.close(true);
+    }
+
+    close() {
       this.dialogRef.close();
     }
 }

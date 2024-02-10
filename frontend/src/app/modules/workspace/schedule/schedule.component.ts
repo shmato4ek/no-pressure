@@ -26,6 +26,9 @@ import { TeamAccess } from 'src/app/models/enums/TeamAccess';
 import { CacheResourceService } from 'src/app/services/cache.resource.service';
 import { UserDTO } from 'src/app/models/user/user-dto';
 import { TeamScheduleOption } from 'src/app/models/team/team-schedule-option';
+import { TooltipPosition } from '@angular/material/tooltip';
+import { ScheduleActivity } from 'src/app/models/activity/schedule-activity';
+import { ScheduledActivity } from 'src/app/models/activity/scheduled-activity';
 
 @Component({
   selector: 'app-schedule',
@@ -41,9 +44,15 @@ export class ScheduleComponent implements OnInit{
   public teams = [] as TeamInfo[];
   public selectedSchedule = {} as TeamScheduleOption;
   public teamsOptions = [] as TeamScheduleOption[];
+  public allScheduledActivities = [] as ScheduleTime[];
+  positionOption: TooltipPosition = 'below';
+
+  _no_team_tooltip = "Here you will see a list of commands where you can edit the schedule";
 
   public separator = 14 as number;
   public isEditing = false as boolean;
+  public hovered1 = -1;
+  public hovered2 = -1;
 
   public dropdownSize = 5 as number;
 
@@ -61,6 +70,10 @@ export class ScheduleComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
       await this.getUserId();
+  }
+
+  setActivityStyle(activity: ActivityDTO) {
+      return `2px solid ${activity.color}`
   }
 
   public dropDownChoose() {
@@ -117,6 +130,7 @@ export class ScheduleComponent implements OnInit{
         this.tags = schedule.tags,
         this.firstHalfHours = schedule.hours.slice(0, 9),
         this.secondHalfHours = schedule.hours.slice(9, 18),
+        this.allScheduledActivities = schedule.hours,
         this.date = schedule.date
       })
   }
@@ -154,16 +168,18 @@ export class ScheduleComponent implements OnInit{
     const dialogRef = this.dialog.open(TaskAddDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((activity) => {
-      let newActivity: NewActivity = {
-        userId: this.currentUser.id,
-        name: activity.name,
-        description: activity.description,
-        tag: activity.tag,
-        isRepeatable: activity.isRepeatable,
-        color: activity.color,
-        teamId: activity.teamId,
-      };
-      this.createActivity(newActivity);
+      if (activity) {
+        let newActivity: NewActivity = {
+          userId: this.currentUser.id,
+          name: activity.name,
+          description: activity.description,
+          tag: activity.tag,
+          isRepeatable: activity.isRepeatable,
+          color: activity.color,
+          teamId: activity.teamId,
+        };
+        this.createActivity(newActivity);
+      }
     })
   }
 
@@ -176,14 +192,16 @@ export class ScheduleComponent implements OnInit{
     const dialogRef = this.dialog.open(TaskDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((activity) => {
-      let updateActivity: UpdateActivity = {
-        id: currentActivity.id,
-        name: activity.name,
-        description: activity.description,
-        startTime: ScheduleHour.Undefined,
-        endTime: ScheduleHour.Undefined,
-      };
-      this.updateActivity(updateActivity);
+      if (activity) {
+        let updateActivity: UpdateActivity = {
+          id: currentActivity.id,
+          name: activity.name,
+          description: activity.description,
+          startTime: ScheduleHour.Undefined,
+          endTime: ScheduleHour.Undefined,
+        };
+        this.updateActivity(updateActivity);
+      }
     })
   }
 
@@ -192,10 +210,11 @@ export class ScheduleComponent implements OnInit{
 
     dialogConfig.autoFocus = true;
     
-    let activity: UpdateActivity = {
+    let activity: ScheduleActivity = {
       name: currentActivity.name,
       id: currentActivity.id,
-      description: currentActivity.description
+      description: currentActivity.description,
+      schedule: this.allScheduledActivities
     }
 
     dialogConfig.data = activity;
@@ -203,12 +222,14 @@ export class ScheduleComponent implements OnInit{
     const dialogRef = this.dialog.open(TaskScheduleDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((activity) => {
-      let scheduledActivity: AddTaskToSchedule = {
-        activityId: currentActivity.id,
-        startTime: activity.startTime,
-        endTime: activity.endTime,
-      };
-      this.scheduleActivity(scheduledActivity);
+      if(activity) {
+        let scheduledActivity: AddTaskToSchedule = {
+          activityId: currentActivity.id,
+          startTime: activity.startTime,
+          endTime: activity.endTime,
+        };
+        this.scheduleActivity(scheduledActivity);
+      }
     })
   }
 
@@ -216,22 +237,38 @@ export class ScheduleComponent implements OnInit{
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
-    dialogConfig.data = currentActivity;
+
+    if (currentActivity) {
+
+    let activity: ScheduledActivity = {
+      id: currentActivity.id,
+      name: currentActivity.name,
+      description: currentActivity.description,
+      schedule: this.allScheduledActivities,
+      startTime: currentActivity.startTime,
+      endTime: currentActivity.endTime,
+      state: currentActivity.state
+    }
+
+    dialogConfig.data = activity;
+    }
 
     const dialogRef = this.dialog.open(ScheduledTaskDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((activity) => {
-      if(currentActivity != null) {
-      let updateActivity: UpdateActivity = {
-        id: currentActivity.id,
-        name: currentActivity.name,
-        description: currentActivity.description,
-        startTime: activity.startTime,
-        endTime: activity.endTime
-      };
+      if (activity) {
+        if(currentActivity != null) {
+          let updateActivity: UpdateActivity = {
+            id: currentActivity.id,
+            name: currentActivity.name,
+            description: currentActivity.description,
+            startTime: activity.startTime,
+            endTime: activity.endTime
+          };
 
-      this.updateActivity(updateActivity);
-    }
+          this.updateActivity(updateActivity);
+        }
+      }
     })
   }
 
@@ -244,14 +281,16 @@ export class ScheduleComponent implements OnInit{
     const dialogRef = this.dialog.open(TagEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((tag) => {
-      if(currentTag != null) {
-      let updateTag: UpdateTag = {
-        id: currentTag.id,
-        name: tag.name,
-        color: tag.color
-      };
+      if (tag) {
+        if(currentTag != null) {
+        let updateTag: UpdateTag = {
+          id: currentTag.id,
+          name: tag.name,
+          color: tag.color
+        };
 
-      this.updateTag(updateTag);
+        this.updateTag(updateTag);
+      }
     }
     })
   }

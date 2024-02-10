@@ -65,7 +65,7 @@ export class TeamsComponent implements OnInit{
 
     if(team.users.length <= 3) {
       if(team.users.length > 1) {
-        team.users.slice(0, team.users.length - 2).forEach(user => {
+        team.users.slice(0, team.users.length - 1).forEach(user => {
           usersLine += `${user.name}, `;
         });
       }
@@ -90,7 +90,9 @@ export class TeamsComponent implements OnInit{
     const dialogRef = this.dialog.open(AddTeamDilogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((team) => {
-      this.createTeam(team);
+      if (team) {
+        this.createTeam(team);
+      }
     })
   }
 

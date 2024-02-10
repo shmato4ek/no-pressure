@@ -41,7 +41,7 @@ export class TagEditDialogComponent implements OnInit{
           tagName: [,{
             validators: [
               Validators.required,
-              Validators.maxLength(30),
+              Validators.maxLength(10),
             ],
             updateOn:'change',
           }],
@@ -70,5 +70,9 @@ export class TagEditDialogComponent implements OnInit{
 
     openSnackBar(target: string) {
       this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
+    }
+
+    close() {
+      this.dialogRef.close();
     }
 }

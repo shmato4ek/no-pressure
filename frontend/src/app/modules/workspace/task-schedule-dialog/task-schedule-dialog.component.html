@@ -1,9 +1,28 @@
-<h2
-  mat-dialog-title
-  class="info-text-black"
->
-  Schedule activity
-</h2>
+<div class="header-container">
+  <h2
+    class="info-text-black"
+  >
+    Scheduling activity
+  </h2>
+
+  <h2
+    class="info-text-black-2"
+  >
+    ({{activityName}})
+  </h2>
+
+  <img
+    class="close-img"
+    src="../../../../assets/img/close-window.png"
+    (click)="close()"
+  >
+
+  <h3
+    class="description-text"
+  >
+    {{description}}
+  </h3>
+</div>
 
 <mat-dialog-content
   [formGroup]="dialogForm"
@@ -16,6 +35,7 @@
         <mat-option
           *ngFor="let option of selectOptions"
           [value]="option"
+          (onSelectionChange)="scheduleValidator()"
         >
           {{ option }}:00
         </mat-option>
@@ -28,11 +48,32 @@
         <mat-option
           *ngFor="let option of selectOptions"
           [value]="option"
+          (onSelectionChange)="scheduleValidator()"
         >
           {{ option }}:00
         </mat-option>
       </mat-select>
   </mat-form-field>
+</div>
+
+<div class="errors">
+  <span *ngIf="dialogForm.controls['endTime'].touched">
+      <span *ngIf="dialogForm.controls['startTime'].errors?.['required']">
+        Start time is required
+      </span>
+
+      <span *ngIf="dialogForm.controls['endTime'].errors?.['required']">
+        End time is required
+      </span>
+
+      <span *ngIf="dialogForm.controls['endTime'].errors?.['noTimeMatch']">
+        Invalid time
+      </span>
+
+      <span *ngIf="hasConflict">
+        You have already planned activity for this time
+      </span>
+  </span>
 </div>
 </mat-dialog-content>
 
@@ -43,7 +84,7 @@
     <button
       class="add-button"
       (click)="save()"
-      [disabled]="!dialogForm.valid"
+      [disabled]="!dialogForm.valid || hasConflict"
     >
       Save
     </button>

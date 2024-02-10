@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSelectSearchModule } from 'mat-select-search';
 import { IonicModule } from "@ionic/angular";
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const MaterialComponents = [
     MatButtonModule,
@@ -30,7 +31,8 @@ const MaterialComponents = [
     FormsModule,
     MatSelectSearchModule,
     IonicModule,
-    ClipboardModule
+    ClipboardModule,
+    MatTooltipModule
 ]
 
 @NgModule({

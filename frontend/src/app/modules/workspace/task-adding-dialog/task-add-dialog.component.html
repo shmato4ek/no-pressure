@@ -5,6 +5,12 @@
   Add new task
 </h2>
 
+<img
+  class="close-img"
+  src="../../../../assets/img/close-window.png"
+  (click)="close()"
+>
+
 <mat-dialog-content
   [formGroup]="dialogForm"
   class="add-dialog-container"
@@ -29,6 +35,28 @@
   >
   </mat-form-field>
 
+  <div class="errors">
+    <span *ngIf="dialogForm.controls['activityName'].touched">
+        <span *ngIf="dialogForm.controls['activityName'].errors?.['required']">
+            Activity is required
+        </span>
+        <span
+            *ngIf="(dialogForm.controls['activityName'].errors?.['minlength'] ||
+            dialogForm.controls['activityName'].errors?.['maxlength']) &&
+            !dialogForm.controls['activityName'].errors?.['pattern']"
+        >
+            Activity name can have up to 15 characters
+        </span>
+        <span
+          *ngIf="(dialogForm.controls['activityDescription'].errors?.['minlength'] ||
+          dialogForm.controls['activityDescription'].errors?.['maxlength']) &&
+          !dialogForm.controls['activityDescription'].errors?.['pattern']"
+        >
+            Description can have up to 15 characters
+        </span>
+    </span>
+</div>
+
   <button class="tag-container" (click)="changeTagState()">
     <img
       *ngIf="!isTagActive"
@@ -48,6 +76,8 @@
   <div class="tag-field-container">
     <mat-form-field *ngIf="isTagActive" class="tag-field">
       <input
+        list="userTags"
+        name="tag"
         matInput
         placeholder="Activity tag"
         formControlName="activityTag"
@@ -55,6 +85,10 @@
         (keyup)="onKey($event)"
         (keypress)="inputValidation($event, 'Tag')"
       >
+      <datalist id="userTags">
+        <option *ngFor="let tag of userTags" [value]="tag.name">
+        
+      </datalist>
     </mat-form-field>
 
     <div
@@ -69,14 +103,41 @@
         >
     </div>
   </div>
+
+  <div class="errors">
+    <span *ngIf="dialogForm.controls['activityTag'].touched">
+        <span
+            *ngIf="(dialogForm.controls['activityTag'].errors?.['minlength'] ||
+            dialogForm.controls['activityTag'].errors?.['maxlength']) &&
+            !dialogForm.controls['activityTag'].errors?.['pattern']"
+        >
+            Tag name can have up to 15 characters
+        </span>
+    </span>
+  </div>
 </mat-dialog-content>
 
 <section>
-  <mat-checkbox
+  <div
+    class="checkbox-container"
     *ngIf="isTagActive"
-    [(ngModel)]="isRepeatable"
-    class="checkbox"  
-  >Repeatable</mat-checkbox>
+  >
+    <mat-checkbox
+      [(ngModel)]="isRepeatable"
+      class="checkbox"  
+    >Repeatable</mat-checkbox>
+
+    <button mat-raised-button
+      matTooltip={{_repeatable_tooltip}}
+      matTooltipClass="tooltip"
+      class="tooltip"
+    >
+      <img
+          src="../../../../assets/img/tooltip.png"
+          class="tooltip-img"
+      >
+    </button>
+  </div>
 </section>
 
 <mat-dialog-actions class="add-button-container">

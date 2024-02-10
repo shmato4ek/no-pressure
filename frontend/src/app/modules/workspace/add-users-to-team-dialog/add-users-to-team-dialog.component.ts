@@ -98,4 +98,8 @@ export class AddUsersToTeamDialog implements OnInit{
 
       this.dialogRef.close(addUsers);
     }
+
+    close() {
+      this.dialogRef.close();
+    }
 }

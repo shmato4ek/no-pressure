@@ -22,11 +22,16 @@ export class TaskAddDialogComponent implements OnInit{
   public isRepeatable: boolean = false;
 
   public userTags = [] as TagInfo[];
+  public userTagsString = [] as string[];
   public userId: number;
   public teamId: number;
 
+  _repeatable_tooltip = "If the activity is repeatable, you can add it to the schedule again on another day";
+
   colorInput: HTMLInputElement;
   public color = "#FFA500";
+  
+  public selectedTag = "";
 
   constructor(
     private snackBarService: SnackBarService,
@@ -41,6 +46,9 @@ export class TaskAddDialogComponent implements OnInit{
       this.tagService.getAllTagsInfo(this.userId)
         .subscribe((tags) => {
           this.userTags = tags;
+          tags.forEach(element => {
+            this.userTagsString.push(element.name);
+          });
         })
       } else {
         this.tagService.getAllTeamTagsInfo(this.teamId)
@@ -55,13 +63,13 @@ export class TaskAddDialogComponent implements OnInit{
           activityName: [,{
             validators: [
               Validators.required,
-              Validators.maxLength(30),
+              Validators.maxLength(15),
             ],
             updateOn:'change',
           }],
           activityDescription: [,{
             validators: [
-              Validators.maxLength(50),
+              Validators.maxLength(15),
             ],
             updateOn:'change',
           }],
@@ -88,6 +96,7 @@ export class TaskAddDialogComponent implements OnInit{
       }
       this.dialogRef.close(activity);
     }
+    
 
     changeTagState() {
       this.isTagActive = !this.isTagActive;
@@ -99,6 +108,7 @@ export class TaskAddDialogComponent implements OnInit{
         return "#FFA500";
       }
       else {
+        (<HTMLInputElement>document.getElementById("colorpicker")).disabled = true;
         return color;
       }
     }
@@ -119,5 +129,9 @@ export class TaskAddDialogComponent implements OnInit{
 
     openSnackBar(target: string) {
       this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
+    }
+
+    close() {
+      this.dialogRef.close();
     }
 }

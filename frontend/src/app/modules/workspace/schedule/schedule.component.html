@@ -6,12 +6,25 @@
             </div>
 
             <div class="schedule-dropdown">
-                <p
+                <div
                     class="team-schedule-text"
                     *ngIf="teams.length === 0 || teams === null"
                 >
-                    Personal
-                </p>
+                    <p>
+                        Personal
+                    </p>
+
+                    <button mat-raised-button
+                        matTooltip={{_no_team_tooltip}}
+                        matTooltipClass="tooltip"
+                        class="tooltip"
+                    >
+                        <img
+                            src="../../../../assets/img/tooltip.png"
+                            class="tooltip-img"
+                        >
+                    </button>
+                </div>
 
                 <p-dropdown
                     *ngIf="teams.length !== 0 && teams !== null"
@@ -42,13 +55,13 @@
                             centralScheduled:hour.hasNext&&hour.hasPrevious}"
                         [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
                     >
-                        <div (click)="showScheduledActivityDialog(hour.activity)">
-                            <p
+                        <div (click)="showScheduledActivityDialog(hour.activity)" class="activity-text">
+                            <div
                                 class="activity-name"
                                 *ngIf="!hour.hasPrevious && hour.activity"
                             >
                                 {{hour.activity.name}}
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </span>
@@ -71,13 +84,13 @@
                             centralScheduled:hour.hasNext&&hour.hasPrevious}"
                         [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
                     >
-                        <div (click)="showScheduledActivityDialog(hour.activity)">
-                            <p
+                        <div (click)="showScheduledActivityDialog(hour.activity)" class="activity-text">
+                            <div
                                 class="activity-name"
                                 *ngIf="!hour.hasPrevious && hour.activity"
                             >
                                 {{hour.activity.name}}
-                            </p>
+                        </div>
                         </div>
                     </div>
                 </span>
@@ -107,7 +120,7 @@
                     class="write-icon">
             </button>
             <div class="tasks">
-                <div *ngFor="let tag of tags" class="tag">
+                <div *ngFor="let tag of tags; let k = index" class="tag">
                     <div class="tag-header-container">
                         <p class="tag-header">
                             {{tag.name}}
@@ -126,7 +139,7 @@
                     </div>
                     <div
                         class="activity"
-                        *ngFor="let activity of tag.activities"
+                        *ngFor="let activity of tag.activities; let i = index"
                     >
                         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="bullet">
                             <circle
@@ -140,6 +153,11 @@
                             type="button"
                             class="activity-button"
                             (click)="showScheduleActivityDialog(activity)"
+                            (mouseover)="hovered1 = i; hovered2 = k"
+                            (mouseout)="hovered1 = -1; hovered2 = -1"
+                            [ngStyle]="hovered1 === i && hovered2 === k ? 
+                                    {'border-bottom': setActivityStyle(activity)} : 
+                                    {'border-bottom': 'none'}"
                         >
                             {{activity.name}}
                         </button>

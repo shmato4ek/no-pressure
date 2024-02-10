@@ -5,6 +5,12 @@
   {{plan.name}}
 </h2>
 
+<img
+  class="close-img"
+  src="../../../../assets/img/close-window.png"
+  (click)="close()"
+>
+
 <mat-dialog-content
   [formGroup]="dialogForm"
   class="plan-dialog-container"

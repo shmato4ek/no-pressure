@@ -1,3 +1,12 @@
+.close-img{
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
 .add-button{
     height: 2.5rem;
     width: 7.5rem;
@@ -7,6 +16,14 @@
     border: none;
     border-radius: 5px;
     position: relative;
+}
+
+.errors{
+    color: red;
+    width: 100%;
+    font-size: 0.75rem;
+    height: 0.75rem;
+    text-align: end;
 }
   
 .add-button:hover {
@@ -111,6 +128,16 @@
     left: 25%;
 }
 
+.checkbox-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#userTags{
+    font-size: 1rem !important;
+}
+
 ::ng-deep .mat-mdc-snack-bar-container{
     --mdc-snackbar-container-color: white !important;
     border: 3px solid #FFA500 !important;
@@ -182,3 +209,44 @@
     border-radius: 5px;
     border: none;
   }
+
+  /*tooltip*/
+
+.tooltip{
+    width: 1rem !important;
+    height: 1rem !important;
+    background-color: white;
+    margin-left: 0.5rem;
+}
+
+.tooltip-img{
+    height: 1rem;
+    width: 1rem;
+}
+
+.mdc-button--raised{
+    padding: 0 !important;
+}
+
+.mdc-button{
+    min-width: 1rem !important;
+}
+
+::ng-deep .mat-mdc-button-touch-target{
+    height: 1rem !important;
+}
+
+.mat-mdc-raised-button.mat-unthemed {
+    --mdc-protected-button-container-color: none !important;
+    --mdc-protected-button-label-text-color: none !important;
+}
+
+.mat-mdc-raised-button {
+    border-radius: none !important;
+    box-shadow: none !important;
+}
+
+.mat-mdc-raised-button, .mat-mdc-unelevated-button {
+    --mat-mdc-button-persistent-ripple-color: none !important;
+    --mat-mdc-button-ripple-color: none !important;
+}

@@ -61,7 +61,7 @@ import { DropdownModule } from 'primeng/dropdown';
         MaterialModule,
         CommonModule,
         ReactiveFormsModule,
-        DropdownModule
+        DropdownModule,
     ],
 })
 

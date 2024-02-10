@@ -87,14 +87,15 @@ export class PlansComponent implements OnInit{
 
     const dialogRef = this.dialog.open(PlanEditDialogComponent, dialogConfig);
 
-    dialogRef.afterClosed().subscribe((plan
-      ) => {
-      let updatedPlan: UpdatePlanDTO = {
-        id: plan.id,
-        name: plan.name
+    dialogRef.afterClosed().subscribe((plan) => {
+      if (plan) {
+        let updatedPlan: UpdatePlanDTO = {
+          id: plan.id,
+          name: plan.name
+        }
+        this.planService.update(updatedPlan).subscribe();
+        window.location.reload();
       }
-      this.planService.update(updatedPlan).subscribe();
-      window.location.reload();
     })
   }
 
@@ -106,17 +107,18 @@ export class PlansComponent implements OnInit{
 
     const dialogRef = this.dialog.open(ConvertToGoalDialog, dialogConfig);
 
-    dialogRef.afterClosed().subscribe((goal
-      ) => {
-      let newGoal: GoalDTO = {
-        id: goal.id,
-        userId: goal.userId,
-        name: goal.name,
-        tag: goal.tag,
-        activities: goal.activities
+    dialogRef.afterClosed().subscribe((goal) => {
+      if (goal) {
+        let newGoal: GoalDTO = {
+          id: goal.id,
+          userId: goal.userId,
+          name: goal.name,
+          tag: goal.tag,
+          activities: goal.activities
+        }
+        this.planService.convertToGoal(newGoal);
+        window.location.reload();
       }
-      this.planService.convertToGoal(newGoal);
-      window.location.reload();
     })
   }
 

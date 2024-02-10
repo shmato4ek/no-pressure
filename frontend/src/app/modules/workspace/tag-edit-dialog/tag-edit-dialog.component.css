@@ -1,3 +1,20 @@
+.close-img{
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
+.errors{
+    color: red;
+    width: 100%;
+    font-size: 0.75rem;
+    height: 0.75rem;
+    text-align: end;
+}
+
 .add-button{
     height: 2.5rem;
     width: 7.5rem;
@@ -28,6 +45,7 @@
 }
 
 .add-dialog-container{
+    height: 8rem;
     width: 25rem;
     display: flex;
     flex-direction: column;

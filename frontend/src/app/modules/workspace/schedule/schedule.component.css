@@ -23,7 +23,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 90%;
+    height: 83.75%;
     background-color: #FBFBFB;
     position: relative;
 }
@@ -60,6 +60,7 @@
     border: none;
     background-color: #FBFBFB;
     height: 100%;
+    width: fit-content;
     font-size: 1.5rem;
     text-align: left;
     font-family: 'Handwriting', sans-serif;
@@ -68,7 +69,6 @@
 }
 
 .activity-button:hover {
-    border-bottom: 2px solid #FFA500;
     transition: 0;
   }
 
@@ -78,7 +78,7 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 75%;
     align-items: center;
 }
 
@@ -96,7 +96,6 @@
 }
 
 .add-activity-button {
-    margin-top: 1.5rem;
     border: 2px solid #FFA500;
     background-color: #FBFBFB;
     height: 3rem;
@@ -104,7 +103,7 @@
     font-size: 1.5rem;
     text-align: center;
     position: absolute;
-    bottom: 2rem;
+    bottom: 0;
 }
 
 .add-activity-icon {
@@ -224,6 +223,12 @@
     top:0
 }
 
+.activity-text {
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+}
+
 .time-container {
     display: flex;
     flex-direction: row;
@@ -264,7 +269,7 @@
 
 .tasks {
     width: 100%;
-    height: 75%;
+    height: 80%;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -281,8 +286,15 @@
 
 .schedule-dropdown{
     display: flex;
-    width: 20%;
-    padding-left: 15%;
+    width: 25%;
+    padding-left: 10%;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-schedule-text{
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
@@ -300,4 +312,45 @@
 ::-webkit-scrollbar-thumb {
     background: #FFA500;
     border-radius: 10px;
+}
+
+/*tooltip*/
+
+.tooltip{
+    width: 1rem !important;
+    height: 1rem !important;
+    background-color: white;
+    margin-left: 0.5rem;
+}
+
+.tooltip-img{
+    height: 1rem;
+    width: 1rem;
+}
+
+.mdc-button--raised{
+    padding: 0 !important;
+}
+
+.mdc-button{
+    min-width: 1rem !important;
+}
+
+::ng-deep .mat-mdc-button-touch-target{
+    height: 1rem !important;
+}
+
+.mat-mdc-raised-button.mat-unthemed {
+    --mdc-protected-button-container-color: none !important;
+    --mdc-protected-button-label-text-color: none !important;
+}
+
+.mat-mdc-raised-button {
+    border-radius: none !important;
+    box-shadow: none !important;
+}
+
+.mat-mdc-raised-button, .mat-mdc-unelevated-button {
+    --mat-mdc-button-persistent-ripple-color: none !important;
+    --mat-mdc-button-ripple-color: none !important;
 }

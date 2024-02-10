@@ -105,8 +105,10 @@ export class TeamComponent implements OnInit{
     const dialogRef = this.dialog.open(AddUsersToTeamDialog, dialogConfig);
 
     dialogRef.afterClosed().subscribe((users) => {
-      this.teamService.addUsersToTeam(users).subscribe();
-      window.location.reload();
+      if (users) {
+        this.teamService.addUsersToTeam(users).subscribe();
+        window.location.reload();
+      }
     })
   }
 

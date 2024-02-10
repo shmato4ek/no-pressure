@@ -25,7 +25,6 @@ namespace NoPressure.BLL.Sevices.Impl
                 UserId = newActivity.UserId,
                 StartTime = ScheduleHour.Undefined,
                 EndTime = ScheduleHour.Undefined,
-                Date = DateTime.UtcNow,
                 Name = newActivity.Name,
                 Description = newActivity.Description,
                 IsRepeatable = newActivity.IsRepeatable

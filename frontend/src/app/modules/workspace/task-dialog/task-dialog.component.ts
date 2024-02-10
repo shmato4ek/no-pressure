@@ -40,13 +40,13 @@ export class TaskDialogComponent implements OnInit{
           activityName: [,{
             validators: [
               Validators.required,
-              Validators.maxLength(30),
+              Validators.maxLength(15),
             ],
             updateOn:'change',
           }],
           activityDescription: [,{
             validators: [
-              Validators.maxLength(50),
+              Validators.maxLength(15),
             ],
             updateOn:'change',
           }]
@@ -80,5 +80,9 @@ export class TaskDialogComponent implements OnInit{
 
     openSnackBar(target: string) {
       this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
+    }
+
+    close() {
+      this.dialogRef.close();
     }
 }

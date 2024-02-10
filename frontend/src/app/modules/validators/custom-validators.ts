@@ -1,4 +1,6 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ScheduleHour } from 'src/app/models/enums/ScheduleHour';
+import { ScheduleTime } from 'src/app/models/schedule/schedule-time';
 
 export class CustomValidators {
 
@@ -11,6 +13,15 @@ export class CustomValidators {
         }
     }
     
+    static schedullingValidation(form: AbstractControl) {
+        const startTime = form.get('startTime')?.value;
+        const endTime = form.get('endTime')?.value;
+        if (startTime >= endTime)
+        {
+            form.get('endTime')?.setErrors({noTimeMatch: true})
+        }
+    }
+
     static checkboxValidation1(form: AbstractControl) {
         const checkbox1 = form.get('checkbox11')?.value;
         const checkbox2 = form.get('checkbox12')?.value;

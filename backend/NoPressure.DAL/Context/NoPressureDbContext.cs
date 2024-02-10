@@ -36,6 +36,6 @@ namespace NoPressure.DAL.Context
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=NoPressureDemo2;UserName=postgres;Password=0985883147");
+            => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=NoPressureFinalDemo;UserName=postgres;Password=0985883147");
     }
 }

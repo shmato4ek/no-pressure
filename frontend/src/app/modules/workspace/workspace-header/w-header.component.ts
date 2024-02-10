@@ -30,8 +30,10 @@ export class WorkspaceHeaderComponent {
     const dialogRef = this.dialog.open(NotificationsDialogComponent, dialogConfig);
 
     
-    dialogRef.afterClosed().subscribe(() => {
-      window.location.reload();
+    dialogRef.afterClosed().subscribe((resp) => {
+      if (resp) {
+        window.location.reload();
+      }
     })
   }
 

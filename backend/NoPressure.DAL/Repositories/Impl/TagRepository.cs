@@ -66,7 +66,7 @@ namespace NoPressure.DAL.Repositories.Impl
                     UserId = tag.UserId,
                     Name = tag.Name,
                     Activities = tag.Activities
-                        .Where(activity => !activity.IsScheduled || activity.IsRepeatable)
+                        .Where(activity => (!activity.IsScheduled && !activity.IsRepeatable) || (activity.IsRepeatable && activity.Date.Date != DateTime.UtcNow.Date))
                         .ToList()
                 })
                 .Where(tag => tag.Activities.Any())

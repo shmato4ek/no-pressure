@@ -65,4 +65,8 @@ export class PlanEditDialogComponent implements OnInit{
     openSnackBar(target: string) {
       this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
     }
+
+    close() {
+      this.dialogRef.close();
+    }
 }

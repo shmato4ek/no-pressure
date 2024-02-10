@@ -153,4 +153,8 @@ export class TeamSettingDialog implements OnInit{
         this.dialogRef.close();
       }
     }
+
+    close() {
+      this.dialogRef.close();
+    }
 }

@@ -5,6 +5,12 @@
   Update activity
 </h2>
 
+<img
+  class="close-img"
+  src="../../../../assets/img/close-window.png"
+  (click)="close()"
+>
+
 <mat-dialog-content
   [formGroup]="dialogForm"
   class="add-dialog-container"
@@ -27,6 +33,28 @@
     (keypress)="inputValidation($event, 'Description')"
   >
   </mat-form-field>
+  
+  <div class="errors">
+    <span *ngIf="dialogForm.controls['activityName'].touched">
+        <span *ngIf="dialogForm.controls['activityName'].errors?.['required']">
+            Username is required
+        </span>
+        <span
+            *ngIf="(dialogForm.controls['activityName'].errors?.['minlength'] ||
+            dialogForm.controls['activityName'].errors?.['maxlength']) &&
+            !dialogForm.controls['activityName'].errors?.['pattern']"
+        >
+            Activity name can have up to 15 characters
+        </span>
+        <span
+          *ngIf="(dialogForm.controls['activityDescription'].errors?.['minlength'] ||
+          dialogForm.controls['activityDescription'].errors?.['maxlength']) &&
+          !dialogForm.controls['activityDescription'].errors?.['pattern']"
+        >
+            Description can have up to 15 characters
+        </span>
+    </span>
+  </div>
 </mat-dialog-content>
 
 <div class="buttons-container">

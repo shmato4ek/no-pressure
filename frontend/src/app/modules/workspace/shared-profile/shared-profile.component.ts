@@ -71,8 +71,10 @@ export class SharedProfileComponent implements OnInit {
 
     const dialogRef = this.dialog.open(SubscriptionDialogComponent, dialogConfig);
 
-    dialogRef.afterClosed().subscribe(() => {
-      window.location.reload();
+    dialogRef.afterClosed().subscribe((resp) => {
+      if (resp) {
+        window.location.reload();
+      }
     })
   }
 

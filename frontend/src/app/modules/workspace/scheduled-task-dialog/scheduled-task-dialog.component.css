@@ -1,3 +1,12 @@
+.close-img{
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
 .start-time-field{
     width: 10rem;
 }
@@ -17,6 +26,7 @@
 
 .add-dialog-container{
     width: 25rem;
+    height: 6.25rem;
     display: flex;
     flex-direction: column;
     padding-bottom: 0;
@@ -79,7 +89,7 @@
 }
 
 .approve-icon{
-    height: 2rem;
+    height: 1.5rem;
 }
 
 .approve-button{
@@ -94,7 +104,7 @@
 
 .botton-text{
     font-size: 1.5rem;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 
 .approve-task-container{
@@ -135,3 +145,11 @@
     border-radius: 5px;
     border: none;
   }
+
+  .errors{
+    color: red;
+    width: 100%;
+    font-size: 0.75rem;
+    height: 0.75rem;
+    text-align: end;
+}

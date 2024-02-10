@@ -15,19 +15,13 @@
                 <p class="team-text">{{setUsersLine(team)}}</p>
             </div>
 
-            <div class="team-point">
+            <div class="tags-point">
                 <img
                     src="../../../../assets/img/tasks.svg"
                     class="team-img"
                 >
 
                 <div class="team-activities-container">
-                    <div
-                        *ngIf="team.tags && team.tags.length === 0"
-                        
-                    >
-                    </div>
-
                     <div
                         class="team-activity"
                         *ngFor="let tag of getTeamTags(team)"    
