@@ -70,6 +70,15 @@ export class ScheduleComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
       await this.getUserId();
+      let page = this.cacheResourceService.getSchedulePage();
+      let team = this.teamsOptions.find(t => t.name == page);
+
+      if (team != undefined) {
+        this.selectedSchedule = {
+          name: page.toString(),
+          id: team.id        
+        }
+      }
   }
 
   setActivityStyle(activity: ActivityDTO) {
@@ -83,6 +92,8 @@ export class ScheduleComponent implements OnInit{
     } else {
       this.getTeamSchedule(this.selectedSchedule.id);
     }
+
+    this.cacheResourceService.setSchedulePage(this.selectedSchedule.name);
   }
 
   public async getUserId() {
@@ -119,7 +130,8 @@ export class ScheduleComponent implements OnInit{
           this.tags = schedule.tags,
           this.firstHalfHours = schedule.hours.slice(0, 9),
           this.secondHalfHours = schedule.hours.slice(9, 18),
-          this.date = schedule.date
+          this.date = schedule.date,
+          this.allScheduledActivities = schedule.hours
         }
       })
   }

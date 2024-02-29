@@ -1,4 +1,6 @@
-﻿namespace NoPressure.DAL.Entities
+﻿using NoPressure.Common.Enums;
+
+namespace NoPressure.DAL.Entities
 {
     public class User
     {
@@ -8,6 +10,8 @@
         public string Password { get; set; }
         public string Salt { get; set; }
         public DateTime RegistrationDate { get; set; }
+        public AuthType AuthType { get; set; }
+        public string? ExternalToken { get; set; }
         public List<Activity> Activities { get; set; }
         public List<Plan> Plans { get; set; }
         public List<Subscription> Followers { get; set; }

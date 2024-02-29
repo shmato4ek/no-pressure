@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using NoPressure.BLL.Exceptions;
 using NoPressure.BLL.JWT;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.Auth;
@@ -32,12 +33,12 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if (userEntity is null)
             {
-                throw new Exception();
+                throw new NotFoundException("User");
             }
 
             if (!SecurityHelper.IsValidPassword(userEntity.Password, loginUser.Password, userEntity.Salt))
             {
-                throw new Exception();
+                throw new InvalidUserNameOrPasswordException();
             }
 
             var token = await GenerateAccessToken(userEntity.Id, userEntity.Name, userEntity.Email);
@@ -65,6 +66,24 @@ namespace NoPressure.BLL.Sevices.Impl
               Email = email,
               Availability = userEntity is null,  
             };
+        }
+
+        public async Task<bool> CheckPassword(string password, int userId)
+        {
+            var userEntity = await _userRepository.FindAsync(userId);
+
+            if (userEntity is null)
+            {
+                throw new NotFoundException("User", userId);
+            }
+
+            var data = Convert.FromBase64String(password);
+
+            var decodedPassword = System.Text.Encoding.UTF8.GetString(data);
+
+            var isValid = SecurityHelper.IsValidPassword(userEntity.Password, decodedPassword, userEntity.Salt);
+
+            return isValid;
         }
     }
 }

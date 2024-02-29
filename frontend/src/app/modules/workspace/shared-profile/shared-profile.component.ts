@@ -47,6 +47,8 @@ export class SharedProfileComponent implements OnInit {
         this.statistic = resp.statistic;
         this.isFollowed = resp.isFollowed;
 
+        console.log(this.currentUser.registrationDate);
+
         this.registrationService
           .getUser()
           .subscribe((resp) => {

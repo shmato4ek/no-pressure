@@ -46,6 +46,7 @@ export class AddUsersToTeamDialog implements OnInit{
         user: [,{
           validators: [
             Validators.required,
+            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
           ],
           updateOn:'change',
         }],
@@ -59,7 +60,13 @@ export class AddUsersToTeamDialog implements OnInit{
 
     addUser() {
       const userForm = this.formBuilder.group({
-          name: ['', Validators.required],
+          name: [,{
+            validators: [
+              Validators.required,
+              Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+            ],
+            updateOn:'change',
+          }],
       });
       this.users.push(userForm);
     }
@@ -71,7 +78,16 @@ export class AddUsersToTeamDialog implements OnInit{
     inputValidation(event: any, target: string) {   
       var k;  
       k = event.charCode;
-      var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+      var isValid = (
+        (k > 64 && k < 91) || 
+        (k > 96 && k < 123) ||
+        k == 8 ||
+        k == 32 ||
+        (k >= 48 && k <= 57) ||
+        (k >= 33 && k <= 47) ||
+        (k >= 58 && k <= 64) ||
+        (k >= 91 && k <= 96) ||
+        (k >= 123 && k <= 126));
       if (!isValid) {
         this.openSnackBar(target);
       }

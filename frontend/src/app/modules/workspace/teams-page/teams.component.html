@@ -22,6 +22,10 @@
                 >
 
                 <div class="team-activities-container">
+                    <p *ngIf="getTeamTags(team)?.length === 0" class="team-text">
+                        There are no tags yet
+                    </p>
+
                     <div
                         class="team-activity"
                         *ngFor="let tag of getTeamTags(team)"    

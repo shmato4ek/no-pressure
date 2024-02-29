@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Runtime.Intrinsics.X86;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
+using NoPressure.BLL.Exceptions;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
 using NoPressure.Common.Enums;
@@ -32,7 +33,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(activityEntity is null)
             {
-                throw new Exception($"Activity with id {activity.ActivityId} was not found");
+                throw new NotFoundException("Activity", activity.ActivityId);
             }
 
             activityEntity.Date = DateTime.UtcNow;
@@ -164,22 +165,27 @@ namespace NoPressure.BLL.Sevices.Impl
         {
             var teamEntity = await _uow.TeamRepository.GetTeamAsync(teamId);
 
+            if (teamEntity is null)
+            {
+                throw new NotFoundException("Team", teamId);
+            }
+
             var userEntity = await _uow.UserRepository.FindAsync(userId);
 
             if (userEntity is null)
             {
-                throw new Exception();
+                throw new NotFoundException("User", userId);
             }
 
             if (teamEntity.Users.FirstOrDefault(u => u.Id == userId) is null)
             {
-                throw new Exception();
+                throw new NotFoundException("User", userId);
             }
             
             var userSettings = teamEntity.Settings.FirstOrDefault(user => user.UserId == userId);
             if (userSettings.AddingUsers != TeamAccess.Allow)
             {
-                throw new Exception();
+                throw new NoAccessException();
             }
 
             var activities = new List<Activity>();

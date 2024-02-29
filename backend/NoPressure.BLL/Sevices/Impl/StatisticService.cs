@@ -69,7 +69,7 @@ namespace NoPressure.BLL.Sevices.Impl
             
             var weekAgoDate = DateTime.UtcNow.AddDays(-7);
             var weekActivities = userActivities
-                .Where(activity => activity.Date > weekAgoDate)
+                .Where(activity => activity.CreationDate > weekAgoDate)
                 .ToList();
 
             if (weekActivities != null)
@@ -93,7 +93,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             var monthAgoDate = DateTime.UtcNow.AddMonths(-1);
             var monthActivities = userActivities
-                .Where(activity => activity.Date > monthAgoDate)
+                .Where(activity => activity.CreationDate > monthAgoDate)
                 .ToList();
 
             if(monthActivities != null)

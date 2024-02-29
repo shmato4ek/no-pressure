@@ -1,4 +1,6 @@
 using AutoMapper;
+using NoPressure.BLL.Exceptions;
+using NoPressure.BLL.Helpers;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
 using NoPressure.Common.Enums;
@@ -31,7 +33,7 @@ namespace NoPressure.BLL.Sevices.Impl
             
             if (userEntity is null)
             {
-                throw new Exception($"User with id {userId} was not found");
+                throw new NotFoundException("User", userId);
             }
 
             var teamEntity = await _uow
@@ -40,12 +42,12 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if (teamEntity is null)
             {
-                throw new Exception($"Team with id {teamId} was not found");
+                throw new NotFoundException("Team", teamId);
             }
 
             if(teamEntity.Users.FirstOrDefault(u => u.Id == userId) != null)
             {
-                throw new Exception($"User with id {userId} is already in team {teamId}");
+                throw new UserInTeamException(userId, teamId);
             }
 
             teamEntity.Users.Add(userEntity);
@@ -62,6 +64,21 @@ namespace NoPressure.BLL.Sevices.Impl
 
             _uow.TeamRepository.Update(teamEntity);
 
+            var notification = new Notification()
+            {
+                UserId = teamEntity.AuthorId,
+                Title = NotificationTitle.NewTeamJoin,
+                Date = DateTime.UtcNow,
+                Data = new NotificationData()
+                {
+                    SecondUserName = userEntity.Name,
+                    TeamName = teamEntity.Name,
+                    Link = NotificationLinkHelper.GetNewTeamRequestLink(teamEntity.UniqId),
+                }
+            };
+
+            _uow.NotificationRepository.Create(notification);
+
             await _uow.SaveAsync();
         }
 
@@ -71,7 +88,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(userEntity is null)
             {
-                throw new Exception($"There is no user with id {newTeam.UserId}");
+                throw new NotFoundException("User", newTeam.UserId);
             }
 
             var teamEntity = new Team()
@@ -132,20 +149,35 @@ namespace NoPressure.BLL.Sevices.Impl
                 .GetUsersTeams(id);
 
             var teams = _mapper.Map<List<TeamDTO>>(teamsEntity);
+
             foreach (var team in teams)
             {
                 foreach (var tag in team.Tags)
                 {
-                    tag.ActivitiesAll = tag.Activities.Count();
+                    tag.ActivitiesAll = tag.Activities.Count;
                     tag.ActivitiesDone = tag.Activities.Where(a => a.State == ActivityState.Done).Count();
                 }
             }
 
-            return _mapper.Map<List<TeamDTO>>(teamsEntity);
+            return teams;
         }
 
         public async Task RemoveUserFromTeam(int teamId, int userId)
         {
+            var teamEntity = await _uow.TeamRepository.FindAsync(teamId);
+
+            if (teamEntity is null)
+            {
+                throw new NotFoundException("Team", teamId);
+            }
+
+            var userEntity = await _uow.UserRepository.FindAsync(userId);
+
+            if (userEntity is null)
+            {
+                throw new NotFoundException("User", userId);
+            }
+
             await _uow.TeamRepository.RemoveUserFromTeam(teamId, userId);
             await _uow.SaveAsync();
         }
@@ -153,6 +185,11 @@ namespace NoPressure.BLL.Sevices.Impl
         public async Task<TeamDTO> GetTeamByUniqId(string id, int userId)
         {
             var teamEntity = await _uow.TeamRepository.GetTeamByUniqId(id);
+
+            if (teamEntity is null)
+            {
+                throw new NotFoundException("Team");
+            }
             
             var team = new TeamDTO()
             {
@@ -198,8 +235,20 @@ namespace NoPressure.BLL.Sevices.Impl
             return team;
         }
 
-        public async Task RemoveTeam(int teamId)
+        public async Task RemoveTeam(int teamId, int userId)
         {
+            var teamEntity = await _uow.TeamRepository.FindAsync(teamId);
+
+            if (teamEntity is null)
+            {
+                throw new NotFoundException("Team", teamId);
+            }
+
+            if (userId != teamEntity.AuthorId)
+            {
+                throw new NoAccessException();
+            }
+
             await _uow.TeamRepository.RemoveTeam(teamId);
             
             await _uow.SaveAsync();
@@ -211,9 +260,9 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(team is null)
             {
-                throw new Exception();
-            }
+                throw new NotFoundException("Team", teamId);
 
+            }
             var teamWithSettings = new TeamWithSettingsDTO()
             {
                 Id = team.Id,
@@ -236,7 +285,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(team is null)
             {
-                throw new Exception();
+                throw new NotFoundException("Team", settings.TeamId);
             }
 
             team.PrivacyState = settings.State;
@@ -248,7 +297,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
                 if(userSettings is null)
                 {
-                    throw new Exception();
+                    throw new NotFoundException("Settings", setting.Id);
                 }
 
                 userSettings.AddingActivities = setting.AddingActivities;

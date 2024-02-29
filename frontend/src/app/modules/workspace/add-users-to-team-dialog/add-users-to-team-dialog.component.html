@@ -24,6 +24,17 @@
     >
   </mat-form-field>
 
+  <div class="errors">
+    <span *ngIf="dialogForm.controls['user'].errors?.['required']">
+      User email is required
+    </span>
+    <span *ngIf="!dialogForm.controls['user'].errors?.['required']">
+      <span *ngIf="dialogForm.controls['user'].errors?.['pattern']">
+        Invalid email
+      </span>
+    </span>
+  </div>
+
   <div class="add-users-container">
     <div
       formArrayName="users"
@@ -40,6 +51,19 @@
               >
           </mat-form-field>
           <img src="../../../../assets/img/delete.png" class="delete-btn" (click)="deleteUser(i)">
+      </div>
+
+      <div class="errors">
+          <span *ngIf="dialogForm.controls['users'].get([i])?.get(['name'])?.errors?.['required']">
+            User email is required
+          </span>
+          <span *ngIf="dialogForm.controls['users'].get([i])?.get(['name'])?.touched">
+              <span
+                  *ngIf="dialogForm.controls['users'].get([i])?.get(['name'])?.errors?.['pattern']"
+              >
+                  Invalid email
+              </span>
+          </span>
       </div>
     </div>
   </div>

@@ -9,6 +9,7 @@ import { GoalsComponent } from "./goals/goals.component";
 import { SettingsComponent } from "./settings-page/settings.component";
 import { TeamsComponent } from "./teams-page/teams.component";
 import { TeamComponent } from "./team/team.component";
+import { ErrorPageComponent } from "./error-page/error-page.component";
 
 const routes: Routes = [
     {
@@ -42,6 +43,15 @@ const routes: Routes = [
             {
                 path: 'teams/:id',
                 component: TeamComponent,
+            },
+            {
+                path: 'error/:status',
+                component: ErrorPageComponent
+            },
+            {
+                path: '**',
+                pathMatch: 'full',
+                component: ErrorPageComponent
             }
         ]
     }

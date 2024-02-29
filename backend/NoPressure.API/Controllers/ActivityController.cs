@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NoPressure.BLL.Exceptions;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.Models.Activity;
 using NoPressure.Common.Models.Tag;
@@ -34,52 +35,116 @@ namespace NoPressure.API.Controllers
         [HttpGet("user/{userId:int}")]
         public async Task<ActionResult> GetAllUserActivities(int userId)
         {
-            return Ok(await _activityService.GetAllUserActivity(userId));
+            try
+            {
+                return Ok(await _activityService.GetAllUserActivity(userId));
+            }
+
+            catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdateActivity(UpdateActivity updatedActivity)
         {
-            return Ok(await _activityService.UpdateActivity(updatedActivity));
+            try
+            {
+                return Ok(await _activityService.UpdateActivity(updatedActivity));
+            }
+
+            catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
 
         [HttpDelete("{activityId:int}")]
         public async Task<ActionResult> DeleteActivity(int activityId)
         {
-            await _activityService.DeleteActivity(activityId);
-            return NoContent();
+            try
+            {
+                await _activityService.DeleteActivity(activityId);
+                return NoContent();
+            }
+
+            catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
 
         [HttpGet("tag/{userId}")]
         public async Task<ActionResult> GetTagsInfo(int userId)
         {
-            return Ok(await _tagService.GetUsersTagInfo(userId));
+            try
+            {
+                return Ok(await _tagService.GetUsersTagInfo(userId));
+            }
+
+            catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
 
         [HttpGet("team/{teamId}")]
         public async Task<ActionResult> GetTeamTagsInfo(int teamId)
         {
-            return Ok(await _tagService.GetTeamTagInfo(teamId));
+            try
+            {
+                return Ok(await _tagService.GetTeamTagInfo(teamId));
+            }
+
+            catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
 
         [HttpPut("tag")]
         public async Task<ActionResult> UpdateTag(UpdateTagDTO updateTag)
         {
-            await _tagService.UpdateTag(updateTag);
-            return NoContent();
+            try
+            {
+                await _tagService.UpdateTag(updateTag);
+                return NoContent();
+            }
+
+            catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
 
         [HttpPatch("state")]
         public async Task<ActionResult> ChangeState(UpdateActivityState activity)
         {
-            await _activityService.ChangeState(activity);
-            return NoContent();
+            try
+            {
+                await _activityService.ChangeState(activity);
+                return NoContent();
+            }
+
+            catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
 
         [HttpGet("statistic/{userId}")]
         public async Task<ActionResult> GetStatistic(int userId)
         {
-            return Ok(await _statisticService.GetActivitiesStatistic(userId));
+            try
+            {
+                return Ok(await _statisticService.GetActivitiesStatistic(userId));
+            }
+
+            catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
         }
     }
 }

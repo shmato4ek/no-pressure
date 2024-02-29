@@ -29,6 +29,7 @@ import { AddTeamDilogComponent } from './add-team-dialog/add-team-dialog.compone
 import { TeamSettingDialog } from './team-settings-dialog/team-settings-dialog.component';
 import { AddUsersToTeamDialog } from './add-users-to-team-dialog/add-users-to-team-dialog.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { DropdownModule } from 'primeng/dropdown';
         AddTeamDilogComponent,
         TeamSettingDialog,
         AddUsersToTeamDialog,
+        ErrorPageComponent
     ],
     imports: [
         WorkspaceRoutingModule,
@@ -62,7 +64,7 @@ import { DropdownModule } from 'primeng/dropdown';
         CommonModule,
         ReactiveFormsModule,
         DropdownModule,
-    ],
+    ]
 })
 
 export class WorkspaceModule {}

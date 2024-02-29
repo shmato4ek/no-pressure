@@ -75,7 +75,7 @@
 
 .activities-container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 /*text*/
@@ -177,4 +177,14 @@
 
 ::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__label{
     color: black !important;
+}
+
+.errors{
+    color: red;
+    width: 100%;
+    font-size: 0.75rem;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    height: 1.5rem;
+    text-align: end;
 }

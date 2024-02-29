@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Subject, takeUntil } from 'rxjs';
+import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 import { ActivityDTO } from 'src/app/models/activity/activity-dto';
 import { PlanDTO } from 'src/app/models/plan/plan-dto';
 import { Statistic } from 'src/app/models/statistic/statistic';
@@ -45,6 +45,8 @@ export class SettingsComponent implements OnInit {
 
   currentStatChecked = {} as SettingsPrivacy;
   currentActChecked = {} as SettingsPrivacy;
+
+  isValid = false;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -97,7 +99,10 @@ export class SettingsComponent implements OnInit {
         Validators.minLength(8),
         Validators.maxLength(20),
         Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')
-      ]]});
+      ]]},
+      {
+        validator: CustomValidators.changePasswordValidation
+      });
   }
 
   private validateCheckBox() {
@@ -115,7 +120,6 @@ export class SettingsComponent implements OnInit {
     this.updateForm = this.formBuilder.group({
       username: ['', [
         Validators.required,
-        Validators.pattern('(?![_.])[a-zA-Z0-9._]+(?<![_.])$'),
         Validators.minLength(3),
         Validators.maxLength(15)
       ]],
@@ -123,7 +127,6 @@ export class SettingsComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
       ]],
-      country: ['',],
     })
   }
 
@@ -186,10 +189,27 @@ export class SettingsComponent implements OnInit {
     this.snackBarService.openSnackBar(`${target} must contain only latin symbols!`);
   }
 
+  snackBarPasswordChanged() {
+    this.snackBarService.openSnackBar('Password was successfully changed!');
+  }
+
+  snackBarPasswordError() {
+    this.snackBarService.openSnackBar('Old password is invalid!');
+  }
+
   inputValidation(event: any, target: string) {   
     var k;  
     k = event.charCode;
-    var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    var isValid = (
+      (k > 64 && k < 91) || 
+      (k > 96 && k < 123) ||
+      k == 8 ||
+      k == 32 ||
+      (k >= 48 && k <= 57) ||
+      (k >= 33 && k <= 47) ||
+      (k >= 58 && k <= 64) ||
+      (k >= 91 && k <= 96) ||
+      (k >= 123 && k <= 126));
     if (!isValid) {
       this.openSnackBar(target);
     }
@@ -197,14 +217,26 @@ export class SettingsComponent implements OnInit {
   }
 
   changePassword() {
-    let changePassword: ChangePassword = {
-      userId: this.currentUser.id,
-      oldPassword: this.passwordForm.get('oldPassword')?.value,
-      newPassword: this.passwordForm.get('newPassword')?.value,
-    }
+    var password = this.passwordForm.get('oldPassword')?.value;
+    var encodedPassword = btoa(password);
+    this.userService
+      .checkPassword(encodedPassword)
+      .subscribe((resp) => {
+        this.isValid = resp;
 
-    this.userService.changePassword(changePassword).subscribe();
-    window.location.reload();
+        if(this.isValid) {
+          let changePassword: ChangePassword = {
+            userId: this.currentUser.id,
+            oldPassword: password,
+            newPassword: this.passwordForm.get('newPassword')?.value,
+          }
+    
+          this.userService.changePassword(changePassword).subscribe();
+          this.snackBarPasswordChanged();
+        } else {
+          this.snackBarPasswordError();
+        }
+      });
   }
 
   changeStat() {
@@ -214,6 +246,7 @@ export class SettingsComponent implements OnInit {
     }
 
     this.settingsService.updateSettings(updatedSettings);
+    this.snackBarService.openSnackBar("Settings were successfully updated!");
   }
 
   updateUser() {
@@ -229,6 +262,6 @@ export class SettingsComponent implements OnInit {
     }
 
     this.userService.updateUser(user).subscribe();
-    window.location.reload();
+    this.snackBarService.openSnackBar("Settings were successfully updated!");
   }
 }

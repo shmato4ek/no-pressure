@@ -8,6 +8,7 @@ namespace NoPressure.DAL.Entities
         public string Name { get; set; }
         public List<Activity> Activities { get; set; }
         public PlanState State { get; set; } = PlanState.Plan;
+        public GoalState GoalState { get; set; } = GoalState.Active;
 
         public int UserId { get; set; }
         public User User { get; set; }

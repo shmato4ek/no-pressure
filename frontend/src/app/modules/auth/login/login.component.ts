@@ -1,19 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs';
+import { ExternalUserAuth } from 'src/app/models/user/external-auth-user';
 import { UserDTO } from 'src/app/models/user/user-dto';
 import { UserLogin } from 'src/app/models/user/user-login';
 import { LoginService } from 'src/app/services/login.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public loginForm: FormGroup = {} as FormGroup;
   public currentUser: UserDTO = {} as UserDTO;
   redirectUrl: string | undefined;
+  googleUser = {} as SocialUser;
+  googleBtn?: ElementRef;
 
   passwordType = '';
   imgSrc = '';
@@ -24,6 +30,8 @@ export class LoginComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private loginService: LoginService,
+    private googleAuthService: SocialAuthService,
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
@@ -33,6 +41,25 @@ export class LoginComponent {
       this.route.queryParams.subscribe((params) => {
         this.redirectUrl = params['redirect_url'];
       });
+
+      this.googleAuthService.authState.subscribe((resp:SocialUser) => {
+        this.googleUser = resp;
+        if(this.googleUser) {
+          let user: ExternalUserAuth = {
+            name: resp.name,
+            email: resp.email,
+            authToken: resp.id
+          };
+          this.loginService.googleAuth(user).subscribe({
+            next: (responce) => {   
+              this.currentUser = responce;
+              if (this.loginService.areTokensExist()) {
+                this.router.navigate(['/personal/schedule'])
+              }
+            },
+          })
+        }
+      })
   }
 
   private validateForm() {

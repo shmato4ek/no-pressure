@@ -58,26 +58,11 @@
                             subscriptSizing="dynamic"
                         >
                             <input
+                                [attr.disabled]="currentUser.authType === 1"
                                 matInput
                                 formControlName="email"
                                 id="email"
                                 (keypress)="inputValidation($event, 'Email')"
-                            >
-                        </mat-form-field>
-                    </div>
-
-                    <div class="content-point">
-                        <p class="content-text-bld">Country:</p>
-                        <mat-form-field
-                            appearance="fill"
-                            class="update-field"
-                            hideRequiredMarker="true"
-                            subscriptSizing="dynamic"
-                        >
-                            <input
-                                matInput
-                                formControlName="country"
-                                id="country"
                             >
                         </mat-form-field>
                     </div>
@@ -120,6 +105,7 @@
                     <button
                         class="update-button"
                         type="submit"
+                        [disabled]="!updateForm.valid"
                     >
                         Change
                     </button>
@@ -286,13 +272,14 @@
             <button
                 class="password-button"
                 type="submit"
+                [disabled]="!settingsForm.valid"
                 (click)="changeStat()"
             >
                 Save
             </button>
         </div>
 
-        <div class="acc-settings">
+        <div class="acc-settings" *ngIf="currentUser.authType !== 1">
             <div class="settings-header">
                 <img
                     src="../../../../assets/img/settings.svg"
@@ -366,6 +353,10 @@
                             <span *ngIf="passwordForm.controls['newPassword'].errors?.['required']">
                                 New password is a required
                             </span>
+
+                            <span *ngIf="passwordForm.controls['newPassword'].errors?.['samePasswords']">
+                                Passwords are the same!
+                            </span>
                         </span>
 
                         <span *ngIf="passwordForm.controls['oldPassword'].touched &&
@@ -379,7 +370,7 @@
                     <button
                         class="password-button"
                         type="submit"
-                        (click)="changePassword()"
+                        [disabled]="!passwordForm.valid"
                     >
                         Change
                     </button>

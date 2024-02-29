@@ -12,6 +12,8 @@ import { WorkspaceModule } from './modules/workspace/workspace.module';
 import { IonicModule } from '@ionic/angular';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CacheService } from './services/cache.service';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { ErrorInterceptor } from './services/error-interceptor';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { CacheService } from './services/cache.service';
     WorkspaceModule,
     MatSnackBarModule,
     IonicModule.forRoot({}),
+    SocialLoginModule,
   ],
   providers: [
     {
@@ -34,6 +37,30 @@ import { CacheService } from './services/cache.service';
       useClass: TokenInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+          autologin: false,
+          providers: [
+              {
+                  id: GoogleLoginProvider.PROVIDER_ID,
+                  provider: new GoogleLoginProvider(
+                      '587838485415-snc43mtvbkmbtf74g95reo1jo9focve4.apps.googleusercontent.com', {
+                        oneTapEnabled: false
+                      }
+                  )
+              }
+          ],
+          onError: (err) => {
+              console.log(err);
+          }
+      } as SocialAuthServiceConfig,
+  },
     CacheService,
   ],
   bootstrap: [AppComponent]

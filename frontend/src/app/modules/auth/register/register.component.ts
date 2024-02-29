@@ -77,7 +77,6 @@ export class RegisterComponent implements OnInit{
     this.registerForm = this.formBuilder.group({
       username: ['', [
         Validators.required,
-        Validators.pattern('(?![_.])[a-zA-Z0-9._]+(?<![_.])$'),
         Validators.minLength(3),
         Validators.maxLength(15)
       ]],
@@ -134,7 +133,16 @@ export class RegisterComponent implements OnInit{
   inputValidation(event: any, target: string) {   
     var k;  
     k = event.charCode;
-    var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    var isValid = (
+      (k > 64 && k < 91) || 
+      (k > 96 && k < 123) ||
+      k == 8 ||
+      k == 32 ||
+      (k >= 48 && k <= 57) ||
+      (k >= 33 && k <= 47) ||
+      (k >= 58 && k <= 64) ||
+      (k >= 91 && k <= 96) ||
+      (k >= 123 && k <= 126));
     if (!isValid) {
       this.openSnackBar(target);
     }

@@ -14,6 +14,7 @@ import { ChangeStatus } from "../models/team/change-status";
 import { TeamWithSettings } from "../models/team/team-with-settings";
 import { UpdateTeamSettings } from "../models/team/update-team-settings";
 import { AddUsersToTeam } from "../models/team/add-users-to-team";
+import { RemoveUserFromTeam } from "../models/team/remove-user-from-team";
 
 @Injectable({
     providedIn: 'root',
@@ -42,6 +43,11 @@ export class TeamService extends ResourceService<Team> {
 
     deleteTeam(id: number) {
         this.delete(id).subscribe();
+    }
+
+    removeUserFromTeam(request: RemoveUserFromTeam) {
+        return this.httpClient
+            .delete(`${environment.apiUrl}/team/user`, {body: request})
     }
 
     public getUsersTeams() {

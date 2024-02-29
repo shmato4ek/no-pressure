@@ -13,22 +13,14 @@ namespace NoPressure.DAL.Repositories.Impl
 
         public async Task<List<Team>> GetUsersTeams(int userId)
         {
-            var user = await _context
-                .Users
-                .FindAsync(userId);
-
-            if (user is null)
-            {
-                throw new Exception($"There is no user with id {userId}");
-            }
-
             var teams = await _context
                 .Users
                 .Where(u => u.Id == userId)
                 .SelectMany(u => u.Teams)
                 .Include(t => t.Users)
-                .Include(t => t.Tags)
                 .Include(t => t.Settings)
+                .Include(t => t.Tags)
+                .ThenInclude(t => t.Activities)
                 .Where(t => t.State == EntityState.Active)
                 .ToListAsync();
 
@@ -46,11 +38,6 @@ namespace NoPressure.DAL.Repositories.Impl
                 .Where(t => t.State == EntityState.Active)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
-            if (team is null)
-            {
-                throw new Exception($"There is no team with id {id}");
-            }
-
             return team;
         }
 
@@ -64,22 +51,12 @@ namespace NoPressure.DAL.Repositories.Impl
                 .Where(t => t.State == EntityState.Active)
                 .FirstOrDefaultAsync(t => t.UniqId == id);
 
-            if (team is null)
-            {
-                throw new Exception($"Team with id {id} was not found");
-            }
-
             return team;
         }
 
         public async Task RemoveTeam(int teamId)
         {
             var team = await _context.Teams.FirstOrDefaultAsync(t => t.Id == teamId);
-
-            if (team is null)
-            {
-                throw new Exception($"There is no team with id {teamId}");
-            }
 
             team.State = EntityState.Deleted;
 
@@ -102,21 +79,11 @@ namespace NoPressure.DAL.Repositories.Impl
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user is null)
-            {
-                throw new Exception($"User with id {userId} was not found");
-            }
-
             var team = await _context
                 .Teams
                 .Include(t => t.Users)
                 .Include(t => t.Settings)
                 .FirstOrDefaultAsync(t => t.Id == teamId);
-
-            if (team is null)
-            {
-                throw new Exception($"Team with id {teamId} was not found");
-            }
 
             if (team.Users.FirstOrDefault(u => u.Id == userId) is null)
             {

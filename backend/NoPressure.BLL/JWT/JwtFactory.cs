@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using NoPressure.BLL.Exceptions;
 using NoPressure.Common.Auth;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,10 @@ namespace NoPressure.BLL.JWT
 
         public int GetValueFromToken(string token)
         {
+            if(token is null)
+            {
+                throw new NotAuthorizedException();
+            }
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token);
             var tokenS = jsonToken as JwtSecurityToken;

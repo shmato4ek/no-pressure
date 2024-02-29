@@ -1,0 +1,32 @@
+.error-container{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-img{
+  height: 25rem;
+  width: fit-content;
+}
+
+.btn{
+  margin-left: 20rem;
+  height: 2.5rem;
+  width: 6rem;
+  font-size: 1.25rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  transition: 0.2s;
+  border: 1px solid black;
+}

@@ -11,6 +11,7 @@ namespace NoPressure.DAL.Entities
         public ScheduleHour StartTime { get; set; }
         public ScheduleHour EndTime { get; set; }
         public DateTime Date { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public bool IsRepeatable { get; set; } = false;
         public bool IsScheduled { get; set; } = false;

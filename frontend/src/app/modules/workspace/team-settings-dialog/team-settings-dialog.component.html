@@ -103,6 +103,7 @@
           src="../../../../assets/img/cross.png"
           *ngIf="ownerIndex !== i"
           class="admin-logo"
+          (click)="removeUser(team.settings[i].userId)"
         >
       </div>
 

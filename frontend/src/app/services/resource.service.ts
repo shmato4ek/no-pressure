@@ -30,6 +30,14 @@ export abstract class ResourceService<T> {
           .pipe(catchError(this.handleError));
       }
 
+      externalAuthAdd<TRequest, TResponse>(
+        resource: TRequest
+      ): Observable<HttpResponse<TResponse>> {
+        return this.httpClient
+          .post<TResponse>(`${environment.apiUrl}/google`, resource, { observe: 'response' })
+          .pipe(catchError(this.handleError));
+      }
+
     update<TRequest, TResponse>(
       resource: TRequest
     ): Observable<HttpResponse<TResponse>> {

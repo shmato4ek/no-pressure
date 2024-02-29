@@ -3,6 +3,7 @@
     <div class="plans">
         <p class="plans-header">My plans</p>
         <button
+            *ngIf="plans.length !== 0"
             class="edit-icon"
             (click)="switchEditMode()">
             <img
@@ -86,6 +87,17 @@
             >
                 Add
             </button>
+        </div>
+
+        <div class="errors">
+            <span *ngIf="dialogForm.controls['planName'].touched">
+                <span *ngIf="dialogForm.controls['planName'].errors?.['required']">
+                    Activity is required
+                </span>
+                <span *ngIf="dialogForm.controls['planName'].errors?.['maxlength']">
+                    Plan name can have up to 15 characters
+                </span>
+            </span>
         </div>
     </div>
 </div>

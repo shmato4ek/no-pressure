@@ -41,6 +41,7 @@
             class="handwritten-field"
             value="{{plan.name}}"
             (keypress)="inputValidation($event, 'Tag')"
+            (ngModelChange)="validateTag()"
           >
         </mat-form-field>
     
@@ -58,6 +59,35 @@
     </div>
   </div>
 
+  <div class="errors">
+    <span *ngIf="dialogForm.controls['goalTag'].touched">
+        <span *ngIf="dialogForm.controls['goalTag'].errors?.['required']">
+            Goal tag is required
+        </span>
+
+        <span *ngIf="!dialogForm.controls['goalTag'].errors?.['required'] && dialogForm.controls['goalTag'].errors?.['maxlength']">
+          Goal tag can be up to 15 characters
+        </span>
+
+        <span *ngIf="!isTagAvailable &&
+          !dialogForm.controls['goalTag'].errors?.['required'] && 
+          !dialogForm.controls['goalTag'].errors?.['maxlength']">
+          This tag is already in use
+        </span>
+    </span>
+
+    <span *ngIf="dialogForm.controls['goalName'].touched && !dialogForm.controls['goalTag'].errors">
+      <span *ngIf="dialogForm.controls['goalName'].errors?.['required']">
+        Goal name is required
+      </span>
+
+      <span *ngIf="!dialogForm.controls['goalName'].errors?.['required'] && dialogForm.controls['goalName'].errors?.['maxlength']">
+        Goal name can be up to 15 characters
+      </span>
+
+    </span>
+  </div>
+
   <div class="goal-activities-container">
     <p class="field-name">Activities:</p>
     <div
@@ -72,6 +102,7 @@
                     formControlName="name"
                     placeholder="Name"
                     class="handwritten-field"
+                    (ngModelChange)="test()"
                     (keypress)="inputValidation($event, 'Activity name')">
           </mat-form-field>
           <mat-form-field 
@@ -83,6 +114,26 @@
                     (keypress)="inputValidation($event, 'Description')">
           </mat-form-field>
           <img src="../../../../assets/img/delete.png" class="delete-btn" (click)="deleteActivity(i)">
+      </div>
+
+      <div class="errors">
+            <span *ngIf="dialogForm.controls['activities'].get([i])?.get(['name'])?.errors?.['required']">
+                Activity name is required
+            </span>
+            <span
+                *ngIf="(dialogForm.controls['activities'].get([i])?.get(['name'])?.errors?.['minlength'] ||
+                dialogForm.controls['activities'].get([i])?.get(['name'])?.errors?.['maxlength']) &&
+                !dialogForm.controls['activities'].get([i])?.get(['name'])?.errors?.['pattern']"
+            >
+                Activity name can have up to 15 characters
+            </span>
+            <span
+              *ngIf="(dialogForm.controls['activities'].get([i])?.get(['description'])?.errors?.['minlength'] ||
+              dialogForm.controls['activities'].get([i])?.get(['description'])?.errors?.['maxlength']) &&
+              !dialogForm.controls['activities'].get([i])?.get(['description'])?.errors?.['pattern']"
+            >
+                Description can have up to 15 characters
+            </span>
       </div>
     </div>
   </div>
@@ -98,7 +149,7 @@
     <button
       class="add-button"
       (click)="save()"
-      [disabled]="!dialogForm.valid"
+      [disabled]="!dialogForm.valid || !isTagAvailable"
     >
       Save
     </button>

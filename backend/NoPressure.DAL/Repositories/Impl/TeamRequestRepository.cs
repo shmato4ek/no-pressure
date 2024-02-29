@@ -22,11 +22,6 @@ namespace NoPressure.DAL.Repositories.Impl
                 .TeamRequests
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            if (request is null)
-            {
-                throw new Exception($"There is no request with id {id}");
-            }
-
             request.Status = status;
 
             _context.TeamRequests.Update(request);

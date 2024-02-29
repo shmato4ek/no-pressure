@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NoPressure.BLL.Exceptions;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
 using NoPressure.Common.Enums;
@@ -27,7 +28,8 @@ namespace NoPressure.BLL.Sevices.Impl
                 EndTime = ScheduleHour.Undefined,
                 Name = newActivity.Name,
                 Description = newActivity.Description,
-                IsRepeatable = newActivity.IsRepeatable
+                IsRepeatable = newActivity.IsRepeatable,
+                CreationDate = DateTime.UtcNow
             };
 
             if(newActivity.Tag is null)
@@ -59,6 +61,10 @@ namespace NoPressure.BLL.Sevices.Impl
 
                 else
                 {
+                    if (tagEntity.PlanId != null)
+                    {
+                        activityEntity.PlanId = tagEntity.PlanId;
+                    }
                     activityEntity.TagId = tagEntity.Id;
                     tagEntity.Color = newActivity.Color;
                     _uow.TagRepository.Update(tagEntity);
@@ -69,6 +75,11 @@ namespace NoPressure.BLL.Sevices.Impl
             } else {
                 var tagEntity = await _uow.TagRepository.FindTeamTag(newActivity.Tag, (int)newActivity.TeamId);
                 var teamEntity = await _uow.TeamRepository.GetTeamAsync((int)newActivity.TeamId);
+
+                if (teamEntity is null)
+                {
+                    throw new NotFoundException("Team", (int)newActivity.TeamId);
+                }
 
                 if(tagEntity is null)
                 {
@@ -91,6 +102,10 @@ namespace NoPressure.BLL.Sevices.Impl
 
                 else
                 {
+                    if (tagEntity.PlanId != null)
+                    {
+                        activityEntity.PlanId = tagEntity.PlanId;
+                    }
                     activityEntity.TagId = tagEntity.Id;
                     tagEntity.Color = newActivity.Color;
                     _uow.TagRepository.Update(tagEntity);
@@ -109,7 +124,7 @@ namespace NoPressure.BLL.Sevices.Impl
             
             if (userEntity is null)
             {
-                throw new Exception($"There is no user with id {userId}");
+                throw new NotFoundException("User", userId);
             }
 
             var activitiesEntity = await _uow.ActivityRepository.FindAllUserActivitiesAsync(userId);
@@ -125,7 +140,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(activityEntity is null)
             {
-                throw new Exception($"There is no activity with id {updatedActivity.Id}");
+                throw new NotFoundException("Activity", updatedActivity.Id);
             }
 
             activityEntity.Name = updatedActivity.Name;
@@ -146,7 +161,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(activityEntity is null)
             {
-                throw new Exception($"There is no activity with id {activityId}");
+                throw new NotFoundException("Activity", activityId);
             }
 
             _uow.ActivityRepository.Remove(activityId);
@@ -154,7 +169,7 @@ namespace NoPressure.BLL.Sevices.Impl
             await _uow.SaveAsync();
         }
 
-        public async Task<int> CreateTag(NewTag newTag)
+        public async Task<int> CreateTag(NewTag newTag, int goalId)
         {
             var newTagEntity = new Tag() {
               Name = newTag.Name,
@@ -162,6 +177,11 @@ namespace NoPressure.BLL.Sevices.Impl
               Color = newTag.Color,
               Activities = new List<Activity>(),
             };
+
+            if (goalId != 0)
+            {
+                newTagEntity.PlanId = goalId;
+            }
 
             _uow.TagRepository.Create(newTagEntity);
             
@@ -217,7 +237,7 @@ namespace NoPressure.BLL.Sevices.Impl
         {
             if(!activities.Any())
             {
-                throw new Exception();
+                throw new NotFoundException("Activity");
             }
 
             var activitiesEntity = new List<Activity>();
@@ -231,7 +251,8 @@ namespace NoPressure.BLL.Sevices.Impl
                     Name = activity.Name,
                     Description = activity.Description,
                     IsRepeatable = activity.IsRepeatable,
-                    PlanId = planId
+                    PlanId = planId,
+                    CreationDate = DateTime.UtcNow
                 };
 
                 activityEntity.TagId = tagId;
@@ -247,7 +268,7 @@ namespace NoPressure.BLL.Sevices.Impl
             
             if (teamEntity is null)
             {
-                throw new Exception($"There is no user with id {teamId}");
+                throw new NotFoundException("Team", teamId);
             }
 
             var activitiesEntity = await _uow.ActivityRepository.GetAllTeamActivities(teamId);

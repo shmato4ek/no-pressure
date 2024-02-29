@@ -1,4 +1,5 @@
 import { ActivityDTO } from "../activity/activity-dto";
+import { AuthType } from "../enums/AuthType";
 import { TeamInfo } from "../team/team-info";
 
 export interface UserDTO {
@@ -9,4 +10,5 @@ export interface UserDTO {
     registrationDate: string;
     activities: ActivityDTO[];
     teams?: TeamInfo[];
+    authType: AuthType;
 }

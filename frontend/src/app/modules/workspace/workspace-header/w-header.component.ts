@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import { UserDTO } from 'src/app/models/user/user-dto';
 import { LoginService } from 'src/app/services/login.service';
 import { NotificationsDialogComponent } from '../notifications-dialog/notifications-dialog.component';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { AuthType } from 'src/app/models/enums/AuthType';
 
 @Component({
   selector: 'app-w-header',
@@ -16,6 +18,7 @@ export class WorkspaceHeaderComponent {
   constructor(
     private router: Router,
     private loginService: LoginService,
+    private socialAuthService: SocialAuthService,
     public dialog: MatDialog) {}
 
   @Input() currentUser: UserDTO = {} as UserDTO;
@@ -46,6 +49,13 @@ export class WorkspaceHeaderComponent {
   }
 
   public logout() {
-    this.loginService.logOut();
+    if (this.currentUser.authType == AuthType.Internal) {
+      this.loginService.logOut();
+      console.log("1")
+    } else if (this.currentUser.authType == AuthType.Google) {
+      console.log("2")
+      this.loginService.logOut();
+      this.socialAuthService.signOut();
+    }
   }
 }

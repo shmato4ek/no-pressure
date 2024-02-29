@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NoPressure.BLL.Exceptions;
 
 namespace NoPressure.API.Extentions
 {
@@ -10,7 +11,7 @@ namespace NoPressure.API.Extentions
 
             if (string.IsNullOrEmpty(claimsUserId))
             {
-                throw new Exception("Invalid token");
+                throw new InvalidTokenException("access");
             }
 
             return int.Parse(claimsUserId);

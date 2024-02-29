@@ -1,9 +1,57 @@
 <div class="goals-page-container">
     <div class="goals-container">
-        <p class="goals-header">My goals</p>
+        <div class="header-container">
+            <div class="goals-header-container">
+                <p class="goals-header">My goals</p>
 
-        <div class="goals-list">
-            <div *ngFor="let goal of goals">
+                <p-dropdown
+                    class="dropdown"
+                    [options]="goalsOptions"
+                    [(ngModel)]="currentOption"
+                    placeholder="{{currentOption}}"
+                >
+                </p-dropdown>
+            </div>
+            <button
+                *ngIf="activeGoals.length === 0 || !activeGoals"
+                mat-raised-button
+                matTooltip={{_no_goals_tooltip}}
+                matTooltipClass="tooltip"
+                class="tooltip"
+            >
+                <img
+                    src="../../../../assets/img/tooltip.png"
+                    class="tooltip-img"
+                >
+            </button>
+        </div>
+
+        <div class="goals-list" *ngIf="currentOption === 'Active'">
+            <div *ngFor="let goal of activeGoals">
+                <input type="checkbox" id="goal{{goal.id}}" class="goal-check" [checked]="currentlyChecked === goal.id" (click)="selectCheckBox(goal)">
+                <label for="goal{{goal.id}}" class="goal">
+                    <div class="goal-name">
+                        <p class="goal-name-text">
+                            {{goal.name}}
+                        </p>
+                    </div>
+
+                    <div class="progress-bar-container" *ngIf="isAppear">
+                        <div
+                            role="progressbar"
+                            aria-valuenow="67"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            style="--value: {{goal.progress}}">
+                        </div>
+                        <p class="progress-text">{{goal.doneTasksAmmount}} / {{goal.allTasksAmmount}}</p>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="goals-list" *ngIf="currentOption === 'Closed'">
+            <div *ngFor="let goal of closedGoals">
                 <input type="checkbox" id="goal{{goal.id}}" class="goal-check" [checked]="currentlyChecked === goal.id" (click)="selectCheckBox(goal)">
                 <label for="goal{{goal.id}}" class="goal">
                     <div class="goal-name">
@@ -27,44 +75,88 @@
         </div>
     </div>
 
-    <div class="goal-stat-container">
+    <div class="goals-stat">
+        <p class="goals-header">Goal`s info</p>
 
-        <p class="goal-stat-text">{{currentGoal.name}}</p>
+        <div class="goal-stat-container">
+            <p class="goal-stat-text">{{currentGoal.name}}</p>
 
-        <div class="active-tasks" *ngIf="currentlyChecked !== 0">
-            <p class="activities-header" *ngIf="currentGoal.activeActivities">
-                Active:
-            </p>
+            <div class="goals-stat-headers" *ngIf="currentlyChecked !== 0">
+                <p class="goals-done-header">Done</p>
 
-            <div class="activities-list" *ngIf="checkActivities(currentGoal.activeActivities)">
+                <p class="goals-active-header">Active</p>
+            </div>
+
+            <div class="progress" *ngIf="currentlyChecked !== 0">
                 <div
-                    *ngFor="let activity of currentGoal.activeActivities"
-                    class="active-activity">
-                    {{activity.name}}
+                    class="progress-value"
+                    style="--value: {{currentGoal.progress}}%;">
                 </div>
             </div>
-    
-            <div class="activities-list" *ngIf="!checkActivities(currentGoal.activeActivities)">
-                <p>There is no active tasks</p>
+
+            <div class="goals-ammount" *ngIf="currentlyChecked !== 0">
+                <p class="done-goals-ammont">{{currentGoal.doneTasksAmmount}}</p>
+
+                <p class="active-goals-ammount">{{currentGoal.activeActivities.length}}</p>
             </div>
-        </div>
 
-        <div class="done-tasks" *ngIf="currentlyChecked !== 0">
-            <p class="activities-header" *ngIf="currentGoal.doneActivities">
-                Done:
-            </p>
+            <div class="acive-done-goals" *ngIf="currentlyChecked !== 0">
+                <div class="done-tasks" *ngIf="currentlyChecked !== 0">
+                    <div class="activities-list" *ngIf="checkActivities(currentGoal.doneActivities)">
+                        <div
+                            *ngFor="let activity of currentGoal.doneActivities"
+                            class="active-activity">
+                            {{activity.name}}
+                        </div>
+                    </div>
+            
+                    <p
+                        *ngIf="currentGoal.doneTasksAmmount === 0"
+                        class="active-activity"
+                    >
+                        There is no done tasks
+                    </p>
+                </div>
 
-            <div class="activities-list" *ngIf="checkActivities(currentGoal.doneActivities)">
-                <div
-                    *ngFor="let activity of currentGoal.doneActivities"
-                    class="active-activity">
-                    {{activity.name}}
+                <div class="active-tasks" *ngIf="currentlyChecked !== 0">
+                    <div class="activities-list" *ngIf="checkActivities(currentGoal.activeActivities)">
+                        <div
+                            *ngFor="let activity of currentGoal.activeActivities"
+                            class="active-activity">
+                            {{activity.name}}
+                        </div>
+                    </div>
+            
+                    <p
+                        *ngIf="currentGoal.activeActivities.length === 0"
+                        class="active-activity"
+                        >
+                        There is no active tasks
+                    </p>
                 </div>
             </div>
-    
-            <div class="activities-list" *ngIf="!checkActivities(currentGoal.doneActivities)">
-                <p>There is no done tasks</p>
-            </div>
+
+            <button
+                class="goal-btn"
+                *ngIf="currentlyChecked !== 0 && currentGoal.goalState === 0"
+                (click)="closeGoal()"
+            >
+                <img src="../../../../assets/img/deny.png" class="btn-icon">
+                <p class="btn-text">
+                    Close goal
+                </p>
+            </button>
+
+            <button
+                class="goal-btn"
+                *ngIf="currentlyChecked !== 0 && currentGoal.goalState === 1"
+                (click)="makeGoalActive()"
+            >
+                <img src="../../../../assets/img/move-back.png" class="btn-icon">
+                <p class="btn-text">
+                    Make goal active
+                </p>
+            </button>
         </div>
     </div>
 </div>

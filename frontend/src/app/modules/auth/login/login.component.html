@@ -84,9 +84,18 @@
                     </span>
                 </span>
             </div>
+
+            <div class="google-container">
+                    <asl-google-signin-button
+                        type="standard" size="large"
+                    >
+                    </asl-google-signin-button>
+            </div>
+
                 <button
                     class="login-button"
                     type="submit"
+                    [disabled]="!loginForm.valid"
                 >
                     Sign in
                 </button>

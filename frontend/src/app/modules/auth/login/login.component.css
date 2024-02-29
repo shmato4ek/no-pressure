@@ -5,6 +5,20 @@
     flex-direction: row;
 }
 
+.google-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.google-text{
+    color: black;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
 .info-text-black{
     font-size: 2rem;
     color: black;
@@ -15,7 +29,7 @@
     border: 3px solid #FFA500;
     border-radius: 10px;
     width: 30rem;
-    height: 24rem;
+    height: 26rem;
     display: flex;
     flex-direction: column;
     align-items: center;

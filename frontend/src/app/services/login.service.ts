@@ -8,6 +8,8 @@ import { Token } from '../models/token/token';
 import { UserDTO } from '../models/user/user-dto';
 import { ResourceService } from './resource.service';
 import { CacheService } from './cache.service';
+import { ExternalUserAuth } from '../models/user/external-auth-user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -39,6 +41,10 @@ export class LoginService extends ResourceService<UserLogin> {
         this.cacheService.clear("me");
         this.router.navigate(['/login']);
     }
+
+    public googleAuth(user: ExternalUserAuth) {
+      return this.handleAuthResponse(this.externalAuthAdd<ExternalUserAuth, AuthUser>(user));
+  }
 
     private handleAuthResponse(
         observable: Observable<HttpResponse<AuthUser>>

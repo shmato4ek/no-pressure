@@ -98,6 +98,7 @@ export class ScheduledTaskDialogComponent implements OnInit{
     }
 
     scheduleValidator() {
+      console.log(this.schedule)
       setTimeout(() => {
         this.scheduleValidation()
       }, 100)

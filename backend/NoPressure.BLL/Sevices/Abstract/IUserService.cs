@@ -12,6 +12,7 @@ namespace NoPressure.BLL.Sevices.Abstract
     public interface IUserService
     {
         Task<UserDTO> CreateUser(NewUser newUser);
+        Task<AuthUser> GoogleAuth(ExternalAuthUser user);
         Task<UserInfo> GetUserById(int id);
         Task Subscribe(int followerId, int followingId);
         Task UnSubscribe(int followerId, int followingId);

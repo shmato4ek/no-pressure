@@ -16,6 +16,6 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task ChangeState(UpdateActivityState updateActivity);
         Task<List<ActivityDTO>> GetActivitiesByDate(DateTime date);
         Task AddNewGoalActivities(List<NewActivity> activities, int tagId, int planId);
-        Task<int> CreateTag(NewTag newTag);
+        Task<int> CreateTag(NewTag newTag, int goalId);
     }
 }

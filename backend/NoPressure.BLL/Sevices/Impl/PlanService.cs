@@ -1,4 +1,5 @@
 using AutoMapper;
+using NoPressure.BLL.Exceptions;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
 using NoPressure.Common.Enums;
@@ -45,29 +46,33 @@ namespace NoPressure.BLL.Sevices.Impl
             await _uow.SaveAsync();
         }
 
-        public async Task<List<GoalInfoDTO>> GetAllGoals(int userId)
+        public async Task<AllGoals> GetAllGoals(int userId)
         {
             var userEntity = await _uow.UserRepository.FindAsync(userId);
 
             if(userEntity is null)
             {
-                throw new Exception($"There is no user with id {userId}");
+                throw new NotFoundException("User", userId);
             }
 
-            var plansEntity = _uow.PlanRepository.GetAllGoals(userId).Result;
+            var activeGoals = _uow.PlanRepository.GetAllActiveGoals(userId).Result;
+            var closedGoals = _uow.PlanRepository.GetAllClosedGoals(userId).Result;
             
-            var goals = new List<GoalInfoDTO>();
+            var goals = new AllGoals() {
+                ActiveGoals = new List<GoalInfoDTO>(),
+                ClosedGoals = new List<GoalInfoDTO>(),
+            };
 
-            foreach(var plan in plansEntity)
+            foreach(var plan in activeGoals)
             {
                 var activitiesEntity = plan.Activities;
                 double doneActivities = activitiesEntity.Where(a => a.State == ActivityState.Done).Count();
-                double allActivities = activitiesEntity.Count();
+                double allActivities = activitiesEntity.Count;
                 int progress = 0;
 
                 if(allActivities != 0)
                 {
-                    progress = (int)(Math.Round(doneActivities / allActivities));
+                    progress = (int)Math.Round(doneActivities / allActivities * 100);
                 }
 
                 var activities = _mapper.Map<List<ActivityDTO>>(plan.Activities);
@@ -80,11 +85,41 @@ namespace NoPressure.BLL.Sevices.Impl
                     DoneActivities = activities.Where(a => a.State == ActivityState.Done).ToList(),
                     DoneTasksAmmount = (int)doneActivities,
                     AllTasksAmmount = (int)allActivities,
-                    Progress = progress*100
+                    Progress = progress,
+                    GoalState = plan.GoalState
                 };
 
-                goals.Add(foundGoal);
+                goals.ActiveGoals.Add(foundGoal);
             }
+
+            foreach(var plan in closedGoals)
+            {
+                var activitiesEntity = plan.Activities;
+                double doneActivities = activitiesEntity.Where(a => a.State == ActivityState.Done).Count();
+                double allActivities = activitiesEntity.Count;
+                int progress = 0;
+
+                if(allActivities != 0)
+                {
+                    progress = (int)Math.Round(doneActivities / allActivities * 100);
+                }
+
+                var activities = _mapper.Map<List<ActivityDTO>>(plan.Activities);
+
+                var foundGoal = new GoalInfoDTO()
+                {
+                    Id = plan.Id,
+                    Name = plan.Name,
+                    ActiveActivities = activities.Where(a => a.State == ActivityState.Active).ToList(),
+                    DoneActivities = activities.Where(a => a.State == ActivityState.Done).ToList(),
+                    DoneTasksAmmount = (int)doneActivities,
+                    AllTasksAmmount = (int)allActivities,
+                    Progress = progress,
+                    GoalState = plan.GoalState,
+                };
+
+                goals.ClosedGoals.Add(foundGoal);
+            }            
 
             return goals;
         }
@@ -95,7 +130,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(userEntity is null)
             {
-                throw new Exception($"There is no user with id {userId}");
+                throw new NotFoundException("User", userId);
             }
 
             var plansEntity = _uow.PlanRepository.GetAllNoGoalPlans(userId).Result;
@@ -109,7 +144,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(planEntity is null)
             {
-                throw new Exception($"There is no plan with id {planId}");
+                throw new NotFoundException("Plan", planId);
             }
 
             _uow.PlanRepository.Remove(planId);
@@ -123,7 +158,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(planEntity is null)
             {
-                throw new Exception($"There is no plan with id {updatedPlan.Id}");
+                throw new NotFoundException("Plan", updatedPlan.Id);
             }
 
             planEntity.Name = updatedPlan.Name;
@@ -139,18 +174,34 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(planEntity == null)
             {
-                throw new Exception($"Plan with id {goal.Id} was not found");
+                throw new NotFoundException("Plan", goal.Id);
             }
 
             planEntity.State = PlanState.Goal;
             planEntity.Name = goal.Name;
             
-            var tagId = await _activityService.CreateTag(goal.Tag);
+            var tagId = await _activityService.CreateTag(goal.Tag, goal.Id);
 
             if (goal.Activities.Any())
             {
                 await _activityService.AddNewGoalActivities(goal.Activities, tagId, goal.Id);
             }
+        }
+
+        public async Task ChangeGoalState(GoalChangeState goal)
+        {
+            var goalEntity = await _uow.PlanRepository.FindAsync(goal.Id);
+
+            if (goalEntity is null)
+            {
+                throw new NotFoundException("Goal", goal.Id);
+            }
+
+            goalEntity.GoalState = goal.State;
+
+            _uow.PlanRepository.Update(goalEntity);
+
+            await _uow.SaveAsync();
         }
     }
 }

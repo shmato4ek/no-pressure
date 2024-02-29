@@ -1,9 +1,12 @@
-<h2
-  mat-dialog-title
-  class="info-text-black"
->
-  {{plan.name}}
-</h2>
+<div class="dialog-header">
+  <p class="info-text-black">
+    Editing plan
+  </p>
+  
+  <p class="info-text-black">
+    ({{plan.name}})
+  </p>
+</div>
 
 <img
   class="close-img"
@@ -28,6 +31,19 @@
     </mat-form-field>
   </div>
 </mat-dialog-content>
+
+<div class="errors">
+  <span *ngIf="dialogForm.controls['planName'].touched">
+      <span *ngIf="dialogForm.controls['planName'].errors?.['required']">
+          Plan name is required
+      </span>
+      <span
+          *ngIf="dialogForm.controls['planName'].errors?.['maxlength']"
+      >
+          Plan name can have up to 15 characters
+      </span>
+  </span>
+</div>
 
 <div class="buttons-container">
   <mat-dialog-actions class="delete-button-container">

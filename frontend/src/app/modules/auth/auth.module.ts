@@ -5,6 +5,7 @@ import { RegisterComponent } from "./register/register.component";
 import { AuthRoutinModule } from "./auth-routing-module";
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
+import { GoogleSigninButtonModule } from "@abacritt/angularx-social-login";
 
 @NgModule({
     declarations:[
@@ -15,8 +16,9 @@ import { CommonModule } from "@angular/common";
         MaterialModule,
         AuthRoutinModule,
         ReactiveFormsModule,
-        CommonModule
-    ]
+        CommonModule,
+        GoogleSigninButtonModule
+    ],
 })
 
 export class AuthModule {}

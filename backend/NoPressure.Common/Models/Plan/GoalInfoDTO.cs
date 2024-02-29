@@ -1,4 +1,5 @@
 using NoPressure.Common.DTO;
+using NoPressure.Common.Enums;
 using NoPressure.Common.Models.Activity;
 using NoPressure.Common.Models.Tag;
 
@@ -13,5 +14,6 @@ namespace NoPressure.Common.Models.Plan
         public int Progress { get; set; }
         public int DoneTasksAmmount { get; set; }
         public int AllTasksAmmount { get; set; }
+        public GoalState GoalState { get; set; }
     }
 }

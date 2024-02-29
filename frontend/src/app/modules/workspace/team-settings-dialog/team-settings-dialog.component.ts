@@ -21,6 +21,7 @@ import { UpdateTeamSettings } from 'src/app/models/team/update-team-settings';
 import { UpdateSettings } from 'src/app/models/team/update-settings';
 import { Router } from '@angular/router';
 import { TeamComponent } from '../team/team.component';
+import { RemoveUserFromTeam } from 'src/app/models/team/remove-user-from-team';
 
 @Component({
   selector: 'team-settings-dialog',
@@ -97,11 +98,30 @@ export class TeamSettingDialog implements OnInit{
     inputValidation(event: any, target: string) {   
       var k;  
       k = event.charCode;
-      var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+      var isValid = (
+        (k > 64 && k < 91) || 
+        (k > 96 && k < 123) ||
+        k == 8 ||
+        k == 32 ||
+        (k >= 48 && k <= 57) ||
+        (k >= 33 && k <= 47) ||
+        (k >= 58 && k <= 64) ||
+        (k >= 91 && k <= 96) ||
+        (k >= 123 && k <= 126));
       if (!isValid) {
         this.openSnackBar(target);
       }
       return isValid; 
+    }
+
+    removeUser(userId: number) {
+      let request: RemoveUserFromTeam = {
+        userId: userId,
+        teamId: this.team.id,
+      }
+
+      this.teamService.removeUserFromTeam(request).subscribe();
+      window.location.reload();
     }
 
     openSnackBar(target: string) {

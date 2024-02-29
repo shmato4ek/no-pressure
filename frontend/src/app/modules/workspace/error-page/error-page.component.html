@@ -1,0 +1,12 @@
+<div class="error-container">
+    <img
+        src="{{imgSrc}}"
+        class="error-img"
+    >
+    <button 
+        class="btn"
+        (click)="redirectToLogin()"
+        *ngIf="!isAuthorized">
+        Sign up
+    </button>
+</div>

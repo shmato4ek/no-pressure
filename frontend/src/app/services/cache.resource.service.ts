@@ -27,11 +27,27 @@ export class CacheResourceService {
                 private scheduleService: ScheduleService) { }
     
     private me_key = "me";
+    private schedule_key = "schedule";
     private currentUser = {} as UserDTO | undefined;
     private currentSchedule = {} as Schedule | undefined;
 
     private getScheduleKey(id: number) {
         return "schedule_" + id.toString();
+    }
+
+    public getSchedulePage() {
+        let cache = this.cacheService.get(this.schedule_key);
+        if (cache != undefined) {
+            return cache;
+        } else {
+            return 'Personal';
+        }
+    }
+
+    public setSchedulePage(page: string) {
+        let data = [] as any[];
+        data.push(page);
+        this.cacheService.set(this.schedule_key, data);
     }
     
     public async getUser() {

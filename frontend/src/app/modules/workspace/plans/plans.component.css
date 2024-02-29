@@ -11,8 +11,8 @@
 }
 
 .plan{
-  height: 6rem;
-  width: 6rem;
+  height: 7rem;
+  width: 7rem;
   perspective: 1000px;
   margin-right: 5rem;
   margin-bottom: 5rem;
@@ -76,6 +76,7 @@
   margin-block-end: 0;
   margin-block-start: 0;
   overflow-wrap: anywhere;
+  padding: 0.5rem;
 }
 
 .plan-button{
@@ -249,4 +250,13 @@
   background-color: #FFA500;
   color: white;
   box-shadow: none;
+}
+
+.errors{
+  color: red;
+  width: 100%;
+  font-size: 0.75rem;
+  height: 1.5rem;
+  text-align: end;
+  margin-right: 20%;
 }

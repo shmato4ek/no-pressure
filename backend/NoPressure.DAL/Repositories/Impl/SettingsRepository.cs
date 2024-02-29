@@ -16,11 +16,6 @@ namespace NoPressure.DAL.Repositories.Impl
                 .Settings
                 .FirstOrDefaultAsync(s => s.UserId == userId);
 
-            if (settings is null)
-            {
-                throw new Exception();
-            }
-
             return settings;
         }
     }

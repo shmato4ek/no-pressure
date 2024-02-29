@@ -10,6 +10,8 @@ import { NewTag } from 'src/app/models/tag/new-tag';
 import { NewActivity } from 'src/app/models/activity/new-activity';
 import { ActivityForm } from 'src/app/models/activity/activity-form';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { TagService } from 'src/app/services/tag.service';
+import { TagInfo } from 'src/app/models/tag/tag-info';
 
 @Component({
   selector: 'convert-to-goal-dialog',
@@ -20,10 +22,14 @@ export class ConvertToGoalDialog implements OnInit{
   dialogForm: FormGroup = {} as FormGroup;
   plan: PlanDTO;
   tagColor = "#FFA500";
+  tags = [] as TagInfo[];
+
+  isTagAvailable = true;
 
   constructor(
     private snackBarService: SnackBarService,
     private planService: PlanService,
+    private tagService: TagService,
     private dialogRef: MatDialogRef<PlansComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
@@ -36,6 +42,7 @@ export class ConvertToGoalDialog implements OnInit{
         goalName: [,{
           validators: [
             Validators.required,
+            Validators.maxLength(15)
           ],
           updateOn:'change',
         }],
@@ -43,6 +50,7 @@ export class ConvertToGoalDialog implements OnInit{
         goalTag: [,{
           validators: [
             Validators.required,
+            Validators.maxLength(15)
           ],
           updateOn:'change',
         }
@@ -51,22 +59,59 @@ export class ConvertToGoalDialog implements OnInit{
       });
       this.dialogForm.get('goalName')?.setValue(this.plan.name);
       this.dialogForm.get('goalTag')?.setValue(this.plan.name);
+
+      this.tagService.getAllTagsInfo(this.plan.userId)
+        .subscribe((resp) => {
+          this.tags = resp;
+        });
     }
 
     get activities() {
       return <FormArray>this.dialogForm.controls['activities'];
     }
 
+    test() {
+      let a = this.dialogForm.controls['activities'].get(['0'])?.errors?.['required'];
+      console.log(a);
+    }
+
     addActivity() {
       const activityForm = this.formBuilder.group({
-          name: ['', Validators.required],
-          description: ['', ],
+          name: [,{
+            validators: [
+              Validators.required,
+              Validators.maxLength(15),
+            ],
+            updateOn:'change',
+          }],
+          description: [,{
+            validators: [
+              Validators.maxLength(15),
+            ],
+            updateOn:'change',
+          }],
       });
       this.activities.push(activityForm);
     }
 
     deleteActivity(activityIndex: number) {
       this.activities.removeAt(activityIndex);
+    }
+    
+    validateTag() {
+      setTimeout(() => {
+        this.tagValidation()
+      }, 100)
+    }
+
+    tagValidation() {
+      let tag = this.dialogForm.get(['goalTag'])?.value;
+
+      this.tags.forEach(t => {
+        if (t.name == tag) {
+          this.isTagAvailable = false;
+        }
+      });
     }
 
     save() {
@@ -123,7 +168,16 @@ export class ConvertToGoalDialog implements OnInit{
     inputValidation(event: any, target: string) {   
       var k;  
       k = event.charCode;
-      var isValid = ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+      var isValid = (
+        (k > 64 && k < 91) || 
+        (k > 96 && k < 123) ||
+        k == 8 ||
+        k == 32 ||
+        (k >= 48 && k <= 57) ||
+        (k >= 33 && k <= 47) ||
+        (k >= 58 && k <= 64) ||
+        (k >= 91 && k <= 96) ||
+        (k >= 123 && k <= 126));
       if (!isValid) {
         this.openSnackBar(target);
       }

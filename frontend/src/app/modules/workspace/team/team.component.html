@@ -91,6 +91,17 @@
             >
 
             <p class="team-header">Team tags</p>
+
+            <button mat-raised-button
+                matTooltip={{_team_tags_tooltip}}
+                matTooltipClass="tooltip"
+                class="tooltip"
+            >
+                <img
+                    src="../../../../assets/img/tooltip.png"
+                    class="tooltip-img"
+                >
+            </button>
         </div>
 
         <div
@@ -109,7 +120,19 @@
         *ngIf="hasAccess"
         class="schedule-container"
     >
-        <p class="date-text">{{date}}</p>
+        <div class="date-container">
+            <p class="date-text">{{date}}</p>
+            <button mat-raised-button
+                matTooltip={{_team_tasks_tooltip}}
+                matTooltipClass="tooltip"
+                class="date-tooltip"
+            >
+                <img
+                    src="../../../../assets/img/tooltip.png"
+                    class="tooltip-img"
+                >
+            </button>
+        </div>
         <div class="schedule">
             <div class="first-half-schedule">
                 <span

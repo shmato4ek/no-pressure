@@ -10,13 +10,25 @@ namespace NoPressure.DAL.Repositories.Impl
     {
         public PlanRepository(NoPressureDbContext context) : base(context) { }
 
-        public async Task<List<Plan>> GetAllGoals(int userId)
+        public async Task<List<Plan>> GetAllActiveGoals(int userId)
         {
             var plans = await _context
                 .Plans
                 .Include(p => p.Activities)
                 .Where(p => p.UserId == userId)
-                .Where(p => p.State == PlanState.Goal)
+                .Where(p => p.State == PlanState.Goal && p.GoalState == GoalState.Active)
+                .ToListAsync();
+
+            return plans;
+        }
+
+        public async Task<List<Plan>> GetAllClosedGoals(int userId)
+        {
+            var plans = await _context
+                .Plans
+                .Include(p => p.Activities)
+                .Where(p => p.UserId == userId)
+                .Where(p => p.State == PlanState.Goal && p.GoalState == GoalState.Closed)
                 .ToListAsync();
 
             return plans;
@@ -31,6 +43,16 @@ namespace NoPressure.DAL.Repositories.Impl
                 .ToListAsync();
 
             return plans;
+        }
+
+        public async Task<Plan> GetGoalById(int goalId)
+        {
+            var goal = await _context
+                .Plans
+                .Where(p => p.State == PlanState.Goal)
+                .FirstOrDefaultAsync(p => p.Id == goalId);
+
+            return goal;
         }
 
         public async Task<Plan> GetPlanByUserIdAsync(int userId)

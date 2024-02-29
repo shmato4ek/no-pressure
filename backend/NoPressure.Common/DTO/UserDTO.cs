@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NoPressure.Common.Enums;
 
 namespace NoPressure.Common.DTO
 {
@@ -15,5 +16,6 @@ namespace NoPressure.Common.DTO
         public string Password { get; set; }
         public string Salt { get; set; }
         public List<ActivityDTO> Activities { get; set; }
+        public AuthType AuthType { get; set; }
     }
 }

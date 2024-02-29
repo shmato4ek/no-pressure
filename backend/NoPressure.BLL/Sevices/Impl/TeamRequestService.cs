@@ -1,4 +1,5 @@
 using AutoMapper;
+using NoPressure.BLL.Exceptions;
 using NoPressure.BLL.Helpers;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
@@ -29,7 +30,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if (teamEntity is null)
             {
-                throw new Exception();
+                throw new NotFoundException("Team");
             }
 
             var userEntity = await _uow
@@ -38,7 +39,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if (userEntity is null)
             {
-                throw new Exception();
+                throw new NotFoundException("User", userId);
             }
 
             var newUsers = new List<TeamRequest>();

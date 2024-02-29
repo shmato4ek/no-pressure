@@ -25,11 +25,6 @@ namespace NoPressure.DAL.Repositories.Impl
                 .Include(user => user.Activities)
                 .FirstOrDefaultAsync(user => user.Id == id);
 
-            if (foundUser is null)
-            {
-                throw new Exception();
-            }
-
             return foundUser;
         }
     }

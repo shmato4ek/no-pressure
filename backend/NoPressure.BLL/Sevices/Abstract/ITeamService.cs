@@ -17,6 +17,6 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task<TeamDTO> GetTeamByUniqId(string id, int userId);
         Task<TeamWithSettingsDTO> GetSettings(int teamId);
         Task UpdateTeamSettings(UpdateTeamSettings settings);
-        Task RemoveTeam(int teamId);
+        Task RemoveTeam(int teamId, int userId);
     }
 }

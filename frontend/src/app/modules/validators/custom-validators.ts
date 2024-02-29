@@ -41,6 +41,15 @@ export class CustomValidators {
             form.get('checkbox21')?.setErrors({noChosenCheckbox: true})
         }
     }
+
+    static changePasswordValidation(form: AbstractControl) {
+        const oldPassword = form.get('oldPassword')?.value;
+        const newPassword = form.get('newPassword')?.value;
+
+        if(oldPassword == newPassword) {
+            form.get('newPassword')?.setErrors({samePasswords: true})
+        }
+    }
 }
 
 

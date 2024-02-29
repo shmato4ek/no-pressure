@@ -14,5 +14,6 @@ namespace NoPressure.BLL.Sevices.Abstract
         Task<AuthUser> Authorize(LoginUser loginUser);
         Task<AccessToken> GenerateAccessToken(int id, string userName, string email);
         Task<EmailCheckResults> EmailAvailablityCheck(string email);
+        Task<bool> CheckPassword(string password, int userId);
     }
 }

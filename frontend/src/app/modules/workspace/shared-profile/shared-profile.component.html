@@ -21,7 +21,7 @@
             </button>
         </div>
 
-        <div class="point-container">
+        <div class="point-container" *ngIf="statistic">
             <img
                 src="../../../../assets/img/subscribers.svg"
                 class="point-icon">
@@ -40,7 +40,7 @@
             <p class="point-text">since {{currentUser.registrationDate}}</p>
         </div>
 
-        <div class="schedule-container">
+        <div class="schedule-container" *ngIf="statistic">
             <div
                 *ngFor="let day of statistic.schedule"
                 class="day-container">
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <div class="activities-stats">
+    <div class="activities-stats" *ngIf="statistic">
         <p class="stat-header">Performance of tasks</p>
         <div class="progress-container" *ngIf="isAppear">
             <div class="progress-bar-container">
@@ -115,5 +115,12 @@
             </div>
         </div>
 
+    </div>
+
+    <div *ngIf="!statistic" class="private-page-container">
+        <img
+            src="../../../../assets/img/private-profile.png"
+            class="private-page-img"
+        >
     </div>
 </div>

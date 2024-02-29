@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using NoPressure.DAL.Context;
 using NoPressure.DAL.Entities;
 using NoPressure.DAL.Repositories.Abstract;
+using NoPressure.Common.Enums;
 
 namespace NoPressure.DAL.Repositories.Impl
 {
@@ -59,6 +60,7 @@ namespace NoPressure.DAL.Repositories.Impl
                 .Tags
                 .Include(tag => tag.Activities)
                 .Where(tag => tag.UserId == userId)
+                .Where(tag => tag.Team == null)
                 .Select(tag => new Tag
                 {
                     Id = tag.Id,
@@ -66,7 +68,7 @@ namespace NoPressure.DAL.Repositories.Impl
                     UserId = tag.UserId,
                     Name = tag.Name,
                     Activities = tag.Activities
-                        .Where(activity => (!activity.IsScheduled && !activity.IsRepeatable) || (activity.IsRepeatable && activity.Date.Date != DateTime.UtcNow.Date))
+                        .Where(activity => (!activity.IsScheduled && activity.State != ActivityState.Done) || (activity.IsScheduled && activity.IsRepeatable && activity.Date.Date != DateTime.UtcNow.Date))
                         .ToList()
                 })
                 .Where(tag => tag.Activities.Any())

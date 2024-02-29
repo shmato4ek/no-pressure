@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NoPressure.BLL.Exceptions;
 using NoPressure.BLL.Helpers;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
@@ -21,13 +22,15 @@ namespace NoPressure.BLL.Sevices.Impl
         private readonly IMapper _mapper;
         private readonly IStatisticService _statisticService;
         private readonly INotificationService _notificationService;
+        private readonly IAuthService _authService;
 
-        public UserService(IUnitOfWork ouw, IMapper mapper, IStatisticService statisticService, INotificationService notificationService)
+        public UserService(IUnitOfWork ouw, IMapper mapper, IStatisticService statisticService, INotificationService notificationService, IAuthService authService)
         {
             _uow = ouw;
             _mapper = mapper;
             _statisticService = statisticService;
             _notificationService = notificationService;
+            _authService = authService;
         }
 
         public async Task<UserDTO> CreateUser(NewUser newUser)
@@ -36,7 +39,7 @@ namespace NoPressure.BLL.Sevices.Impl
             
             if (isUserExist != null)
             {
-                throw new Exception();
+                throw new ExistUserException(newUser.Email);
             }
 
             var salt = SecurityHelper.GetRandomBytes();
@@ -45,12 +48,17 @@ namespace NoPressure.BLL.Sevices.Impl
             userEntity.Salt = Convert.ToBase64String(salt);
             userEntity.Password = SecurityHelper.HashPassword(newUser.Password, salt);
             userEntity.RegistrationDate = DateTime.UtcNow;
+            userEntity.AuthType = AuthType.Internal;
             
             _uow.UserRepository.Create(userEntity);
 
+            await _uow.SaveAsync();
+                
+            var createdUser = await _uow.UserRepository.FindUserByEmail(newUser.Email);
+
             var settings = new Settings()
             {
-                UserId = userEntity.Id,
+                UserId = createdUser.Id,
                 Statistic = SettingsPrivacy.AllUsers,
                 Activities = SettingsPrivacy.AllUsers
             };
@@ -62,13 +70,74 @@ namespace NoPressure.BLL.Sevices.Impl
             return _mapper.Map<UserDTO>(userEntity);
         }
 
+        public async Task<AuthUser> GoogleAuth(ExternalAuthUser user)
+        {
+            var isUserExist = await _uow.UserRepository.FindUserByEmail(user.Email);
+
+            if (isUserExist is null) {
+                var userEntity = new User() 
+                {
+                    Name = user.Name,
+                    Email = user.Email,
+                    AuthType = AuthType.Google,
+                };
+
+                var salt = SecurityHelper.GetRandomBytes();
+                userEntity.Salt = Convert.ToBase64String(salt);
+
+                string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+                var random = new Random();
+                string password = new string(Enumerable.Repeat(chars, 10)
+                    .Select(s => s[random.Next(s.Length)]).ToArray());
+
+                userEntity.Password = SecurityHelper.HashPassword(password, salt);
+                userEntity.RegistrationDate = DateTime.UtcNow;
+
+                _uow.UserRepository.Create(userEntity);
+
+                await _uow.SaveAsync();
+                
+                var createdUser = await _uow.UserRepository.FindUserByEmail(user.Email);
+
+                var settings = new Settings()
+                {
+                    UserId = createdUser.Id,
+                    Statistic = SettingsPrivacy.AllUsers,
+                    Activities = SettingsPrivacy.AllUsers,
+                };
+
+                _uow.SettingsRepository.Create(settings);
+
+                await _uow.SaveAsync();
+
+                var token = await _authService.GenerateAccessToken(createdUser.Id, createdUser.Name, createdUser.Email);
+
+                var authUser = new AuthUser() {
+                    User = _mapper.Map<UserDTO>(userEntity),
+                    Token = token
+                };
+
+                return authUser;
+            }
+            else
+            {
+                var token = await _authService.GenerateAccessToken(isUserExist.Id, isUserExist.Name, isUserExist.Email);
+                var authUser = new AuthUser() {
+                    User = _mapper.Map<UserDTO>(isUserExist),
+                    Token = token
+                };
+
+                return authUser;
+            }
+        }
+
         public async Task<UserInfo> GetUserById(int id)
         {
             var foundUser = await _uow.UserRepository.GetAllInfoById(id);
 
             if (foundUser is null) 
             {
-                throw new Exception();
+                throw new NotFoundException("User", id);
             }
 
             var userTeams = await _uow.TeamRepository.GetUsersTeams(id);
@@ -109,10 +178,47 @@ namespace NoPressure.BLL.Sevices.Impl
             
             if (userEntity is null)
             {
-                throw new Exception($"User with email {decodedEmail} was not founded.");
+                throw new NotFoundException("User");
             }
 
-            userShared.User = _mapper.Map<UserInfo>(userEntity);
+            
+            var userSettings = await _uow.SettingsRepository.FindSettingByUserId(userEntity.Id);
+
+            if(userSettings.Statistic == SettingsPrivacy.AllUsers)
+            {
+                userShared.User = _mapper.Map<UserInfo>(userEntity);
+                userShared.User.RegistrationDate = userEntity.RegistrationDate.ToString("dd/MM/yy");
+                userShared.Statistic = await _statisticService.GetActivitiesStatistic(userEntity.Id);
+            }
+            else
+            {
+                var isFollowing = false;
+                var followings = await _uow.SubscriptionRepository.GetAllUsersFollowings(userEntity.Id);
+
+                foreach (var following in followings) {
+                    if (following.FollowingId == userId)
+                    {
+                        isFollowing = true;
+                    }
+                }
+                
+                Console.WriteLine($"\n\nIsFollowing: {isFollowing}\n\n");
+
+                if(userSettings.Statistic == SettingsPrivacy.Followers && isFollowing)
+                {
+                    userShared.User = _mapper.Map<UserInfo>(userEntity);
+                    userShared.User.RegistrationDate = userEntity.RegistrationDate.ToString("dd/MM/yy");
+                    userShared.Statistic = await _statisticService.GetActivitiesStatistic(userEntity.Id);
+                }
+                else
+                {
+                    userShared.User = new UserInfo() {
+                        Id = userEntity.Id,
+                        Name = userEntity.Name,
+                        RegistrationDate = userEntity.RegistrationDate.ToString("dd/MM/yy")
+                    };
+                }
+            }
 
             var followers = await _uow.SubscriptionRepository.GetAllUsersFollowers(userEntity.Id);
 
@@ -127,8 +233,6 @@ namespace NoPressure.BLL.Sevices.Impl
             }
 
             userShared.IsFollowed = isFollowed;
-
-            userShared.Statistic = await _statisticService.GetActivitiesStatistic(userEntity.Id);
             
             return userShared;
         }
@@ -171,14 +275,14 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if (follower is null)
             {
-                throw new Exception($"There is no user with id {followerId}");
+                throw new NotFoundException("User", followerId);
             }
 
             var following = await _uow.UserRepository.FindAsync(followingId);
 
             if (following is null)
             {
-                throw new Exception($"There is no user with id {followingId}");
+                throw new NotFoundException("USer", followingId);
             }
 
             var subscription = new Subscription()
@@ -213,14 +317,14 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if (follower is null)
             {
-                throw new Exception($"There is no user with id {followerId}");
+                throw new NotFoundException("User", followerId);
             }
 
             var following = await _uow.UserRepository.FindAsync(followingId);
 
             if (following is null)
             {
-                throw new Exception($"There is no user with id {following}");
+                throw new NotFoundException("User", followingId);
             }
 
             await _uow.SubscriptionRepository.UnSubscribe(followerId, followingId);
@@ -230,7 +334,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
         public async Task<SettingsDTO> GetUserSettings(int userId)
         {
-            var settings = await _uow.SettingsRepository.FindAsync(userId);
+            var settings = await _uow.SettingsRepository.FindSettingByUserId(userId);
 
             return _mapper.Map<SettingsDTO>(settings);
         }
@@ -240,6 +344,11 @@ namespace NoPressure.BLL.Sevices.Impl
             var settingsEntity = await _uow
                 .SettingsRepository
                 .FindSettingByUserId(userId);
+
+            if (settingsEntity is null)
+            {
+                throw new NotFoundException("Settings");
+            }
 
             settingsEntity.Activities = settings.Activities;
             settingsEntity.Statistic = settings.Statistic;
@@ -263,7 +372,7 @@ namespace NoPressure.BLL.Sevices.Impl
 
             if(!SecurityHelper.IsValidPassword(userEntity.Password, changePassword.OldPassword, userEntity.Salt))
             {
-                throw new Exception("Password is not valid");
+                throw new InvalidUserNameOrPasswordException();
             }
 
             var salt = SecurityHelper.GetRandomBytes();

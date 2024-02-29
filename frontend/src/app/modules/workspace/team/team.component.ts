@@ -40,6 +40,9 @@ export class TeamComponent implements OnInit{
   firstHalfHours = [] as ScheduleTime[];
   secondHalfHours = [] as ScheduleTime[];
 
+  _team_tags_tooltip = 'You can add team tags on the schedule page (if you have the appropriate permissions)';
+  _team_tasks_tooltip = 'You can add team tasks on the schedules page (if you have the appropriate permissions)';
+
   constructor(
     private registrationService: RegistrationService,
     private teamService: TeamService,
