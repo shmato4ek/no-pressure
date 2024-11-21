@@ -18,6 +18,7 @@ namespace NoPressure.DAL.Unit.Impl
         public INotificationRepository NotificationRepository { get; }
         public ITeamRepository TeamRepository { get; }
         public ITeamRequestRepository TeamRequestRepository { get; }
+        public IScheduleGenerationConfigurationRepository ScheduleGenerationConfigurationRepository { get; }
 
         public UnitOfWork(NoPressureDbContext context, 
                             IUserRepository userRepo,
@@ -28,7 +29,8 @@ namespace NoPressure.DAL.Unit.Impl
                             ISettingsRepository settingsRepo,
                             INotificationRepository notificationRepo,
                             ITeamRepository teamRepo,
-                            ITeamRequestRepository teamRequestRepo)
+                            ITeamRequestRepository teamRequestRepo,
+                            IScheduleGenerationConfigurationRepository scheduleGenerationConfigurationRepo)
         {
             UserRepository = userRepo;
             ActivityRepository = activityRepo;
@@ -39,6 +41,7 @@ namespace NoPressure.DAL.Unit.Impl
             NotificationRepository = notificationRepo;
             TeamRepository = teamRepo;
             TeamRequestRepository = teamRequestRepo;
+            ScheduleGenerationConfigurationRepository = scheduleGenerationConfigurationRepo;
             _context = context;
         }
 

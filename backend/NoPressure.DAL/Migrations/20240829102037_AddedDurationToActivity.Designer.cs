@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoPressure.DAL.Context;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NoPressure.DAL.Migrations
 {
     [DbContext(typeof(NoPressureDbContext))]
-    partial class NoPressureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240829102037_AddedDurationToActivity")]
+    partial class AddedDurationToActivity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,31 +144,6 @@ namespace NoPressure.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Plans");
-                });
-
-            modelBuilder.Entity("NoPressure.DAL.Entities.ScheduleGenerationConfiguration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsCrossowerEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsMutationEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("IterationsAmount")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ScheduleGenerationConfigurations");
                 });
 
             modelBuilder.Entity("NoPressure.DAL.Entities.Settings", b =>

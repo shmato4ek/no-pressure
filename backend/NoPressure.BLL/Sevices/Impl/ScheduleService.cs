@@ -3,6 +3,7 @@ using System.Runtime.Intrinsics.X86;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using NoPressure.BLL.Exceptions;
+using NoPressure.BLL.Helpers;
 using NoPressure.BLL.Sevices.Abstract;
 using NoPressure.Common.DTO;
 using NoPressure.Common.Enums;
@@ -233,6 +234,86 @@ namespace NoPressure.BLL.Sevices.Impl
 
             return schedule;
 
+        }
+
+        public async Task GenerateSchedule(int userId, ScheduleGenerationConfigurationDTO config)
+        {
+            Console.WriteLine("\n\nenerateSchedule\n");
+
+            var activities = await _activityService.GetAllUserActivity(userId);
+            
+            Console.WriteLine("\n\nActivities\n\n");
+            foreach(var item in activities)
+            {
+                Console.WriteLine(item.Id);
+            }
+
+            var schedule = Algorithm.GenerateSchedule(activities, config);
+
+            await UpdateScheduleGenerationConfiguration(config);
+            
+            await AddActivitiesToGeneratedSchedule(schedule);
+        }
+
+        public async Task<ScheduleGenerationConfigurationDTO> GetScheduleGenerationConfiguration(int userId)
+        {
+            var user = await _uow.UserRepository.FindAsync(userId);
+            
+            if(user is null)
+            {
+                throw new NotFoundException("User", userId);
+            }
+
+            var config = await _uow.ScheduleGenerationConfigurationRepository.FindConfigurationByUserId(userId);
+            return _mapper.Map<ScheduleGenerationConfigurationDTO>(config);
+        }
+
+        public async Task UpdateScheduleGenerationConfiguration(ScheduleGenerationConfigurationDTO config)
+        {
+            var configEntity =
+                await _uow.ScheduleGenerationConfigurationRepository.FindConfigurationByUserId(config.UserId);
+
+            if (configEntity is null)
+            {
+                throw new NotFoundException("Schedule generation configuration", config.UserId);
+            }
+            
+            configEntity.IterationsAmount = config.IterationsAmount;
+            configEntity.IsCrossowerEnabled = config.IsCrossowerEnabled;
+            configEntity.IsMutationEnabled = config.IsMutationEnabled;
+            
+            _uow.ScheduleGenerationConfigurationRepository.Update(configEntity);
+            
+            await _uow.SaveAsync();
+        }
+
+        private async Task AddActivitiesToGeneratedSchedule(GeneratedSchedule schedule)
+        {
+            var currentActivityId = 0;
+            
+            foreach (var hour in schedule.Hours)
+            {
+                if (hour.Activity != null && currentActivityId == 0)
+                {
+                    currentActivityId = hour.Activity.Id;
+                    await AddActivityToSchedule(new AddTaskToSchedule()
+                    {
+                        ActivityId = hour.Activity.Id,
+                        StartTime = (int)hour.Hour,
+                        EndTime = (int)hour.Hour + hour.Activity.Duration,
+                    });
+                }
+                if (hour.Activity != null && currentActivityId != 0 && hour.Activity.Id != currentActivityId)
+                {
+                    await AddActivityToSchedule(new AddTaskToSchedule()
+                    {
+                        ActivityId = hour.Activity.Id,
+                        StartTime = (int)hour.Hour,
+                        EndTime = (int)hour.Hour + hour.Activity.Duration,
+                    });
+                    currentActivityId = hour.Activity.Id;
+                }
+            }
         }
     }
 }

@@ -7,6 +7,8 @@ import { PlanDTO } from "../models/plan/plan-dto";
 import { Schedule } from "../models/schedule/schedule";
 import { AddTaskToSchedule } from "../models/schedule/add-task-to-schedule";
 import { TeamSchedule } from "../models/schedule/team-schedule";
+import { ScheduleGenerationConfiguration } from "../models/schedule/schedule-generation-configuration";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root',
@@ -30,6 +32,19 @@ export class ScheduleService extends ResourceService<Schedule> {
                     return resp.body as Schedule;
                 })
             );
+    }
+
+    public getScheduleConfig() {
+        return this.getFullRequest<ScheduleGenerationConfiguration>(`schedule/generate/config`)
+            .pipe(
+                map((resp) => {
+                    return resp.body as ScheduleGenerationConfiguration;
+                })
+            )
+    }
+
+    public generateSchedule(config: ScheduleGenerationConfiguration) {
+        this.httpClient.post(`${environment.apiUrl}/schedule/generate`, config, { observe: 'response' }).subscribe();
     }
 
     public getTeamSchedule(teamId: number) {

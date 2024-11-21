@@ -15,6 +15,7 @@ import { MatSelectSearchModule } from 'mat-select-search';
 import { IonicModule } from "@ionic/angular";
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSliderModule} from '@angular/material/slider';
 
 const MaterialComponents = [
     MatButtonModule,
@@ -32,7 +33,8 @@ const MaterialComponents = [
     MatSelectSearchModule,
     IonicModule,
     ClipboardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSliderModule
 ]
 
 @NgModule({

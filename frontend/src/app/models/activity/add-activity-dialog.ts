@@ -1,3 +1,5 @@
+import { ScheduleHour } from "../enums/ScheduleHour";
+
 export interface ActivityAddDialog {
     name: string;
     description: string;
@@ -5,4 +7,8 @@ export interface ActivityAddDialog {
     isRepeatable: boolean;
     color: string;
     teamId: number;
+    directiveTerm: ScheduleHour;
+    priority: number;
+    delayCoefficient: number;
+    duration: number;
 }

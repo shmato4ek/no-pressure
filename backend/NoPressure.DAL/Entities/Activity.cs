@@ -12,6 +12,10 @@ namespace NoPressure.DAL.Entities
         public ScheduleHour EndTime { get; set; }
         public DateTime Date { get; set; }
         public DateTime CreationDate { get; set; }
+        public ScheduleHour DirectiveTerm { get; set; }
+        public int Priority { get; set; }
+        public double DelayCoefficient { get; set; }
+        public int Duration { get; set; }
 
         public bool IsRepeatable { get; set; } = false;
         public bool IsScheduled { get; set; } = false;

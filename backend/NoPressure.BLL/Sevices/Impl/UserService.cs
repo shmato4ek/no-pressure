@@ -63,6 +63,16 @@ namespace NoPressure.BLL.Sevices.Impl
                 Activities = SettingsPrivacy.AllUsers
             };
 
+            var scheduleGenerationConfiguration = new ScheduleGenerationConfiguration()
+            {
+                UserId = createdUser.Id,
+                IsCrossowerEnabled = true,
+                IsMutationEnabled = true,
+                IterationsAmount = 50
+            };
+            
+            _uow.ScheduleGenerationConfigurationRepository.Create(scheduleGenerationConfiguration);
+
             _uow.SettingsRepository.Create(settings);
 
             await _uow.SaveAsync();

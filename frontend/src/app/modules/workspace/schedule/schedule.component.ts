@@ -29,6 +29,8 @@ import { TeamScheduleOption } from 'src/app/models/team/team-schedule-option';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { ScheduleActivity } from 'src/app/models/activity/schedule-activity';
 import { ScheduledActivity } from 'src/app/models/activity/scheduled-activity';
+import { ScheduleGenerationConfiguration } from 'src/app/models/schedule/schedule-generation-configuration';
+import { ScheduleGenerationDialogComponent } from '../schedule-generation-dialog/schedule-generation-dialog.component';
 
 @Component({
   selector: 'app-schedule',
@@ -189,10 +191,27 @@ export class ScheduleComponent implements OnInit{
           isRepeatable: activity.isRepeatable,
           color: activity.color,
           teamId: activity.teamId,
+          priority: activity.priority,
+          delayCoefficient: activity.delayCoefficient,
+          directiveTerm: activity.directiveTerm,
+          duration: activity.duration
         };
         this.createActivity(newActivity);
       }
     })
+  }
+
+  public showShceduleGenerationDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    
+    const dialogRef = this.dialog.open(ScheduleGenerationDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((config) => {
+      this.scheduleService.generateSchedule(config);
+    })
+    window.location.reload();
   }
 
   public showActivityDialog(currentActivity: ActivityDTO) {

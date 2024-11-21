@@ -10,4 +10,7 @@ export interface ActivityDTO {
     state: ActivityState;
     startTime?: ScheduleHour;
     endTime?: ScheduleHour;
+    directiveTerm: ScheduleHour;
+    priority: number;
+    delayCofficient: number;
 }

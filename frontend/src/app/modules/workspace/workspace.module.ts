@@ -30,6 +30,7 @@ import { TeamSettingDialog } from './team-settings-dialog/team-settings-dialog.c
 import { AddUsersToTeamDialog } from './add-users-to-team-dialog/add-users-to-team-dialog.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { ScheduleGenerationDialogComponent } from './schedule-generation-dialog/schedule-generation-dialog.component';
 
 @NgModule({
     declarations: [
@@ -56,7 +57,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
         AddTeamDilogComponent,
         TeamSettingDialog,
         AddUsersToTeamDialog,
-        ErrorPageComponent
+        ErrorPageComponent,
+        ScheduleGenerationDialogComponent
     ],
     imports: [
         WorkspaceRoutingModule,

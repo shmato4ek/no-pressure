@@ -48,10 +48,30 @@
 }
 
 .add-dialog-container{
-    width: 25rem;
+    width: 45rem;
     display: flex;
     flex-direction: column;
     padding-bottom: 0;
+}
+
+.priority-slider{
+    width: 95%;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.delay-slider{
+    width: 95%;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.priority-label{
+    margin-left: 0.65rem;
 }
 
 .add-activity-field{
@@ -132,6 +152,48 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.activity-fields{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.activity-sliders{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    position: relative;
+}
+
+.activity-settings-container{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+}
+
+.delay-header{
+    width: 100%;
+    font-size: 1.25rem;
+    text-align: center;
+    color: black;
+    margin-top: 0.5rem;
+}
+
+.directive-term{
+    width: 10rem;
+    margin-right: 1rem;
+}
+
+.duration{
+    width: 10rem;
+}
+
+.select-fields-container{
+    display: flex;
+    flex-direction: row;
 }
 
 #userTags{
@@ -249,4 +311,21 @@
 .mat-mdc-raised-button, .mat-mdc-unelevated-button {
     --mat-mdc-button-persistent-ripple-color: none !important;
     --mat-mdc-button-ripple-color: none !important;
+}
+
+.mat-mdc-slider.mat-primary {
+    --mdc-slider-handle-color: #FFA500;
+    --mdc-slider-focus-handle-color: #FFA500;
+    --mdc-slider-hover-handle-color: #FFA500;
+    --mdc-slider-active-track-color: #FFA500;
+    --mdc-slider-inactive-track-color: #FFA500;
+    --mdc-slider-with-tick-marks-active-container-color: #fff;
+    --mdc-slider-with-tick-marks-inactive-container-color: #FFA500;
+    --mat-mdc-slider-ripple-color: #FFA500;
+    --mat-mdc-slider-hover-ripple-color: none;
+    --mat-mdc-slider-focus-ripple-color: none;
+}
+
+.mat-mdc-slider{
+    width: 15rem;
 }

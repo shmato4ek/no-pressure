@@ -22,14 +22,19 @@ namespace NoPressure.BLL.Sevices.Impl
         }
         public async Task CreateActivity(NewActivity newActivity)
         {
-            var activityEntity = new Activity() {
+            var activityEntity = new Activity()
+            {
                 UserId = newActivity.UserId,
                 StartTime = ScheduleHour.Undefined,
                 EndTime = ScheduleHour.Undefined,
                 Name = newActivity.Name,
                 Description = newActivity.Description,
                 IsRepeatable = newActivity.IsRepeatable,
-                CreationDate = DateTime.UtcNow
+                CreationDate = DateTime.UtcNow,
+                DelayCoefficient = newActivity.DelayCoefficient / 100,
+                DirectiveTerm = newActivity.DirectiveTerm,
+                Priority = newActivity.Priority,
+                Duration = newActivity.Duration,
             };
 
             if(newActivity.Tag is null)
@@ -147,6 +152,9 @@ namespace NoPressure.BLL.Sevices.Impl
             activityEntity.Description = updatedActivity.Description;
             activityEntity.StartTime = updatedActivity.StartTime;
             activityEntity.EndTime = updatedActivity.EndTime;
+            activityEntity.DirectiveTerm = updatedActivity.DirectiveTerm;
+            activityEntity.DelayCoefficient = updatedActivity.DelayCoefficient;
+            activityEntity.Priority = updatedActivity.Priority;
 
             _uow.ActivityRepository.Update(activityEntity);
 
@@ -252,7 +260,10 @@ namespace NoPressure.BLL.Sevices.Impl
                     Description = activity.Description,
                     IsRepeatable = activity.IsRepeatable,
                     PlanId = planId,
-                    CreationDate = DateTime.UtcNow
+                    CreationDate = DateTime.UtcNow,
+                    DelayCoefficient = activity.DelayCoefficient,
+                    DirectiveTerm = activity.DirectiveTerm,
+                    Priority = activity.Priority
                 };
 
                 activityEntity.TagId = tagId;

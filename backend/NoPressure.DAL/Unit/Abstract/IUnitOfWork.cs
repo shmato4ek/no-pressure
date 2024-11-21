@@ -18,6 +18,7 @@ namespace NoPressure.DAL.Unit.Abstract
         INotificationRepository NotificationRepository { get; }
         ITeamRepository TeamRepository { get; }
         ITeamRequestRepository TeamRequestRepository { get; }
+        IScheduleGenerationConfigurationRepository ScheduleGenerationConfigurationRepository { get; }
 
         Task SaveAsync();
         void Save();

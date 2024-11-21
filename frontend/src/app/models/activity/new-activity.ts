@@ -1,3 +1,5 @@
+import { ScheduleHour } from "../enums/ScheduleHour";
+
 export interface NewActivity {
     userId: number;
     name: string;
@@ -6,4 +8,8 @@ export interface NewActivity {
     isRepeatable: boolean;
     color: string;
     teamId: number;
+    directiveTerm?: ScheduleHour;
+    priority?: number;
+    delayCoefficient?: number;
+    duration?: number;
 }

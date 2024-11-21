@@ -28,6 +28,7 @@ namespace NoPressure.API.Extentions
             services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddTransient<ITeamRepository, TeamRepository>();
             services.AddTransient<ITeamRequestRepository, TeamRequestRepository>();
+            services.AddTransient<IScheduleGenerationConfigurationRepository, ScheduleGenerationConfigurationRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();

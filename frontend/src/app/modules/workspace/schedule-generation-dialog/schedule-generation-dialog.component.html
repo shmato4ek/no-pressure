@@ -1,0 +1,64 @@
+<h2
+  mat-dialog-title
+  class="info-text-black"
+>
+  Generate schedule
+</h2>
+
+<img
+  class="close-img"
+  src="../../../../assets/img/close-window.png"
+  (click)="close()"
+>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="generate-schedule-container"
+>
+  <div class="generation-field">
+    <div class="generation-header">
+      Iterations count:
+    </div>
+    
+    <input
+      formControlName="iterationsAmount"
+      class="generation-number-input"
+      type="number"
+      min="1"
+      max="200">
+  </div>
+
+  <div class="generation-field">
+    <div class="generation-header">
+      Use Mutations: 
+    </div>
+    
+    <mat-checkbox
+      formControlName="isMutationEnabled"
+      class="checkbox"  
+    ></mat-checkbox>
+  </div>
+
+  <div class="generation-field">
+    <div class="generation-header">
+      Use Crossower:
+    </div>
+    
+    <mat-checkbox
+      formControlName="isCrossowerEnabled"
+      class="checkbox"  
+    ></mat-checkbox>
+  </div>
+
+  <div class="errors">
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="generate-button-container">
+  <button
+    class="generate-button"
+    (click)="save()"
+  >
+    Generate
+  </button>
+</mat-dialog-actions>

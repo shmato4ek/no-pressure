@@ -23,7 +23,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 83.75%;
+    height: 90%;
     background-color: #FBFBFB;
     position: relative;
 }
@@ -98,16 +98,27 @@
 .add-activity-button {
     border: 2px solid #FFA500;
     background-color: #FBFBFB;
-    height: 3rem;
-    width: 20rem;
-    font-size: 1.5rem;
+    height: 2.5rem;
+    width: 17rem;
+    font-size: 1.25rem;
     text-align: center;
     position: absolute;
-    bottom: 0;
+    bottom: 4rem;
+}
+
+.generate-schedule-button {
+    border: 2px solid #FFA500;
+    background-color: #FBFBFB;
+    height: 2.5rem;
+    width: 17rem;
+    font-size: 1.25rem;
+    text-align: center;
+    position: absolute;
+    bottom: 1rem;
 }
 
 .add-activity-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
     width: fit-content;
     height: fit-content;
     position: absolute;
@@ -269,7 +280,7 @@
 
 .tasks {
     width: 100%;
-    height: 80%;
+    height: 70%;
     overflow-y: auto;
     overflow-x: hidden;
 }

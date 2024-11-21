@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using NoPressure.BLL.Exceptions;
 using NoPressure.BLL.JWT;
 using NoPressure.BLL.Sevices.Abstract;
+using NoPressure.Common.DTO;
 using NoPressure.Common.Models.Requests;
 using NoPressure.Common.Models.Schedule;
+using NoPressure.DAL.Entities;
 
 namespace NoPressure.API.Controllers
 {
@@ -84,6 +86,39 @@ namespace NoPressure.API.Controllers
             }
 
             catch (NotFoundException ex)
+            {
+                return StatusCode(404, ex.Message);
+            }
+        }
+
+        [HttpPost("generate")]
+        public async Task<ActionResult> GenerateSchedule(ScheduleGenerationConfigurationDTO config)
+        {
+            try
+            {
+                var request = Request.Headers["auth-token"].ToString();
+                var token = request[10..(request.Length - 2)];
+                var userId = _jwtFactory.GetValueFromToken(token);
+                await _scheduleService.GenerateSchedule(userId, config);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("generate/config")]
+        public async Task<ActionResult> GetScheduleGenerationConfiguration()
+        {
+            try
+            {
+                var request = Request.Headers["auth-token"].ToString();
+                var token = request[10..(request.Length - 2)];
+                var userId = _jwtFactory.GetValueFromToken(token);
+                return Ok(await _scheduleService.GetScheduleGenerationConfiguration(userId));
+            }
+            catch (Exception ex)
             {
                 return StatusCode(404, ex.Message);
             }

@@ -19,6 +19,7 @@ namespace NoPressure.DAL.Context
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamRequest> TeamRequests { get; set; }
+        public DbSet<ScheduleGenerationConfiguration> ScheduleGenerationConfigurations { get; set; }
 
         public NoPressureDbContext()
         {
@@ -36,6 +37,6 @@ namespace NoPressure.DAL.Context
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=NoPressureFinalDemo;UserName=postgres;Password=0985883147");
+            => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=NoPressureFinalDemo;UserName=postgres;Password=qwerty123");
     }
 }

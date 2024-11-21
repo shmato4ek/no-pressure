@@ -11,5 +11,8 @@ namespace NoPressure.Common.Models.Activity
         public string? Tag { get; set; }
         public string Color { get; set; }
         public bool IsRepeatable { get; set; }
+        public ScheduleHour DirectiveTerm { get; set; }
+        public int Priority { get; set; }
+        public double DelayCoefficient { get; set; }
     }
 }

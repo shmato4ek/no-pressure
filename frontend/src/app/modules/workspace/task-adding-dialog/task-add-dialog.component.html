@@ -15,25 +15,86 @@
   [formGroup]="dialogForm"
   class="add-dialog-container"
 >
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Activity name"
-      formControlName="activityName"
-      class="handwitten-field"
-      (keypress)="inputValidation($event, 'Activity name')"
-    >
-  </mat-form-field>
+  <div class="activity-settings-container">
+    <div class="activity-fields">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Activity name"
+          formControlName="activityName"
+          class="handwitten-field"
+          (keypress)="inputValidation($event, 'Activity name')"
+        >
+      </mat-form-field>
 
-  <mat-form-field>
-    <input
-    matInput
-    placeholder="Activity description"
-    formControlName="activityDescription"
-    class="handwitten-field"
-    (keypress)="inputValidation($event, 'Description')"
-  >
-  </mat-form-field>
+      <mat-form-field>
+        <input
+        matInput
+        placeholder="Activity description"
+        formControlName="activityDescription"
+        class="handwitten-field"
+        (keypress)="inputValidation($event, 'Description')"
+      >
+      </mat-form-field>
+    </div>
+
+    <div class="activity-sliders">
+      <div class="delay-header">
+        Delay coefficient:
+      </div>
+
+      <div class="delay-slider">
+        <mat-slider>
+          <input
+            matSliderThumb
+            formControlName="activityDelayCoefficient"
+            #delaySlider>
+        </mat-slider>
+        <label class="priority-label">{{delaySlider.value}}%</label>
+      </div>
+
+      <div class="delay-header">
+        Priority:
+      </div>
+
+      <div class="priority-slider">
+        <mat-slider
+          [max]="PRIORITY_SLIDER_MAX">
+          <input
+            matSliderThumb
+            formControlName="activityPriority"
+            #prioritySlider>
+        </mat-slider>
+        <label class="priority-label">{{prioritySlider.value}}</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="select-fields-container">
+    <mat-form-field class="directive-term">
+      <mat-label>Directive term</mat-label>
+        <mat-select formControlName="activityDirectiveTerm" class="directive-term-field">
+          <mat-option
+            *ngFor="let option of directiveTermOptions"
+            [value]="option"
+          >
+            {{ option }}:00
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="duration">
+      <mat-label>Duration</mat-label>
+        <mat-select formControlName="activityDuration" class="duration-field">
+          <mat-option
+            *ngFor="let option of durationOptions"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+  </div>
 
   <div class="errors">
     <span *ngIf="dialogForm.controls['activityName'].touched">
