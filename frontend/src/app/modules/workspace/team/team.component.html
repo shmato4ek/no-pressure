@@ -1,0 +1,205 @@
+<div class="team-page-container">
+    <div class="team-info-container">
+        <div class="team-name-container">
+            <div
+                [ngStyle]="{'border-color':team.color}"    
+                class="img-container"
+            >
+                <img
+                    src="../../../../assets/img/team.png"
+                    class="team-logo-img"
+                >
+            </div>
+
+            <p class="team-name-text">{{team.name}}</p>
+
+            <div
+                *ngIf="team.teamRequestId != 0"
+                class="team-invite-buttons"
+            >                
+                <button
+                    class="invite-btn"
+                    (click)="changeTeamRequestStatus(1)"    
+                >
+                    <img
+                        class="invite-btn-img"
+                        src="../../../../assets/img/accept.png"
+                    >
+                </button>
+                
+                <button
+                    class="invite-btn"
+                    (click)="changeTeamRequestStatus(2)"
+                >
+                    <img
+                        class="invite-btn-img"
+                        src="../../../../assets/img/deny.png">
+                </button>
+            </div>
+            
+            <img
+                *ngIf="team.role === 0"
+                class="settings-img"
+                src="../../../../assets/img/settings.svg"
+                (click)="showTeamSettingsDialog()"
+            >
+        </div>
+
+        <div
+            class="team-point"
+            *ngIf="hasAccess"
+        >
+            <img
+                src="../../../../assets/img/subscribers.svg"
+                class="team-img"
+            >
+
+            <p class="team-header">Users</p>
+            
+            <img
+                *ngIf="team.addingUsers === 0"
+                class="settings-img"
+                src="../../../../assets/img/ad-icon.png"
+                (click)="showAddUsersDialog()"
+            >
+        </div>
+        
+        <div
+            class="team-users-list"
+        >
+            <div
+                *ngFor="let user of team.users"
+                class="team-user-container"
+            >
+                <p class="team-user-name">{{user.name}}</p>
+
+                <img
+                    *ngIf="user.id === team.authorId"
+                    src="../../../../assets/img/owner.png"
+                    class="team-user-icon"
+                >
+            </div>
+        </div>
+
+        <div
+            *ngIf="hasAccess"  
+            class="team-point"
+        >
+            <img
+                src="../../../../assets/img/tasks.svg"
+                class="team-img"
+            >
+
+            <p class="team-header">Team tags</p>
+
+            <button mat-raised-button
+                matTooltip={{_team_tags_tooltip}}
+                matTooltipClass="tooltip"
+                class="tooltip"
+            >
+                <img
+                    src="../../../../assets/img/tooltip.png"
+                    class="tooltip-img"
+                >
+            </button>
+        </div>
+
+        <div
+            class="team-users-list"
+        >
+            <div
+                class="tag-container"
+                *ngFor="let tag of team.tags"
+            >
+                <p class="team-user-name">{{tag.name}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div
+        *ngIf="hasAccess"
+        class="schedule-container"
+    >
+        <div class="date-container">
+            <p class="date-text">{{date}}</p>
+            <button mat-raised-button
+                matTooltip={{_team_tasks_tooltip}}
+                matTooltipClass="tooltip"
+                class="date-tooltip"
+            >
+                <img
+                    src="../../../../assets/img/tooltip.png"
+                    class="tooltip-img"
+                >
+            </button>
+        </div>
+        <div class="schedule">
+            <div class="first-half-schedule">
+                <span
+                    *ngFor="let hour of firstHalfHours"
+                    class="time-container"
+                >
+                    <div class="time">
+                        {{hour.hour}}:00
+                    </div>
+                    <div
+                        *ngIf="hour.activity !== null"
+                        [ngClass]="{topBorder:!hour.hasPrevious,
+                            bottomBorder:!hour.hasNext,
+                            scheduledActivity:true,
+                            sideBorders:true,
+                            centralScheduled:hour.hasNext&&hour.hasPrevious}"
+                        [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
+                    >
+                        <div>
+                            <p
+                                class="activity-name"
+                                *ngIf="!hour.hasPrevious && hour.activity"
+                            >
+                                {{hour.activity.name}}
+                            </p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <div class="first-half-schedule">
+                <span
+                    *ngFor="let hour of secondHalfHours"
+                    class="time-container"
+                >
+                    <div class="time">
+                        {{hour.hour}}:00
+                    </div>
+                    <div
+                        *ngIf="hour.activity !== null"
+                        [ngClass]="{topBorder:!hour.hasPrevious,
+                            bottomBorder:!hour.hasNext,
+                            scheduledActivity:true,
+                            sideBorders:true,
+                            centralScheduled:hour.hasNext&&hour.hasPrevious}"
+                        [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
+                    >
+                        <div>
+                            <p
+                                class="activity-name"
+                                *ngIf="!hour.hasPrevious && hour.activity"
+                            >
+                                {{hour.activity.name}}
+                            </p>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div
+        *ngIf="!hasAccess"
+        class="private-team"
+    >
+        <img
+            src="../../../../assets/img/private-team.png"
+            class="private-team-img"    
+        >
+    </div>
+</div>

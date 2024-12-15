@@ -1,0 +1,104 @@
+<h2
+  mat-dialog-title
+  class="info-text-black"
+>
+  {{activityName}}
+</h2>
+
+<img
+  class="close-img"
+  src="../../../../assets/img/close-window.png"
+  (click)="close()"
+>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="add-dialog-container"
+>
+<div class="set-time-container">
+  <mat-form-field class="start-time">
+    <mat-label>Start time</mat-label>
+      <mat-select formControlName="startTime" class="start-time-field" [(ngModel)]='startTime'>
+        <mat-option
+          *ngFor="let option of selectOptions"
+          [value]="option"
+          (onSelectionChange)="scheduleValidator()"
+        >
+          {{ option }}:00
+        </mat-option>
+      </mat-select>
+  </mat-form-field>
+  <p class="time-sepaprator">-</p>
+  <mat-form-field>
+    <mat-label>End time</mat-label>
+      <mat-select formControlName="endTime" [(ngModel)]='endTime'>
+        <mat-option
+          *ngFor="let option of selectOptions"
+          [value]="option"
+          (onSelectionChange)="scheduleValidator()"
+        >
+          {{ option }}:00
+        </mat-option>
+      </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="errors">
+  <span *ngIf="dialogForm.controls['startTime'].errors?.['required']">
+    Start time is required
+  </span>
+
+  <span *ngIf="dialogForm.controls['endTime'].errors?.['required']">
+    End time is required
+  </span>
+
+  <span *ngIf="dialogForm.controls['endTime'].errors?.['noTimeMatch']">
+    Invalid time
+  </span>
+
+  <span *ngIf="hasConflict">
+    You have already planned activity for this time
+  </span>
+</div>
+</mat-dialog-content>
+
+<div *ngIf="state === 0"
+  class="approve-task-container">
+  <button
+    class="approve-button"
+    (click)="changeState(1)">
+    <img
+      src="../../../../assets/img/accept.png"
+      class="approve-icon">
+    <p class="botton-text">Mark as done</p>
+  </button>
+</div>
+
+<div *ngIf="state === 1"
+  class="approve-task-container">
+  <button
+    class="approve-button"
+    (click)="changeState(0)">
+    <img
+      src="../../../../assets/img/deny.png"
+      class="approve-icon">
+    <p class="botton-text">Mark as active</p>
+  </button>
+</div>
+
+<mat-dialog-actions class="buttons-container">
+  <button
+    class="remove-button"
+    (click)="delete()"
+    [disabled]="!dialogForm.valid"
+  >
+    Remove
+  </button>
+  <button
+    class="add-button"
+    (click)="save()"
+    [disabled]="!dialogForm.valid"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,195 @@
+.register-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.info-text-black{
+    font-size: 2rem;
+    color: black;
+    margin-block-start: 3rem;
+}
+
+.register-form-container{
+    border: 3px solid #FFA500;
+    border-radius: 10px;
+    width: 30rem;
+    height: 33.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    left: 15rem;
+    top: 10rem;
+}
+
+.register-form{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+}
+
+.register-text{
+    width: 45%;
+    text-align: center;
+    border-bottom: 3px solid #FFA500;
+    position: relative;
+    top: 10rem;
+    left: 20rem;
+    vertical-align: text-top;
+}
+
+.register-text-header{
+    font-size: 3rem;
+    margin-block-start: 0;
+    margin-block-end: 1.5rem;
+    font-weight: 500;
+}
+
+.register-button{
+    height: 2.5rem;
+    width: 7.5rem;
+    font-size: 1.25rem;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+    margin-top: 1rem;
+}
+  
+.register-button:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    transition: 0.2s;
+    border: 1px solid black;
+}
+
+.form-field{
+    width: 100%;
+}
+
+.password-form-field{
+    width: 80%;
+}
+
+.register-buttons {
+    display: flex;
+    flex-direction: raw;
+}
+
+.back-button {
+    position: relative;
+    top: 4rem;
+    left: 4rem;
+    transform: scale(1.5);
+}
+
+.back-button-icon {
+    transform: scale(1.5);
+}
+
+.swith-to-signin{
+    display: flex;
+    flex-direction: raw;
+}
+
+.signin-button{
+    border: none;
+    background-color: inherit;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    color: #FFA500;
+}
+
+.register-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.registration-logo-container{
+    width: 10rem;
+    margin-left: 31rem;
+    margin-top: 13rem;
+    border-bottom: 3px solid #FFA500;
+}
+
+.registration-logo{
+    width: 10rem;
+}
+
+.show-password-button{
+    height: 2rem;
+    width: 2rem;
+    background-color: none;
+    margin-left: 1rem;
+}
+
+.show-password-svg{
+    height: 2rem;
+    width: 2rem;
+    background-color: white;
+}
+
+.password-field{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.password-group{
+    width: 100%;
+}
+
+.errors{
+    color: red;
+    width: 100%;
+    font-size: 0.75rem;
+    height: 0.75rem;
+    margin-top: 0.5rem;
+    text-align: end;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white;
+}
+
+::ng-deep .mdc-text-field--filled .mdc-line-ripple::after {
+    border-bottom-color: #FFA500 !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: white !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container{
+    --mdc-snackbar-container-color: white !important;
+    border: 3px solid #FFA500 !important;
+    border-top: none !important;
+    margin: 0 !important;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__label{
+    color: black !important;
+}

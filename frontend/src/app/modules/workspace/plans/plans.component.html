@@ -1,0 +1,103 @@
+<div class="plans-container">
+
+    <div class="plans">
+        <p class="plans-header">My plans</p>
+        <button
+            *ngIf="plans.length !== 0"
+            class="edit-icon"
+            (click)="switchEditMode()">
+            <img
+                *ngIf="!isEditing"
+                src="../../../../assets/img/edit.svg"
+                class="write-icon">
+            <img
+                *ngIf="isEditing"
+                src="../../../../assets/img/mark.svg"
+                class="write-icon">
+            <p 
+                class="edit-text"
+                *ngIf="!isEditing">
+                Edit plans
+            </p>
+            <p 
+                class="edit-text"
+                *ngIf="isEditing">
+                Cancel editing
+            </p>
+        </button>
+
+        <div class="plans-list">
+            <div *ngFor="let plan of plans" class="plan">
+                <div class="plan-inner">
+                    <div class="plan-front">
+                        <div class="plan-name">
+                            {{plan.name}}
+                        </div>
+                    </div>
+                    <div class="plan-back">
+                        <button
+                            class="plan-name plan-button"
+                            (click)="showConvertDialog(plan)">
+                            Do it!
+                        </button>
+                    </div>
+                </div>
+                <button
+                    *ngIf="isEditing"
+                    (click) = showEditPlan(plan)
+                    class="edit-button">
+                    Edit
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="plans-add">
+        <p class="header-text">
+            Make first step to make your dreams come true!
+        </p>
+
+        <p class="plan-text">
+            Add your plan
+        </p>
+
+        <img
+            src="../../../../assets/img/arrow.svg"
+            class="arrow-icon">
+
+        <div
+            class="add-buttons"
+            [formGroup]="dialogForm">
+            <mat-form-field class="plan-name-field">
+                <input
+                    matInput
+                    placeholder="Plan name"
+                    formControlName="planName"
+                    class="handwitten-field"
+                    (keypress)="inputValidation($event, 'Plan name')"
+                >
+            </mat-form-field>
+
+            <button
+                class="add-button"
+                (click)="save()"
+                [disabled]="!dialogForm.valid"
+            >
+                Add
+            </button>
+        </div>
+
+        <div class="errors">
+            <span *ngIf="dialogForm.controls['planName'].touched">
+                <span *ngIf="dialogForm.controls['planName'].errors?.['required']">
+                    Activity is required
+                </span>
+                <span *ngIf="dialogForm.controls['planName'].errors?.['maxlength']">
+                    Plan name can have up to 15 characters
+                </span>
+            </span>
+        </div>
+    </div>
+</div>

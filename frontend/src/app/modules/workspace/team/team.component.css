@@ -1,0 +1,273 @@
+.team-page-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.team-info-container{
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-left: 7rem;
+  padding-top: 2.5rem;
+}
+
+.team-name-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.img-container{
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  border: 3px solid white;
+}
+
+.team-logo-img{
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.team-name-text{
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.team-point{
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.team-img{
+  height: 2rem;
+  width: 2rem;
+}
+
+.settings-img{
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.team-header{
+  margin-left: 0.5rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.team-users-list{
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 8rem;
+}
+
+.team-user-container{
+  height: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tag-container{
+  height: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.team-user-name{
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.team-user-icon{
+  margin-left: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+/*schedule*/
+
+.schedule-container {
+  border: 3px solid #FFA500;
+  width: 55%;
+  height: fit-content;
+}
+
+.date-text {
+  text-align: center;
+  font-size: 2rem;
+  margin-block-start: 1rem;
+  margin-block-end: 1rem;
+  margin-bottom: 3rem;
+}
+
+.schedule {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1.3rem;
+}
+
+.first-half-schedule {
+  width: 45%;
+  margin-right: 2rem;
+}
+
+.time-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 2rem;
+  height: 2.65rem;
+  align-items: center;
+  position: relative;
+}
+
+.time {
+  font-size: 1rem;
+  margin-right: 1rem;
+  font-weight: 550;
+}
+
+.sideBorders {
+  border-left: 2px solid #FFA500;
+  border-right: 2px solid #FFA500;
+}
+
+.topBorder {
+  border-top: 2px solid #FFA500;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 85%;
+  bottom: 0;
+}
+
+.bottomBorder {
+  border-bottom: 2px solid #FFA500;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 85%;
+  top:0
+}
+
+.scheduledActivity {
+  width: 80%;
+  position: absolute;
+  left: 4rem;
+}
+
+.centralScheduled {
+  height: 100%;
+}
+
+.activity-name {
+  margin-block-start: 0.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-family: 'Handwriting', sans-serif;
+  font-weight: 1000;
+  color: #000F55;
+}
+
+.private-team{
+  width: fit-content;
+  height: fit-content;
+}
+
+.private-team-img{
+  width: 25rem;
+}
+
+.invite-btn{
+  width: fit-content;
+  height: fit-content;
+  border-radius: 82px;
+  margin-left: 0.5rem;
+}
+
+.invite-btn-img{
+  height: 2rem;
+}
+
+.team-invite-buttons{
+  margin-left: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.invite-text{
+  color: black;
+  font-size: 1.5rem;
+}
+
+.date-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.date-tooltip{
+  width: 1rem !important;
+  height: 1rem !important;
+  background-color: white;
+  margin-left: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.tooltip{
+  width: 1rem !important;
+  height: 1rem !important;
+  background-color: white;
+  margin-left: 0.5rem;
+}
+
+.tooltip-img{
+  height: 1rem;
+  width: 1rem;
+}
+
+.mdc-button--raised{
+  padding: 0 !important;
+}
+
+.mdc-button{
+  min-width: 1rem !important;
+}
+
+::ng-deep .mat-mdc-button-touch-target{
+  height: 1rem !important;
+}
+
+.mat-mdc-raised-button.mat-unthemed {
+  --mdc-protected-button-container-color: none !important;
+  --mdc-protected-button-label-text-color: none !important;
+}
+
+.mat-mdc-raised-button {
+  border-radius: none !important;
+  box-shadow: none !important;
+}
+
+.mat-mdc-raised-button, .mat-mdc-unelevated-button {
+  --mat-mdc-button-persistent-ripple-color: none !important;
+  --mat-mdc-button-ripple-color: none !important;
+}

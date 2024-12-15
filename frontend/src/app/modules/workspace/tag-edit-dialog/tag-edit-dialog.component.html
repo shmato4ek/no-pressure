@@ -1,0 +1,65 @@
+<h2
+  mat-dialog-title
+  class="info-text-black"
+>
+  Update tag
+</h2>
+
+<img
+  class="close-img"
+  src="../../../../assets/img/close-window.png"
+  (click)="close()"
+>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="add-dialog-container"
+>
+  <div class="tag-field-container">
+    <mat-form-field class="tag-field">
+      <input
+        matInput
+        placeholder="Tag name"
+        formControlName="tagName"
+        class="handwitten-field"
+        value="{{tagName}}"
+        (keypress)="inputValidation($event, 'Tag')"
+      >
+    </mat-form-field>
+
+    <div
+      class="color-container"
+    >
+        <input
+          type="color"
+          id="colorpicker"
+          value={{tagColor}}
+          class="color-picker"
+        >
+    </div>
+  </div>
+
+  <div class="errors">
+    <span *ngIf="dialogForm.controls['tagName'].touched">
+        <span
+            *ngIf="(dialogForm.controls['tagName'].errors?.['minlength'] ||
+            dialogForm.controls['tagName'].errors?.['maxlength']) &&
+            !dialogForm.controls['tagName'].errors?.['pattern']"
+        >
+            Tag name can have up to 15 characters
+        </span>
+    </span>
+  </div>  
+</mat-dialog-content>
+
+<div class="buttons-container">
+  <mat-dialog-actions class="add-button-container">
+    <button
+      class="add-button"
+      (click)="save()"
+      [disabled]="!dialogForm.valid"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>

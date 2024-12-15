@@ -1,0 +1,92 @@
+<div class="header-container">
+  <h2
+    class="info-text-black"
+  >
+    Scheduling activity
+  </h2>
+
+  <h2
+    class="info-text-black-2"
+  >
+    ({{activityName}})
+  </h2>
+
+  <img
+    class="close-img"
+    src="../../../../assets/img/close-window.png"
+    (click)="close()"
+  >
+
+  <h3
+    class="description-text"
+  >
+    {{description}}
+  </h3>
+</div>
+
+<mat-dialog-content
+  [formGroup]="dialogForm"
+  class="add-dialog-container"
+>
+<div class="set-time-container">
+  <mat-form-field class="start-time">
+    <mat-label>Start time</mat-label>
+      <mat-select formControlName="startTime" class="start-time-field">
+        <mat-option
+          *ngFor="let option of selectOptions"
+          [value]="option"
+          (onSelectionChange)="scheduleValidator()"
+        >
+          {{ option }}:00
+        </mat-option>
+      </mat-select>
+  </mat-form-field>
+  <p class="time-sepaprator">-</p>
+  <mat-form-field>
+    <mat-label>End time</mat-label>
+      <mat-select formControlName="endTime">
+        <mat-option
+          *ngFor="let option of selectOptions"
+          [value]="option"
+          (onSelectionChange)="scheduleValidator()"
+        >
+          {{ option }}:00
+        </mat-option>
+      </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="errors">
+  <span *ngIf="dialogForm.controls['endTime'].touched">
+      <span *ngIf="dialogForm.controls['startTime'].errors?.['required']">
+        Start time is required
+      </span>
+
+      <span *ngIf="dialogForm.controls['endTime'].errors?.['required']">
+        End time is required
+      </span>
+
+      <span *ngIf="dialogForm.controls['endTime'].errors?.['noTimeMatch']">
+        Invalid time
+      </span>
+
+      <span *ngIf="hasConflict">
+        You have already planned activity for this time
+      </span>
+  </span>
+</div>
+</mat-dialog-content>
+
+<div class="buttons-container">
+  <mat-dialog-actions class="delete-button-container">
+  </mat-dialog-actions>
+  <mat-dialog-actions class="add-button-container">
+    <button
+      class="add-button"
+      (click)="save()"
+      [disabled]="!dialogForm.valid || hasConflict"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>

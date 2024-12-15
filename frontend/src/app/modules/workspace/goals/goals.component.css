@@ -1,0 +1,374 @@
+/*general*/
+
+.goals-page-container{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFA500;
+  border-radius: 10px;
+}
+
+.header-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.dropdown{
+  position: absolute;
+  right: 1rem;
+  margin-top: 2.75rem;
+  padding-left: 1rem;
+  font-size: 1.25rem;
+}
+
+/*text*/
+
+.goals-header{
+  font-size: 1.75rem;
+  text-align: center;
+  font-weight: 600;
+  padding-top: 1rem;
+  margin-block-end: 0;
+}
+
+.progress-text{
+  font-size: 1rem;
+  text-align: center;
+}
+
+/*goals*/
+
+.goals-list{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: auto;
+  margin-top: 1.5rem;
+}
+
+.goals-header-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.goals-done-header{
+  font-size: 1.25rem;
+  font-weight: bold;
+  width: 50%;
+  text-align: start;
+}
+
+.goals-active-header{
+  font-size: 1.25rem;
+  font-weight: bold;
+  width: 50%;
+  text-align: end;
+}
+
+.goals-stat-headers{
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  height: fit-content;
+}
+
+.goals-container{
+  height: 100%;
+  width: 64%;
+  padding-right: 1%;
+  padding-left: 10rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.goal{
+  width: 11.5rem;
+  height: 12.5rem;
+  border-radius: 5px;
+  border: 2px solid #FFA500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 3.5rem;
+  margin-bottom: 3rem;
+}
+
+.goal-name{
+  width: 90%;
+  border-bottom: 2px solid #FFA500;
+}
+
+.goal-stat-text{
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: 600;
+  margin-block-start: 0.5rem;
+  margin-block-end: 0.5rem;
+}
+
+.goal-name-text{
+  font-size: 1rem;
+  text-align: center;
+  margin-block-start: 0.5rem;
+  margin-block-end: 0.5rem;
+}
+
+.goal-done-stat{
+  font-size: 1rem;
+  text-align: center;
+}
+
+.goal-check {
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.goal-check:checked + .goal {
+  transition: 0.1s;
+  border: 4px solid #FFA500;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.goal-check:checked {
+  display: none;
+}
+
+.goal-check:not(:checked) {
+  display: none;
+}
+
+/*stats*/
+
+.goal-stat-container{
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 2px solid #FFA500;
+}
+
+.goals-stat{
+  height: 100%;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+}
+
+.goals {
+  margin-left: 10rem;
+}
+
+.acive-done-goals{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+}
+
+.goals-ammount{
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+}
+
+.done-goals-ammont{
+  width: 50%;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: start;
+  margin-block-start: 0.5rem;
+}
+
+.active-goals-ammount{
+  width: 50%;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: end;
+  margin-block-start: 0.5rem;
+}
+
+.acive-done-goals{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+}
+
+.active-tasks{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  text-align: end;
+}
+
+.done-tasks{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  text-align: start;
+}
+
+.active-activity{
+  font-size: 1rem;
+  margin-block-start: 0.5rem;
+  margin-block-end: 0.5rem;
+}
+
+/*progress-bar*/
+
+.progress-bar-container{
+  height: fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+@keyframes progress {
+  0% { --percentage: 0;}
+  100% { --percentage: var(--value);}
+}
+
+@property --percentage {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+[role="progressbar"] {
+  --percentage: var(--value);
+  --primary: #FFA500;
+  --secondary: black;
+  --size: 6rem;
+  animation: progress 1s 0s forwards;
+  width: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+[role="progressbar"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(var(--primary) calc(var(--percentage) * 1%), var(--secondary) 0);
+  mask: radial-gradient(white 55%, transparent 0);
+  mask-mode: alpha;
+  -webkit-mask: radial-gradient(#0000 55%, #000 0);
+  -webkit-mask-mode: alpha;
+}
+
+[role="progressbar"]::after {
+  counter-reset: percentage var(--value);
+  content: counter(percentage) '%';
+  font-size: calc(var(--size) / 5);
+  color: var(--secondary);
+}
+
+.progress {
+  background: black;
+  justify-content: flex-start;
+  border-radius: 2px;
+  align-items: center;
+  padding: 0;
+  display: flex;
+  height: 0.5rem;
+  width: 80%;
+  margin-top: 0.5rem;
+}
+
+.progress-value {
+  animation: load 1s forwards;
+  box-shadow: none;
+  border-radius: 2px;
+  background: #FFA500;
+  height: 0.5rem;
+  width: var(--value);
+}
+
+.tooltip{
+  width: 1rem !important;
+  height: 1rem !important;
+  background-color: white;
+  margin-left: 0.5rem;
+  margin-top: 3rem;
+}
+
+.tooltip-img{
+  height: 1rem;
+  width: 1rem;
+}
+
+.mdc-button--raised{
+  padding: 0 !important;
+}
+
+.mdc-button{
+  min-width: 1rem !important;
+}
+
+::ng-deep .mat-mdc-button-touch-target{
+  height: 1rem !important;
+}
+
+.mat-mdc-raised-button.mat-unthemed {
+  --mdc-protected-button-container-color: none !important;
+  --mdc-protected-button-label-text-color: none !important;
+}
+
+.mat-mdc-raised-button {
+  border-radius: none !important;
+  box-shadow: none !important;
+}
+
+.mat-mdc-raised-button, .mat-mdc-unelevated-button {
+  --mat-mdc-button-persistent-ripple-color: none !important;
+  --mat-mdc-button-ripple-color: none !important;
+}
+
+.goal-btn{
+  background: none;
+  width: fit-content;
+  height: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btn-icon{
+  height: 1.75rem;
+  width: 1.75rem;
+  margin-right: 0.5rem;
+}
+
+.btn-text{
+  font-size: 1.25rem;
+  font-weight: bold;
+}

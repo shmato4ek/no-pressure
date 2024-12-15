@@ -1,0 +1,89 @@
+<img
+  class="close-img"
+  src="../../../../assets/img/close-window.png"
+  (click)="close()"
+>
+
+<mat-dialog-content
+  class="subscriptions-container"
+>
+  <div class="sub-buttons">
+    <input
+      type="checkbox"
+      id="followers"
+      class="followers-btn"
+      [checked]="isFollowers"
+      (click)="toggleSubscriptions('followers')"
+    >
+
+    <label
+      for="followers"
+      class="sub-label"
+      [ngStyle]="{'border-bottom': isFollowers ? '3px solid #FFA500' : 'none'}"  
+    >
+      <p class="label-text">Followers</p>
+    </label>
+
+    <input
+      type="checkbox"
+      id="followings"
+      class="followers-btn"
+      [checked]="!isFollowers"
+      (click)="toggleSubscriptions('followings')"
+    >
+
+    <label
+      class="sub-label"
+      for="followings"
+      [ngStyle]="{'border-bottom': !isFollowers ? '3px solid #FFA500' : 'none'}"
+    >
+      <p class="label-text">Followings</p>
+    </label>
+  </div>
+
+  <div
+    *ngIf="isFollowers"
+    class="sub-container"  
+  >
+    <div
+      *ngFor="let follower of followers"
+      class="user-field"
+      (click)="redirect(follower)"  
+    >
+      <img
+        class="user-logo"
+        src="../../../../assets/img/user-logo.png">
+      <div class="user-info">
+        <div class="user-name">
+          {{follower.user.name}}
+        </div>
+        <div class="sub-date">
+          since {{follower.date}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!isFollowers"
+    class="sub-container"
+  >
+    <div
+      *ngFor="let following of followings"
+      class="user-field"
+      (click)="redirect(following)"  
+    >
+      <img
+        class="user-logo"
+        src="../../../../assets/img/user-logo.png">
+      <div class="user-info">
+        <div class="user-name">
+          {{following.user.name}}
+        </div>
+        <div class="sub-date">
+          since {{following.date}}
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

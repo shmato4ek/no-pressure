@@ -1,0 +1,128 @@
+.close-img{
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
+.info-text-black{
+    font-size: 2rem;
+    margin-block-start: 1.5rem;
+    margin-block-end: 1.5rem;
+    font-weight: 400;
+}
+
+.add-dialog-container{
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+}
+
+.handwitten-field {
+    font-family: 'Handwriting', sans-serif !important;
+    color: #000F55 !important;
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+}
+
+.color-picker{
+    margin-left: 1rem;
+}
+
+.add-button-container{
+    justify-content: end;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.add-button{
+    height: 2.5rem;
+    width: 7.5rem;
+    font-size: 1.25rem;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+}
+  
+.add-button:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    transition: 0.2s;
+    border: 1px solid black;
+}
+
+.colorpick-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.colorpick-text{
+    font-family: 'Handwriting', sans-serif !important;
+    color: #000F55 !important;
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container{
+    --mdc-snackbar-container-color: white !important;
+    border: 3px solid #FFA500 !important;
+    border-top: none !important;
+    margin: 0 !important;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__label{
+    color: black !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white;
+}
+
+::ng-deep .mdc-text-field--filled .mdc-line-ripple::after {
+    border-bottom-color: #FFA500 !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: white !important;
+}
+
+#colorpicker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 2rem;
+    height: 2rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  #colorpicker::-webkit-color-swatch {
+    border-radius: 5px;
+    border: none;
+  }
+  #colorpicker::-moz-color-swatch {
+    border-radius: 5px;
+    border: none;
+  }

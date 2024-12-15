@@ -1,0 +1,190 @@
+<div class="register-container">
+    <button
+        class="back-button"
+        mat-icon-button
+        (click)="redirectToHome()"
+    >
+        <mat-icon class="back-button-icon">arrow_back</mat-icon>
+    </button>
+    <div class="register-form-container">
+        <P class="info-text-black">Registration</P>
+        <form
+            class="register-form"
+            [formGroup]="registerForm"
+            action=""
+            (submit)="registerUser()"
+        >
+            <mat-form-field
+                color="primary"
+                class="form-field"
+                appearance="fill"
+                hideRequiredMarker="true"
+                subscriptSizing="dynamic"
+            >
+                <mat-label>Username</mat-label>
+                <input
+                    matInput
+                    formControlName="username"
+                    id="username"
+                    (keypress)="inputValidation($event, 'User name')"
+                >
+            </mat-form-field>
+            <div class="errors">
+                <span *ngIf="registerForm.controls['username'].touched">
+                    <span *ngIf="registerForm.controls['username'].errors?.['required']">
+                        Username is required
+                    </span>
+                    <span
+                        *ngIf="(registerForm.controls['username'].errors?.['minlength'] ||
+                        registerForm.controls['username'].errors?.['maxlength']) &&
+                        !registerForm.controls['username'].errors?.['pattern']"
+                    >
+                        Username must be 3 to 15 characters
+                    </span>
+                    <span *ngIf="registerForm.controls['username'].errors?.['pattern']">
+                        Username mustn`t contain '_' and '.' in the start or the end
+                    </span>
+                </span>
+            </div>
+
+            <mat-form-field
+                appearance="fill"
+                class="form-field"
+                color="accent"
+                hideRequiredMarker="true"
+                subscriptSizing="dynamic"
+            >
+                <mat-label>Email</mat-label>
+                <input
+                    matInput
+                    formControlName="email"
+                    id="email"
+                    (focusout)="emailCheck()"
+                >
+            </mat-form-field>
+            <div class="errors">
+                <span *ngIf="registerForm.controls['email'].touched">
+                    <span *ngIf="registerForm.controls['email'].errors?.['required']">
+                        Email is required
+                    </span>
+                    <span
+                        *ngIf="registerForm.controls['email'].errors?.['pattern']"
+                    >
+                        Invalid email
+                    </span>
+                    <span *ngIf="registerForm.controls['email'].errors?.['emailNotAvailable']">
+                        This email is already used
+                    </span>
+                </span>
+            </div>
+
+                <div class="password-field">
+                        <mat-form-field
+                            appearance="fill"
+                            class="form-field"
+                            hideRequiredMarker="true"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-label>Password</mat-label>
+                            <input
+                                [type]="passwordType"
+                                matInput
+                                formControlName="password"
+                                id="password"
+                            >
+                        </mat-form-field>
+        
+                    <button
+                        type="button"
+                        class="show-password-button"
+                        (click)="togglePassword('psw')">
+                        <img
+                            class="show-password-svg"
+                            src="{{imgSrc}}"
+                        >
+                    </button>
+                </div>
+                <div class="errors">
+                    <span *ngIf="registerForm.controls['password'].touched">
+                        <span *ngIf="registerForm.controls['password'].errors?.['required']">
+                            Password is required
+                        </span>
+                        <span
+                            *ngIf="(registerForm.controls['password'].errors?.['minlength'] ||
+                            registerForm.controls['password'].errors?.['maxlength']) && 
+                            !registerForm.controls['password'].errors?.['pattern']"
+                        >
+                            Password must be 8 to 20 characters
+                        </span>
+                        <span *ngIf="registerForm.controls['password'].errors?.['pattern']">
+                            Password must contain letters and special symbols
+                        </span>
+                    </span>
+                </div>
+
+                <div class="password-field">
+                        <mat-form-field
+                            appearance="fill"
+                            class="form-field"
+                            hideRequiredMarker="true"
+                            subscriptSizing="dynamic"
+                        >
+                            <mat-label>Confirm password</mat-label>
+                            <input
+                                [type]="confirmPasswordType"
+                                matInput
+                                formControlName="confirmPassword"
+                                id="confirmPassword"
+                            >
+                        </mat-form-field>
+        
+                    <button
+                        type="button"
+                        class="show-password-button"
+                        (click)="togglePassword('conf')">
+                        <img
+                            class="show-password-svg"
+                            src="{{confImgSrc}}"
+                        >
+                    </button>
+                </div>
+                <div class="errors">
+                    <span *ngIf="registerForm.controls['confirmPassword'].touched">
+                        <span *ngIf="registerForm.controls['confirmPassword'].errors?.['required']">
+                            Password confirmation is a required
+                        </span>
+                        <span
+                            *ngIf="registerForm.controls['confirmPassword'].errors?.['noPasswordMatch']"
+                        >
+                            Passwords must be matched
+                        </span>
+                    </span>
+                </div>
+                <button
+                    class="register-button"
+                    type="submit"
+                    [disabled]="!registerForm.valid"
+                >
+                    Sign up
+                </button>
+        </form>
+        <div class="swith-to-signin">
+            <p>Already have an account?</p>
+            <button
+                class="signin-button"
+                (click)="switchToLogin()"    
+            ><b>Sign in</b></button>
+        </div>
+    </div>
+    <div class="register-info">
+        <div class="register-text">
+            <p class="register-text-header">A few simple steps and you will have your own online organizer!</p>
+        </div>
+        <div class="registration-logo-container">
+            <img
+            class="registration-logo"
+            src="../../../../assets/img/Logo.png"
+          >
+        </div>
+    </div>
+</div>

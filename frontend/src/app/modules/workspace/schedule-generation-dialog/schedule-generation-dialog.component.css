@@ -1,0 +1,173 @@
+.close-img{
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
+.generate-button{
+    height: 2.5rem;
+    width: 7.5rem;
+    font-size: 1.25rem;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+}
+
+.generation-field{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
+    height: 3rem;
+}
+
+.generation-header{
+    color: black;
+    font-size: 1.25rem;
+    margin-right: 1.5rem;
+}
+
+.generation-number-input{
+    height: 2rem;
+    width: 4rem;
+    position: absolute;
+    right: 3rem;
+}
+
+.checkbox{
+    overflow: hidden;
+    padding-left: 1rem;
+    position: absolute;
+    right: 4rem;
+
+    --mdc-checkbox-selected-focus-icon-color: #FFA500;
+    --mdc-checkbox-selected-hover-icon-color: none;
+    --mdc-checkbox-selected-icon-color: #FFA500;
+    --mdc-checkbox-selected-pressed-icon-color: #FFA500;
+    --mdc-checkbox-selected-focus-state-layer-color: none;
+    --mdc-checkbox-selected-hover-state-layer-color: none;
+    --mdc-checkbox-selected-pressed-state-layer-color: none;
+    --mdc-checkbox-selected-checkmark-color: black;
+    --mdc-checkbox-unselected-focus-state-layer-opacity: 0;
+}
+
+.errors{
+    color: red;
+    width: 100%;
+    font-size: 0.75rem;
+    height: 0.75rem;
+    text-align: end;
+}
+  
+.generate-button:hover {
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    transition: 0.2s;
+    border: 1px solid black;
+}
+
+.info-text-black{
+    font-size: 2rem;
+    margin-block-start: 1.5rem;
+    margin-block-end: 1.5rem;
+    font-weight: 400;
+}
+
+.generate-button-container{
+    justify-content: end;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.generate-schedule-container{
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+}
+
+::ng-deep .mat-mdc-snack-bar-container{
+    --mdc-snackbar-container-color: white !important;
+    border: 3px solid #FFA500 !important;
+    border-top: none !important;
+    margin: 0 !important;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__label{
+    color: black !important;
+}
+
+.checkbox{
+    overflow: hidden;
+    padding-left: 1rem;
+
+    --mdc-checkbox-selected-focus-icon-color: #FFA500;
+    --mdc-checkbox-selected-hover-icon-color: none;
+    --mdc-checkbox-selected-icon-color: #FFA500;
+    --mdc-checkbox-selected-pressed-icon-color: #FFA500;
+    --mdc-checkbox-selected-focus-state-layer-color: none;
+    --mdc-checkbox-selected-hover-state-layer-color: none;
+    --mdc-checkbox-selected-pressed-state-layer-color: none;
+    --mdc-checkbox-selected-checkmark-color: black;
+    --mdc-checkbox-unselected-focus-state-layer-opacity: 0;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white;
+}
+
+::ng-deep .mdc-text-field--filled .mdc-line-ripple::after {
+    border-bottom-color: #FFA500 !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: white !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: white !important;
+}
+
+.mdc-button--raised{
+    padding: 0 !important;
+}
+
+.mdc-button{
+    min-width: 1rem !important;
+}
+
+::ng-deep .mat-mdc-button-touch-target{
+    height: 1rem !important;
+}
+
+.mat-mdc-raised-button.mat-unthemed {
+    --mdc-protected-button-container-color: none !important;
+    --mdc-protected-button-label-text-color: none !important;
+}
+
+.mat-mdc-raised-button {
+    border-radius: none !important;
+    box-shadow: none !important;
+}
+
+.mat-mdc-raised-button, .mat-mdc-unelevated-button {
+    --mat-mdc-button-persistent-ripple-color: none !important;
+    --mat-mdc-button-ripple-color: none !important;
+}

@@ -1,0 +1,124 @@
+.add-users-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.close-img{
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+}
+
+.users-container{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.user-form-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.user-field{
+  width: 90%;
+  margin-right: 2rem;
+}
+
+.form-field{
+  width: 90%;
+}
+
+.name-field{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.delete-btn{
+  height: 1.5rem;
+  margin-left: 1rem;
+}
+
+.add-button-container{
+  justify-content: end;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.add-button{
+  height: 2.5rem;
+  width: 6rem;
+  font-size: 1.25rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  position: relative;
+}
+
+.add-button:hover {
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  transition: 0.2s;
+  border: 1px solid black;
+}
+
+.handwritten-field {
+  font-family: 'Handwriting', sans-serif !important;
+  color: #000F55 !important;
+  font-weight: 800 !important;
+  font-size: 1.5rem !important;
+}
+
+.users-add-dialog-container{
+  width: 25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-text-black{
+  font-size: 2rem;
+  margin-block-start: 1.5rem;
+  margin-block-end: 1.5rem;
+  text-align: center;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
+}
+
+::ng-deep .mdc-text-field--filled .mdc-line-ripple::after {
+  border-bottom-color: #FFA500 !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+  --mdc-dialog-container-color: white !important;
+}
+
+.mat-mdc-fab.mat-accent, .mat-mdc-mini-fab.mat-accent {
+  --mdc-fab-container-color: #FFA500 !important;
+}
+
+.errors{
+  color: red;
+  width: 95%;
+  font-size: 0.75rem;
+  margin-block-start: 0;
+  margin-right: 1rem;
+  height: 1.5rem;
+  text-align: end;
+}

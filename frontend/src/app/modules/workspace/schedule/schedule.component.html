@@ -1,0 +1,196 @@
+<div class="schedule-page-container">
+    <div class="schedule-container">
+        <div class="schedule-header-container">
+            <div class="date-container">
+                <p class="date-text">{{date}}</p>
+            </div>
+
+            <div class="schedule-dropdown">
+                <div
+                    class="team-schedule-text"
+                    *ngIf="teams.length === 0 || teams === null"
+                >
+                    <p>
+                        Personal
+                    </p>
+
+                    <button mat-raised-button
+                        matTooltip={{_no_team_tooltip}}
+                        matTooltipClass="tooltip"
+                        class="tooltip"
+                    >
+                        <img
+                            src="../../../../assets/img/tooltip.png"
+                            class="tooltip-img"
+                        >
+                    </button>
+                </div>
+
+                <p-dropdown
+                    *ngIf="teams.length !== 0 && teams !== null"
+                    [options]="teamsOptions"
+                    [(ngModel)]="selectedSchedule"
+                    optionLabel="name"
+                    placeholder="{{selectedSchedule}}"
+                    (onChange)="dropDownChoose()"
+                >
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="schedule">
+            <div class="first-half-schedule">
+                <span
+                    *ngFor="let hour of firstHalfHours"
+                    class="time-container"
+                >
+                    <div class="time">
+                        {{hour.hour}}:00
+                    </div>
+                    <div
+                        *ngIf="hour.activity !== null"
+                        [ngClass]="{topBorder:!hour.hasPrevious,
+                            bottomBorder:!hour.hasNext,
+                            scheduledActivity:true,
+                            sideBorders:true,
+                            centralScheduled:hour.hasNext&&hour.hasPrevious}"
+                        [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
+                    >
+                        <div (click)="showScheduledActivityDialog(hour.activity)" class="activity-text">
+                            <div
+                                class="activity-name"
+                                *ngIf="!hour.hasPrevious && hour.activity"
+                            >
+                                {{hour.activity.name}}
+                            </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <div class="first-half-schedule">
+                <span
+                    *ngFor="let hour of secondHalfHours"
+                    class="time-container"
+                >
+                    <div class="time">
+                        {{hour.hour}}:00
+                    </div>
+                    <div
+                        *ngIf="hour.activity !== null"
+                        class="scheduled-activity side-borders"
+                        [ngClass]="{topBorder:!hour.hasPrevious,
+                            bottomBorder:!hour.hasNext,
+                            scheduledActivity:true,
+                            sideBorders:true,
+                            centralScheduled:hour.hasNext&&hour.hasPrevious}"
+                        [ngStyle]="{'border-color':setBorderColor(hour.activity)}"
+                    >
+                        <div (click)="showScheduledActivityDialog(hour.activity)" class="activity-text">
+                            <div
+                                class="activity-name"
+                                *ngIf="!hour.hasPrevious && hour.activity"
+                            >
+                                {{hour.activity.name}}
+                        </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="tasks-container">
+        <div class="tasks-header">
+            <img
+                src="../../../../assets/img/tasks.svg"
+                class="tasks-img"
+            >
+            <p class="header-text">My tasks</p>
+        </div>
+        <div class="tasks-list">
+            <button
+                *ngIf="tags.length > 0"
+                class="edit-icon"
+                (click)="changeIsEditingState()">
+                <img
+                    *ngIf="!isEditing"
+                    src="../../../../assets/img/edit.svg"
+                    class="write-icon">
+                <img
+                    *ngIf="isEditing"
+                    src="../../../../assets/img/mark.svg"
+                    class="write-icon">
+            </button>
+            <div class="tasks">
+                <div *ngFor="let tag of tags; let k = index" class="tag">
+                    <div class="tag-header-container">
+                        <p class="tag-header">
+                            {{tag.name}}
+                        </p>
+                        <div
+                            class="edit-container"
+                            *ngIf="isEditing">
+                            <button
+                                (click)="showTagDialog(tag)"
+                                class="edit-button">
+                                <img
+                                    src="../../../../assets/img/write.svg"
+                                    class="activity-edit-icon">
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="activity"
+                        *ngFor="let activity of tag.activities; let i = index"
+                    >
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="bullet">
+                            <circle
+                                class="svg-circle"
+                                cx="100"
+                                cy="100"
+                                r="50"
+                                [ngStyle]="{'filter': setSvgColor(tag)}"/>
+                        </svg>
+                        <button
+                            type="button"
+                            class="activity-button"
+                            (click)="showScheduleActivityDialog(activity)"
+                            (mouseover)="hovered1 = i; hovered2 = k"
+                            (mouseout)="hovered1 = -1; hovered2 = -1"
+                            [ngStyle]="hovered1 === i && hovered2 === k ? 
+                                    {'border-bottom': setActivityStyle(activity)} : 
+                                    {'border-bottom': 'none'}"
+                        >
+                            {{activity.name}}
+                        </button>
+                        <div
+                            class="edit-container"
+                            *ngIf="isEditing">
+                            <button
+                                class="edit-button"
+                                (click)="showActivityDialog(activity)">
+                                <img
+                                    src="../../../../assets/img/write.svg"
+                                    class="activity-edit-icon">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button
+                class="add-activity-button"
+                (click)="showAddActivityDialog()"
+            >
+                <mat-icon class="add-activity-icon">add_circle</mat-icon>
+                Add new activity
+            </button>
+
+            <button
+                class="generate-schedule-button"
+                (click)="showShceduleGenerationDialog()"
+            >
+                <mat-icon class="add-activity-icon">schedule</mat-icon>
+                Generate schedule
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+<div class="login-container">
+    <button
+        class="back-button"
+        mat-icon-button
+        (click)="redirectToHome()"
+    >
+        <mat-icon class="back-button-icon">arrow_back</mat-icon>
+    </button>
+    <div class="login-form-container">
+        <P class="info-text-black">Login</P>
+        <form
+            class="login-form"
+            [formGroup]="loginForm"
+            action=""
+            (submit)="loginUser()"
+        >
+            <mat-form-field
+                appearance="fill"
+                class="form-field"
+                color="accent"
+                hideRequiredMarker="true"
+                subscriptSizing="dynamic"
+            >
+                <mat-label>Email</mat-label>
+                <input
+                    matInput
+                    formControlName="email"
+                    id="email"
+                >
+            </mat-form-field>
+            <div class="errors">
+                <span *ngIf="loginForm.controls['email'].touched">
+                    <span *ngIf="loginForm.controls['email'].errors?.['required']">
+                        Email is required
+                    </span>
+                    <span
+                        *ngIf="loginForm.controls['email'].errors?.['pattern']"
+                    >
+                        Invalid email
+                    </span>
+                </span>
+            </div>
+
+            <div class="password-field">
+                <mat-form-field
+                    appearance="fill"
+                    class="form-field"
+                    hideRequiredMarker="true"
+                    subscriptSizing="dynamic"
+                >
+                    <mat-label>Password</mat-label>
+                    <input
+                        [type]="passwordType"
+                        matInput
+                        formControlName="password"
+                        id="password"
+                    >
+                </mat-form-field>
+
+            <button
+                type="button"
+                class="show-password-button"
+                (click)="togglePassword()">
+                <img
+                    class="show-password-svg"
+                    src="{{imgSrc}}"
+                >
+            </button>
+        </div>
+            <div class="errors">
+                <span *ngIf="loginForm.controls['password'].touched">
+                    <span *ngIf="loginForm.controls['password'].errors?.['required']">
+                        Password is required
+                    </span>
+                    <span
+                        *ngIf="(loginForm.controls['password'].errors?.['minlength'] ||
+                        loginForm.controls['password'].errors?.['maxlength']) && 
+                        !loginForm.controls['password'].errors?.['pattern']"
+                    >
+                        Password must be 8 to 20 characters
+                    </span>
+                    <span *ngIf="loginForm.controls['password'].errors?.['pattern']">
+                        Password must contain letters and special symbols
+                    </span>
+                </span>
+            </div>
+
+            <div class="google-container">
+                    <asl-google-signin-button
+                        type="standard" size="large"
+                    >
+                    </asl-google-signin-button>
+            </div>
+
+                <button
+                    class="login-button"
+                    type="submit"
+                    [disabled]="!loginForm.valid"
+                >
+                    Sign in
+                </button>
+        </form>
+        <div class="swith-to-signin">
+            <p>Have no account?</p>
+            <button
+                class="signin-button"
+                (click)="switchToRegister()"    
+            ><b>Sign up</b></button>
+        </div>
+    </div>
+    <div class="login-info">
+        <div class="login-text">
+            <p class="login-text-header">A few simple steps and you will have your own online organizer!</p>
+        </div>
+        <div class="registration-logo-container">
+            <img
+            class="registration-logo"
+            src="../../../../assets/img/Logo.png"
+          >
+        </div>
+    </div>
+</div>

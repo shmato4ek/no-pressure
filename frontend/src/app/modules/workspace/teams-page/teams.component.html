@@ -1,0 +1,63 @@
+<div class="teams-page-container">
+    <div class="teams-container">
+        <div
+            class="team"
+            *ngFor="let team of teams"
+            (click)="redirectToTeam(team)"    
+        >
+            <p class="team-name">{{team.name}}</p>
+            <div class="team-point">
+                <img
+                    src="../../../../assets/img/subscribers.svg"
+                    class="team-img"
+                >
+
+                <p class="team-text">{{setUsersLine(team)}}</p>
+            </div>
+
+            <div class="tags-point">
+                <img
+                    src="../../../../assets/img/tasks.svg"
+                    class="team-img"
+                >
+
+                <div class="team-activities-container">
+                    <p *ngIf="getTeamTags(team)?.length === 0" class="team-text">
+                        There are no tags yet
+                    </p>
+
+                    <div
+                        class="team-activity"
+                        *ngFor="let tag of getTeamTags(team)"    
+                    >
+                        <img
+                            *ngIf="tag.activitiesDone !== tag.activitiesAll"
+                            src="../../../../assets/img/not-checked-notifications.png"
+                            class="team-point-img"
+                        >
+
+                        <img
+                            *ngIf="tag.activitiesDone === tag.activitiesAll"
+                            src="../../../../assets/img/checked-notification.png"
+                            class="team-point-img"
+                        >
+
+                        <p class="team-text">{{tag.name}}</p>
+
+                        <p class="team-tag-stat">- {{tag.activitiesDone}}/{{tag.activitiesAll}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-team-container">
+            <p class="add-team-txt">Create new team</p>
+
+            <img
+                class="add-team-img"
+                src="../../../../assets/img/ad-icon.png"
+                (click)="showCreateTeamDialog()"
+            >
+        </div>
+    </div>
+</div>

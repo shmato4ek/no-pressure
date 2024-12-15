@@ -1,0 +1,101 @@
+.notifications-container{
+    width: 30rem;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.close-img{
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
+.notif-header-text{
+    font-size: 1.25rem;
+    text-align: center;
+    margin-block-start: 0.5rem;
+    margin-block-end: 0.5rem;
+    color: black;
+    font-weight: bold;
+}
+
+.notif-list-container{
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.notif-item{
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.notif-img-container{
+    height: 100%;
+    width: fit-content;
+}
+
+.notif-img{
+    height: 0.8rem;
+    width: 0.8rem;
+}
+
+.notif-content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.5rem;
+    width: 100%;
+}
+
+.notif-title{
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-block-start: 0;
+    margin-block-end: 0.3rem;
+}
+
+.notif-text{
+    color: black;
+    font-size: 0.9rem;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.title-container{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+}
+
+.notif-date{
+    position: absolute;
+    right: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    font-size: 1rem;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FFA500;
+    border-radius: 10px;
+}

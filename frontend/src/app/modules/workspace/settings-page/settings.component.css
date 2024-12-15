@@ -1,0 +1,303 @@
+.profile-page{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-right-part{
+  padding-top: 5rem;
+  padding-left: 20rem;
+}
+
+.settings-left-part{
+  padding-left: 10rem;
+  position: relative;
+  padding-top: 5rem;
+  height: fit-content;
+  width: 31rem;
+}
+
+.img-container{
+  position: relative;
+  height: 7rem;
+  width: 7rem;
+}
+
+.user-logo{
+  height: 7rem;
+  width: 7rem;
+}
+
+.user-logo-edit{
+  height: 2rem;
+  width: 2rem;
+}
+
+.user-logo-edit-btn{
+  height: fit-content;
+  width: fit-content;
+  background-color: white;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.header-text{
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.acc-settings{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.settings-header{
+  display: flex;
+  flex-direction: row;
+  height: 2rem;
+  align-items: center;
+}
+
+.settings-icon{
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.settings-header-text{
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.settings-content{
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.edit-button{
+  background-color: white;
+  height: fit-content;
+  width: fit-content;
+}
+
+.content-point{
+  display: flex;
+  flex-direction: row;
+  height: 4rem;
+  align-items: center;
+}
+
+.content-text-bld{
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.content-text-reg{
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.checkbox-options{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/*passwords*/
+
+.password-field{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.form-field{
+  width: 100%;
+}
+
+.update-field{
+  width: 50%;
+  position: absolute;
+  right: 0;
+}
+
+.show-password-button{
+  height: 2rem;
+  width: 2rem;
+  background-color: none;
+  margin-left: 1rem;
+}
+
+.show-password-svg{
+  height: 2rem;
+  width: 2rem;
+  background-color: white;
+}
+
+.errors{
+  color: red;
+  width: 100%;
+  font-size: 0.75rem;
+  height: 0.75rem;
+  margin-top: 0.5rem;
+  text-align: end;
+}
+
+.password-button{
+  height: 2rem;
+  width: 6rem;
+  font-size: 1.25rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  position: relative;
+}
+
+.password-button:hover {
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  transition: 0.2s;
+  border: 1px solid black;
+}
+
+.update-button{
+  height: 2rem;
+  width: 6rem;
+  font-size: 1.25rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  position: relative;
+}
+
+.update-button:hover {
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  transition: 0.2s;
+  border: 1px solid black;
+}
+
+::ng-deep .mdc-text-field--filled .mdc-line-ripple::after {
+  border-bottom-color: #FFA500 !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white !important;
+}
+
+/*checkbox*/
+
+.checkbox-wrapper {
+  --size: 1.5rem;
+  position: relative;
+  margin-right: 2rem;
+}
+
+.checkbox-wrapper *,
+.checkbox-wrapper *:before,
+.checkbox-wrapper *:after {
+  box-sizing: border-box;
+}
+
+.checkbox-wrapper .promoted-input-checkbox {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  overflow: hidden;
+  width: 1px;
+}
+
+.checkbox-wrapper input:checked ~ svg {
+  height: calc(var(--size) * 0.6);
+  -webkit-animation: draw-checkbox ease-in-out 0.2s forwards;
+          animation: draw-checkbox ease-in-out 0.2s forwards;
+}
+.checkbox-wrapper label:active::after {
+  background-color: #e6e6e6;
+}
+.checkbox-wrapper label {
+  color: black;
+  line-height: var(--size);
+  cursor: pointer;
+  position: relative;
+}
+.checkbox-wrapper label:after {
+  content: "";
+  height: var(--size);
+  width: var(--size);
+  margin-right: 0.5rem;
+  float: left;
+  border: 2px solid black;
+  border-radius: 3px;
+  transition: 0.15s all ease-out;
+}
+.checkbox-wrapper svg {
+  stroke: #FFA500;
+  stroke-width: 3px;
+  height: 0;
+  width: calc(var(--size) * 0.6);
+  position: absolute;
+  left: calc(var(--size) * 0.21);
+  top: calc(var(--size) * 0.2);
+  stroke-dasharray: 33;
+}
+
+@-webkit-keyframes draw-checkbox {
+  0% {
+    stroke-dashoffset: 33;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes draw-checkbox {
+  0% {
+    stroke-dashoffset: 33;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/*snackbar*/
+
+::ng-deep .mat-mdc-snack-bar-container{
+  --mdc-snackbar-container-color: white !important;
+  border: 3px solid #FFA500 !important;
+  border-top: none !important;
+  margin: 0 !important;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+  box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__label{
+  color: black !important;
+}

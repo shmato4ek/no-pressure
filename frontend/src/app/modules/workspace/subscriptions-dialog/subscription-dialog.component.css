@@ -1,0 +1,78 @@
+.subscriptions-container{
+    width: 30rem;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.close-img{
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
+.sub-buttons{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: center;
+}
+
+.sub-btn{
+    background-color: white;
+}
+
+.sub-container{
+    width: 100%;
+}
+
+.followers-btn{
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.label-text{
+    font-size: 1.25rem;
+    text-align: center;
+    margin-block-start: 0.5rem;
+    margin-block-end: 0.5rem;
+    color: black;
+    font-weight: bold;
+}
+
+.sub-label{
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.user-field{
+    margin-left: 1rem;
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.user-name{
+    color: black;
+    font-size: 0.75;
+    font-weight: bold;
+}
+
+.user-logo{
+    width: 3rem;
+    height: 3rem;
+}
+
+.user-info{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+}

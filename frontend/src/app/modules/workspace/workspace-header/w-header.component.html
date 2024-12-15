@@ -1,0 +1,48 @@
+<mat-toolbar class="header-container">
+  <div class="header-underlined">
+    <div class="header-content">
+      <img
+        class="header-logo"
+        src="../../../../assets/img/Logo.png"
+      >
+      <div class="user-info">
+        <button
+          class="notifications-btn"
+          (click)="showNotificationsDialog()"
+        >
+          <img
+            class="notifications-img"
+            src="../../../../assets/img/notifications.png"
+          >
+          <img
+            *ngIf="!currentUser.isNotificationsChecked"
+            class="not-act-img"
+            src="../../../../assets/img/not-checked-notifications.png"
+          >
+        </button>
+        <img
+          class="user-logo"
+          src="../../../../assets/img/user-logo.png"  
+        >
+        <p class="username">{{currentUser.name}}</p>
+        <button
+          mat-icon-button [matMenuTriggerFor]="menu"
+          class="icon-button-small"
+        >
+          <mat-icon class="drop-down-icon">arrow_drop_down</mat-icon>
+        </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="redirectToProfile()">
+              <span>My profile</span>
+            </button>
+            <button mat-menu-item (click)="redirectToSettings()">
+              <span>Settings</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <span>Logout</span>
+            </button>            
+          </mat-menu>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>
